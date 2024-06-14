@@ -1,0 +1,123 @@
+{% extends '.layout.njk' %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "./components/macro.njk" import crumbToken %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+
+{% block pageTitle %}
+  {% if errorList %}
+    Error:
+  {% endif %}
+  {{ title }} - {{ siteTitle }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% if headerData %}
+    <div class="govuk-!-margin-top-3 govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds govuk-!-text-align-left">
+        <p class="govuk-heading-l govuk-grid-column-one-half govuk-!-margin-bottom-2 govuk-!-padding-left-0">{{headerData.chosenFarm}}</p>
+        <p class="govuk-grid-column-one-half govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">SBI: {{headerData.sbi}}</p>
+      </div>
+      
+      <div class="govuk-!-text-align-right govuk-grid-column-one-third">
+        <p class="govuk-heading-l govuk-!-margin-bottom-2">{{headerData.firstName}} {{headerData.lastName}}</p>
+      </div>
+    </div>
+    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+  {% endif %}
+  {% if backUrl %}
+    {{ govukBackLink({
+      text: "Back",
+      href: backUrl
+    }) }}
+  {% endif %}
+  {% if errorList %}
+    {{ govukErrorSummary ({
+        "titleText": "There is a problem",
+        "errorList": errorList
+      }) }}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds govuk-!-margin-top-2">
+      <form method="POST" action="{{ url }}" novalidate="novalidate" id="items-list">
+        {{ crumbToken(crumb) }}
+        <h1 class="govuk-heading-l">Select equipment</h1>
+        
+        <h2 class="govuk-heading-m">Your equipment selections</h2>
+        <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+        {% for item in itemList %}
+          <div class="govuk-!-margin-top-3 govuk-!-margin-bottom-0">
+            <div class="govuk-grid-row">
+              <div class="govuk-grid-column-three-quarters">
+                <div class="govuk-grid-column-one-quarter govuk-!-padding-0">
+                  {{ govukTag({
+                    text: item.shortName,
+                    classes: "govuk-tag--grey"
+                  }) }}
+                </div>
+                <div class="govuk-grid-column-three-quarters govuk-!-padding-left-0 govuk-!-padding-right-0 govuk-heading-s">{{item.equipmentName}}</div>
+              </div>
+              <div class="govuk-grid-column-one-quarter govuk-!-text-align-right govuk-heading-s" id="{{item.equipmentId}}-score">Score: {{item.score}}</div>
+            </div>
+
+            {{ govukDetails({
+              summaryText: "Show Eligibility details",
+              text: item.description
+            }) }}
+
+            <div class="govuk-grid-row govuk-body govuk-!-margin-bottom-0">
+              <div class="govuk-grid-column-one-third govuk-!-text-align-left">
+                <div>Item ammount (each)</div>
+                <div id="{{item.equipmentId + '-price'}}">£{{item.formattedPrice}}</div>
+              </div>
+              <div class="govuk-grid-column-one-third govuk-!-text-align-centre">
+                {# {{ govukInput(item.quantityInput) }} #}
+                <div class="govuk-form-group">
+                  <label class="govuk-label">Quantity</label>
+                  <input class="govuk-input govuk-input--width-3" type="text" name="{{item.equipmentId}}" id="{{item.equipmentId}}" value="{{item.quantityInput.value}}"/>
+                </div>
+              </div>
+              <div class="govuk-grid-column-one-third govuk-!-text-align-right">
+                <div>Item ammount (total)</div>
+                <div class="govuk-!-font-weight-bold" id="{{item.equipmentId + '-total'}}">£0.00</div>
+              </div>
+            </div>
+          </div>
+          <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+        {% endfor %}
+        <div class="govuk-grid-row govuk-!-margin-top-3">
+          <p class="govuk-body govuk-grid-column-one-half govuk-!-text-align-left">Grant total</p>
+          <p class="govuk-body govuk-grid-column-one-half govuk-!-text-align-right govuk-!-font-weight-bold" id="grant-total">£0.00</p>
+        </div>
+
+        <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible govuk-!-margin-bottom-3">
+        <div class="govuk-grid-row govuk-!-margin-top-3">
+          <p class="govuk-body govuk-grid-column-one-half govuk-!-text-align-left">Score total</p>
+          <p class="govuk-body govuk-grid-column-one-half govuk-!-text-align-right govuk-!-font-weight-bold" id="score-total">0</p>
+        </div>
+
+        <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+        
+        <div class="govuk-!-margin-top-5">
+          {{ govukButton({
+            text: "Continue",
+            attributes: {id: "btnContinue"}
+          }) }}
+        </div>
+      </form>
+    </div>
+    <div class="govuk-grid-column-one-third govuk-body">
+      <hr class="sideBarColor"/>
+      {% for sidebarText in sidebar %}
+        <p>{{sidebarText}}</p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

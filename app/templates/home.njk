@@ -1,0 +1,23 @@
+{% extends '.layout.njk' %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% block pageTitle %}
+  {{ siteTitle }} - Start
+{% endblock %}
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds govuk-body">
+      <h1 class="govuk-heading-l">Tech evaluation</h1>
+
+      {{ govukButton({
+        classes: "govuk-!-margin-top-2 govuk-!-margin-bottom-8",
+        href: button.nextLink,
+        isStartButton: true,
+        text: button.text
+      }) }}
+    </div>
+  </div>
+{% endblock %}

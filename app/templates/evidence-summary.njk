@@ -1,0 +1,142 @@
+{% extends '.layout.njk' %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "./components/macro.njk" import crumbToken %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% block pageTitle %}
+    Check your details - {{siteTitle}}
+{% endblock %}
+
+{% block beforeContent %}
+{{ govukBackLink({
+    text: "Back",
+    href: backUrl,
+	attributes: {id: 'linkBack'}
+}) }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-body">
+    <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Check your answers before getting your results</h1>
+        
+        <div>
+        <h2 class="govuk-heading-m check-detail-heading">Your evidence details</h2>
+        <hr/>
+        </div>
+
+        {% set osGridReference = {
+                key: {
+                text: "OS grid reference"
+                },
+                value: {
+                text: gridReference
+                },
+                actions: {
+                    items: [
+                    {
+                        href: gridReferenceLink,
+                        text: "Change",
+                        attributes: {
+                            title: "Change grid reference"
+                        },
+                        visuallyHiddenText: " grid reference"
+                    }
+                    ]
+                }
+            }
+        %}
+
+        {% set planningPermissionObject = {
+            key: {
+                text: "Planning permission"
+                },
+                value: {
+                    text:  planningPermission
+                },
+                actions: {
+                    items: [
+                    {
+                        href: planningPermissionLink,
+                        text: "Change",
+                        attributes: {
+                            title: "Change planning permission"
+                        },
+                        visuallyHiddenText: " planning permission"
+                    }
+                    ]
+            }
+        } %}
+
+        {% set planningAuthority = {
+            key: {
+            text: "Planning authority"
+            },
+            value: {
+            text:  evidence.planningAuthority
+            },
+            actions: {
+                items: [
+                {
+                    href: planningPermissionEvidenceLink,
+                    text: "Change",
+                    attributes: {
+                        title: "Change planning authority"
+                    },
+                    visuallyHiddenText: " planning authority"
+                }
+                ]
+            }
+        }
+        %}
+
+        {%  set planningReferenceNumber = {
+            key: {
+            text: "Planning reference number"
+            },
+            value: {
+            text:  evidence.planningReferenceNumber
+            },
+            actions: {
+                items: [
+                {
+                    href: planningPermissionEvidenceLink,
+                    text: "Change",
+                    attributes: {
+                    title: "Change planning reference number"
+                    },
+                    visuallyHiddenText: " planning reference number"
+                }
+                ]
+            }
+        }%}
+
+        {% set tableResult = [osGridReference] %}
+
+        {% if evidence%}
+            {% set tableResult = [planningPermissionObject, planningAuthority, planningReferenceNumber, osGridReference] %}
+        {% elif planningPermission %}
+            {% set tableResult = [planningPermissionObject, osGridReference] %}
+        {% endif %}
+
+        {{ govukSummaryList({
+            rows: tableResult
+        })
+        }}
+
+    <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <form method="POST" action="{{ formActionPage }}" autocomplete="off" novalidate>
+        {{ crumbToken(crumb)}}
+        {{ govukButton({
+            text: 'Get your results',
+            attributes: {id: "btnResults"}
+        }) }}
+        </form>
+    </div>
+    </div>
+</div>
+{% endblock %}

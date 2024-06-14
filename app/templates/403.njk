@@ -1,0 +1,21 @@
+{% extends '.layout.njk' %}
+{% block pageTitle %}
+  {{siteTitle}} - The requested URL was rejected.
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <div class="govuk-main-wrapper--auto-spacing">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+          <h1 class="govuk-heading-xl">Sorry, the requested URL was rejected</h1>
+          <p class="govuk-body">Please try again later.</p>
+          <p class="govuk-body">We have not saved your answers. When the service is available, you will have to start again.</p>
+          <p class="govuk-body">Your support ID is: {{output.payload.message}}  </p>
+          <p class="govuk-body">Contact the RPA Helpline and follow the options for the Farming Transformation Fund scheme if you have any questions.</p>
+          <p class="govuk-body">Telephone: 0300 0200 301</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

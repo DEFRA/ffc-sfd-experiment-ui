@@ -1,0 +1,24 @@
+{% extends '.layout.njk' %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block pageTitle %}
+  Your session has ended due to inactivity - {{siteTitle}}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-width-container">
+    <div class="govuk-main-wrapper--auto-spacing">
+      <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds govuk-body">
+          <h1 class="govuk-heading-xl">Your session has ended due to inactivity</h1>
+          <p>Your session has ended because you haven’t done anything for over 20 minutes.</p>
+          <p class="govuk-inset-text">We have deleted all the answers you’ve entered to protect your security.</p>
+          {{ govukButton({
+            href: startLink,
+            text: 'Start again'
+          }) }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

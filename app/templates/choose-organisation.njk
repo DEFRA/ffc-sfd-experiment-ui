@@ -1,0 +1,66 @@
+{% extends '.layout.njk' %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "./components/macro.njk" import crumbToken %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
+{% block pageTitle %}
+  {% if errorList %}
+    Error:
+  {% endif %}
+  {{ title }} - {{ siteTitle }}
+{% endblock %}
+
+{% block beforeContent %}
+  {% if headerData %}
+    <div class="govuk-!-margin-top-3 govuk-grid-row">  
+      <div class="govuk-!-text-align-right govuk-grid-column-full">
+        <p class="govuk-heading-l govuk-!-margin-bottom-2">{{headerData.firstName}} {{headerData.lastName}}</p>
+      </div>
+    </div>
+    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+  {% endif %}
+  {% if errorList %}
+    {{ govukErrorSummary ({
+        "titleText": "There is a problem",
+        "errorList": errorList
+      }) }}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds govuk-!-margin-top-2">
+      <form method="POST" action="{{ url }}" novalidate="novalidate">
+        {{ crumbToken(crumb) }}
+        {{ govukRadios(radioInput) }}
+
+        {{ govukButton({
+            text: "Continue SF",
+            name: "queueSuffix",
+            value: "Sf",
+            attributes: {id: "btn-Continue-SF"}
+          }) }}
+                {{ govukButton({
+            text: "Continue MS",
+            name: "queueSuffix",
+            value: "Snd",
+            attributes: {id: "btn-Continue-MS"}
+          }) }}
+        {{ govukButton({
+            text: "Continue SN",
+            name: "queueSuffix",
+            value: "Sn",
+            attributes: {id: "btn-Continue-SN"}
+          }) }}
+        {{ govukButton({
+            text: "Continue PEGA",
+            name: "queueSuffix",
+            value: "Pega",
+            attributes: {id: "btn-Continue-PEGA"}
+          }) }}
+        
+      </form>
+    </div>
+  </div>
+{% endblock %}

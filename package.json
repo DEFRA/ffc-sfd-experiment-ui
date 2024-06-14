@@ -1,41 +1,99 @@
 {
-  "name": "ffc-template-node",
-  "version": "0.1.0",
-  "description": "description-of-project-goes-here",
-  "homepage": "https://github.com/DEFRA/ffc-template-node",
+  "name": "ffc-sfd-experiment-ui",
+  "version": "1.11.1",
+  "description": "Web frontend for PoC future RPS",
+  "homepage": "https://github.com/DEFRA/ffc-sfd-experiment-ui",
   "main": "app/index.js",
   "scripts": {
-    "pretest": "npm run test:lint",
-    "test": "jest --runInBand --forceExit",
-    "test:watch": "jest --coverage=false --onlyChanged --watch --runInBand",
-    "test:lint": "standard",
-    "test:debug": "node --inspect-brk=0.0.0.0 ./node_modules/jest/bin/jest.js --coverage=false --onlyChanged --watch --runInBand --no-cache",
-    "start:watch": "nodemon --inspect=0.0.0.0 --ext js --legacy-watch app/index.js",
-    "start:debug": "nodemon --inspect-brk=0.0.0.0 --ext js --legacy-watch app/index.js"
+    "build": "webpack",
+    "build:watch": "webpack --watch",
+    "lint": "standard",
+    "lint-fix": "standard --fix",
+    "test": "jest --runInBand --detectOpenHandles",
+    "test:watch": "jest --watch",
+    "start:watch": "npm-run-all --parallel build:watch start:nodemon",
+    "start:nodemon": "nodemon --verbose --inspect=0.0.0.0 --ext js,njk --legacy-watch app/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEFRA/ffc-sfd-experiment-ui.git"
   },
   "author": "Defra",
-  "contributors": [],
+  "contributors": [
+    "Paul Andrews <paul.andrews@defra.gov.uk>",
+    "Satish Chatap github.com/govTechSatish",
+    "Madiha Khan github.com/diya2214",
+    "Ogbu Olu github.com/ogbk",
+    "Ellie Tahmasebi github.com/ellietms"
+  ],
   "license": "OGL-UK-3.0",
+  "bugs": {
+    "url": "https://github.com/DEFRA/ffc-sfd-experiment-ui/issues"
+  },
   "dependencies": {
-    "@hapi/hapi": "21.3.2",
-    "applicationinsights": "2.9.1"
+    "@defra/hapi-gapi": "^2.1.1",
+    "@hapi/catbox-redis": "^6.0.2",
+    "@hapi/cookie": "^11.0.2",
+    "@hapi/crumb": "^8.0.1",
+    "@hapi/hapi": "^20.1.5",
+    "@hapi/inert": "^6.0.3",
+    "@hapi/vision": "^6.1.0",
+    "@hapi/wreck": "^17.1.0",
+    "@hapi/yar": "^10.1.0",
+    "applicationinsights": "^2.5.0",
+    "bcrypt": "^5.1.1",
+    "dialog-polyfill": "^0.5.6",
+    "dotenv": "^16.0.1",
+    "ffc-messaging": "^2.3.3",
+    "ffc-protective-monitoring": "^1.0.4",
+    "govuk-frontend": "^3.13.0",
+    "joi": "^17.4.2",
+    "nunjucks": "^3.2.3",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "jest": "29.7.0",
-    "jest-junit": "16.0.0",
-    "nodemon": "3.0.1",
-    "standard": "17.1.0"
+    "@hapi/catbox-memory": "^5.0.1",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^6.8.1",
+    "file-loader": "^6.1.0",
+    "html-webpack-plugin": "^5.3.2",
+    "jest": "^27.3.1",
+    "jest-junit": "^13.0.0",
+    "mini-css-extract-plugin": "^1.6.1",
+    "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.26.10",
+    "sass-loader": "^10.0.2",
+    "standard": "^16.0.3",
+    "string-replace-loader": "^3.0.2",
+    "style-loader": "^1.2.1",
+    "webpack": "^5.40.0",
+    "webpack-cli": "^4.7.2"
+  },
+  "overrides": {
+    "@azure/identity": {
+      "jsonwebtoken": "9.0.0"
+    },
+    "semver": "7.5.3",
+    "import-in-the-middle": "1.4.2",
+    "axios": "1.6.0"
   },
   "standard": {
     "globals": [
       "describe",
       "beforeEach",
       "expect",
+      "it",
       "test",
       "afterEach",
       "jest",
       "beforeAll",
-      "afterAll"
+      "afterAll",
+      "browser",
+      "assert",
+      "$",
+      "XMLHttpRequest"
     ]
   },
   "nodemonConfig": {

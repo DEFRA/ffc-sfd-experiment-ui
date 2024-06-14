@@ -1,4 +1,4 @@
-ARG PARENT_VERSION=2.2.1-node20.9.0
+ARG PARENT_VERSION=2.1.2-node18.11.0
 ARG PORT=3000
 ARG PORT_DEBUG=9229
 
@@ -15,6 +15,7 @@ EXPOSE ${PORT} ${PORT_DEBUG}
 COPY --chown=node:node package*.json ./
 RUN npm install
 COPY --chown=node:node . .
+RUN npm run build
 CMD [ "npm", "run", "start:watch" ]
 
 # Production

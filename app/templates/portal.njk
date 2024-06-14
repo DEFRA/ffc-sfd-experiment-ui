@@ -1,0 +1,58 @@
+{% extends '.layout.njk' %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "./components/macro.njk" import crumbToken %}
+{% block beforeContent %}
+  <div class="govuk-!-margin-top-3 govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds govuk-!-text-align-left">
+      <p class="govuk-heading-l govuk-grid-column-one-half govuk-!-margin-bottom-2 govuk-!-padding-left-0">{{ chosenFarm.name }}</p>
+      <p class="govuk-grid-column-one-half govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">SBI:
+      {{ chosenFarm.sbi }}</p>
+    </div>
+    <div class="govuk-!-text-align-right govuk-grid-column-one-third">
+      <p class="govuk-heading-l govuk-!-margin-bottom-2">{{ farmerData.firstName }}
+        {{ farmerData.lastName }}</p>
+    </div>
+  </div>
+  <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+    {% if backUrl %}
+      {{ govukBackLink({
+      text: "Back",
+      href: backUrl
+    }) }}
+    {% endif %}
+  {% endblock %}
+  {% block content %}
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-l">Portal</h1>
+        {% for grant in availableGrants %}
+          <div class="govuk-grid-column-full">
+            <div class="govuk-grid-row govuk-!-margin-bottom-9 govuk-!-padding-3 panel-background-color">
+              <form method="POST" action="{{ formActionPage }}" novalidate>
+                {{ crumbToken(crumb) }}
+                <input type="hidden" value="{{ grant.id }}" name="grantId">
+                  <div class="govuk-grid-column-two-thirds">
+                    <p class="govuk-heading-m govuk-!-margin-bottom-3">{{ grant.name }}</p>
+                    <div class="govuk-inset-text govuk-!-margin-top-0">{{ grant.subTitle }}</div>
+                    {% if grant.status === 'available' %}
+                      <div>
+                        {{ govukButton({
+                      text: "Start application",
+                      classes: 'button-dressed-as-link'
+                    }) }}
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="govuk-grid-column-one-third">
+                    {{ govukTag(grant.tagDisplay) }}
+                  </div>
+                </form>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endblock %}

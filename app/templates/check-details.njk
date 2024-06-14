@@ -1,0 +1,266 @@
+{% extends '.layout.njk' %}
+
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "./components/macro.njk" import crumbToken %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% block pageTitle %}
+  Check your details - {{siteTitle}}
+{% endblock %}
+
+{% block beforeContent %}
+  {% if headerData %}
+    <div class="govuk-!-margin-top-3 govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds govuk-!-text-align-left">
+        <p class="govuk-heading-l govuk-grid-column-one-half govuk-!-margin-bottom-2 govuk-!-padding-left-0">{{headerData.chosenFarm}}</p>
+        <p class="govuk-grid-column-one-half govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">SBI: {{headerData.sbi}}</p>
+      </div>
+      
+      <div class="govuk-!-text-align-right govuk-grid-column-one-third">
+        <p class="govuk-heading-l govuk-!-margin-bottom-2">{{headerData.firstName}} {{headerData.lastName}}</p>
+      </div>
+    </div>
+    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+  {% endif %}
+  {{ govukBackLink({
+    text: "Back",
+    href: backUrl,
+	  attributes: {id: 'linkBack'}
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Check application details and submit</h1>
+        
+        {% for summary in summarySections %}
+          <div>
+            {% if summary.type === 'items' %}
+              <h2 class="govuk-heading-m check-detail-heading govuk-grid-column-one-half govuk-!-width-one-half">{{summary.title}}</h2>
+              <a href="{{summary.changeUrl}}" class="gokuv-link govuk-grid-column-one-half govuk-!-text-align-right govuk-!-padding-top-3">Change</a>
+            {% else %}
+              <h2 class="govuk-heading-m check-detail-heading">{{summary.title}}</h2>
+            {% endif %}
+          </div>
+
+          {% if summary.type === 'simple' %}
+            {{ govukSummaryList({
+              rows: summary.rows
+              })
+            }}
+
+          {% elif summary.type === 'items' %}
+            {% for item in summary.itemDisplay %}
+              <div class="govuk-!-margin-top-3 govuk-!-margin-bottom-0">
+                <div class="govuk-grid-row">
+                  <div class="govuk-grid-column-three-quarters">
+                    <div class="govuk-grid-column-one-quarter govuk-!-padding-0">
+                      {{ govukTag({
+                        text: item.shortName,
+                        classes: "govuk-tag--grey"
+                      }) }}
+                    </div>
+                    <div class="govuk-grid-column-three-quarters govuk-!-padding-left-0 govuk-!-padding-right-0 govuk-heading-s">{{item.equipmentName}}</div>
+                  </div>
+                  <div class="govuk-grid-column-one-quarter govuk-!-text-align-right govuk-heading-s">Score: {{item.score}}</div>
+                </div>
+
+                <div class="govuk-grid-row govuk-body">
+                  <div class="govuk-grid-column-one-third govuk-!-text-align-left">
+                    <div>Item ammount (each)</div>
+                    <div>£{{item.formattedPrice}}</div>
+                  </div>
+                  <div class="govuk-grid-column-one-third govuk-!-text-align-centre">
+                    <div>Quantity</div>
+                    <div>{{item.quantity}}</div>
+                  </div>
+                  <div class="govuk-grid-column-one-third govuk-!-text-align-right">
+                    <div>Item ammount (total)</div>
+                    <div class="govuk-!-font-weight-bold">£{{item.formattedTotalPrice}}</div>
+                  </div>
+                </div>
+              </div>
+               <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+            {% endfor %}
+            <div class="govuk-grid-row govuk-!-margin-top-3">
+              <p class="govuk-body govuk-grid-column-one-half govuk-!-text-align-left">Grant total</p>
+              <p class="govuk-body govuk-grid-column-one-half govuk-!-text-align-right govuk-!-font-weight-bold">£{{summary.totalGrantValue}}</p>
+            </div>
+            {% if totalScore %}
+              <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible govuk-!-margin-bottom-3">
+              <div class="govuk-grid-row govuk-!-margin-top-3">
+                <p class="govuk-body govuk-grid-column-one-half govuk-!-text-align-left">Score total</p>
+                <p class="govuk-body govuk-grid-column-one-half govuk-!-text-align-right govuk-!-font-weight-bold">{{totalScore}}</p>
+              </div>
+            {% endif %}
+            <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible govuk-!-margin-bottom-3">
+          {% endif %}
+        {% endfor %}
+
+        <div>
+          <h2 class="govuk-heading-m check-detail-heading">Applicant's personal details</h2>
+
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                  text: 'Your name'
+                },
+                value: {
+                  text: farmerData.firstName + ' ' + farmerData.lastName
+                }
+              },
+              {
+                key: {
+                  text: 'Customer reference number'
+                },
+                value: {
+                  text: farmerData.crn
+                }
+              },
+              {
+                key: {
+                  text: 'Registered email'
+                },
+                value: {
+                  text: farmerData.email
+                }
+              },
+              {
+                key: {
+                  text: 'Alternative email'
+                },
+                value: {
+                  text: 'No'
+                }
+              }
+            ]
+            })
+          }}
+        </div>
+
+        <div>
+          <h2 class="govuk-heading-m check-detail-heading">Applicant's business details</h2>
+
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                  text: 'Business type'
+                },
+                value: {
+                  text: farmerData.businessType
+                }
+              }
+            ]
+            })
+          }}
+        </div>
+
+        <div>
+          <h2 class="govuk-heading-m check-detail-heading">Beneficiary's business details</h2>
+
+          {{ govukSummaryList({
+            rows: [
+              {
+                key: {
+                  text: 'Business name'
+                },
+                value: {
+                  text: headerData.chosenFarm
+                }
+              },
+              {
+                key: {
+                  text: 'Single business identifier'
+                },
+                value: {
+                  text: headerData.sbi
+                }
+              },
+              {
+                key: {
+                  text: 'Business type'
+                },
+                value: {
+                  text: farmerData.businessType
+                }
+              },
+              {
+                key: {
+                  text: 'Registered address'
+                },
+                value: {
+                  text: farmerData.address
+                }
+              },
+              {
+                key: {
+                  text: 'Business size'
+                },
+                value: {
+                  text: farmerData.businesSize
+                }
+              },
+              {
+                key: {
+                  text: 'Registered owner'
+                },
+                value: {
+                  text: farmerData.registeredOwner
+                }
+              },
+              {
+                key: {
+                  text: 'Gender'
+                },
+                value: {
+                  text: farmerData.gender
+                }
+              },
+              {
+                key: {
+                  text: 'Landline phone'
+                },
+                value: {
+                  text: farmerData.landlinePhone
+                }
+              },
+              {
+                key: {
+                  text: 'Mobile phone'
+                },
+                value: {
+                  text: farmerData.mobilePhone
+                }
+              }
+            ]
+            })
+          }}
+        </div>
+      </div>
+      <div class="govuk-grid-column-one-third govuk-body">
+        <hr class="sideBarColor"/>
+        {% for sidebarText in sidebar %}
+          <p>{{sidebarText}}</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <form method="POST" action="{{ url }}" autocomplete="off" novalidate>
+          {{ crumbToken(crumb)}}
+          {{ govukButton({
+            text: "Submit Application",
+            attributes: {id: "btnContinue"}
+          }) }}
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

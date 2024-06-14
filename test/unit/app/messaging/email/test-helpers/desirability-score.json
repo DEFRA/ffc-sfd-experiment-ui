@@ -1,0 +1,182 @@
+{
+	"grantScheme": {
+		"key": "CH01",
+		"name": "Calves Housing"
+	},
+	"desirability": {
+		"questions": [
+			{
+				"title": "Housing",
+				"url": "housing",
+				"fundingPriorities": "Improve health/welfare",
+				"backUrl": "housing",
+				"key": "housing",
+				"answers": [
+					{
+						"key": "housing",
+						"title": "Are you moving from individually housing calves over 7 days old to pair or group housing?",
+						"input": [
+							{
+								"key": "housing-A1",
+								"value": "Yes"
+							}
+						]
+					}
+				],
+				"rating": {
+					"score": 9,
+					"band": "Strong",
+					"importance": null
+				}
+			},
+			{
+				"title": "Average calf group size",
+				"url": "group-size",
+				"backUrl": "housing",
+				"fundingPriorities": "Improve health/welfare",
+				"key": "calf-group-size",
+				"answers": [
+					{
+						"key": "housing",
+						"title": "What will be the average calf group size for calves over 7 days old?",
+						"input": [
+							{
+								"key": "calf-group-size-A1",
+								"value": "2 to 3"
+							}
+						]
+					}
+				],
+				"rating": {
+					"score": 9,
+					"band": "Strong",
+					"importance": null
+				}
+			},
+			{
+				"title": "Maximum number of calves",
+				"url": "number-of-calves",
+				"backUrl": "group-size",
+				"fundingPriorities": "Improve health/welfare",
+				"key": "number-of-calves",
+				"answers": [
+					{
+						"key": "number-of-calves",
+						"title": "What will be the maximum number of calves in the calf housing?",
+						"input": [
+							{
+								"key": "number-of-calves-A2",
+								"value": "51 to 100"
+							}
+						]
+					}
+				],
+				"rating": {
+					"score": 9,
+					"band": "Strong",
+					"importance": null
+				}
+			},
+			{
+				"title": "Sick pen type",
+				"url": "permanent-sick-pen",
+				"backUrl": "moisture-control",
+				"fundingPriorities": "Improve health/welfare",
+				"key": "permanent-sick-pen",
+				"answers": [
+					{
+						"key": "permanent-sick-pen",
+						"title": "What type of sick pen will your building have?",
+						"input": [
+							{
+								"key": "permanent-sick-pen-A1",
+								"value": "A permanent sick pen"
+							}
+						]
+					}
+				],
+				"rating": {
+					"score": 9,
+					"band": "Strong",
+					"importance": null
+				}
+			},
+			{
+				"title": "Environmental impact",
+				"url": "environmental-impact",
+				"backUrl": "number-of-calves",
+				"fundingPriorities": "Improve health/welfare",
+				"key": "environmental-impact",
+				"answers": [
+					{
+						"key": "environmental-impact",
+						"title": "How will the building minimise environmental impact?",
+						"input": [
+							{
+								"key": "environmental-impact-A1",
+								"value": "Solar PV panels on the roof of the building"
+							}
+						]
+					}
+				],
+				"rating": {
+					"score": 9,
+					"band": "Strong",
+					"importance": null
+				}
+			},
+			{
+				"title": "Sustainable materials",
+				"url": "automatic-calf-feeder",
+				"backUrl": "number-of-calves",
+				"fundingPriorities": "Improve health/welfare",
+				"key": "automatic-calf-feeder",
+				"answers": [
+					{
+						"key": "automatic-calf-feeder",
+						"title": "How many calves will you have per automatic feeder?",
+						"input": [
+							{
+								"key": "automatic-calf-feeder-A2",
+								"value": "5 to 8"
+							}
+						]
+					}
+				],
+				"rating": {
+					"score": 9,
+					"band": "Strong",
+					"importance": null
+				}
+			},
+			{
+				"title": "Innovation",
+				"url": "introducing-innovation",
+				"backUrl": "sustainable-materials",
+				"fundingPriorities": "Improve health/welfare",
+				"key": "introducing-innovation",
+				"answers": [
+					{
+						"key": "introducing-innovation",
+						"title": "How many calves will you have per automatic feeder?",
+						"input": [
+							{
+								"key": "introducing-innovation-A2",
+								"value": "fake data"
+							}
+						]
+					}
+				],
+				"rating": {
+					"score": 9,
+					"band": "Strong",
+					"importance": null
+				}
+			}
+		],
+		"overallRating": {
+			"score": null,
+			"band": "Average"
+		}
+	}
+}

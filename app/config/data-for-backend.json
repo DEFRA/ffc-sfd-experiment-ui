@@ -1,0 +1,47 @@
+{
+  "confirmationId": "FG-39C-4AD",
+  "chosenFarm": "imaginary-farm",
+  "farmerData": {
+    "crn": "1789678903",
+    "firstName": "Farmer",
+    "lastName": "Giles",
+    "email": "Giles@testnull.com",
+    "landlinePhone": "056712678",
+    "mobilePhone": "012345678",
+    "businesSize": "Micro",
+    "numberOfEmployees": 5,
+    "areasManaged": {
+      "agricultural": "20 Hectares",
+      "horticultural": "5 Hectares",
+      "woodland": "5 Hectares"
+    },
+    "registeredOwner": "Farmer Giles",
+    "gender": "Male",
+    "address": "Imagery Farm, Suffolk, SF1 23ED",
+    "businessType": "Farm",
+    "activity": "Arable Farm",
+    "companies": [
+      {
+        "name": "Imaginary Farm",
+        "id": "imaginary-farm",
+        "sbi": "908789876"
+      },
+      {
+        "name": "Apple Farm",
+        "id": "apple-farm",
+        "sbi": "678987809"
+      }
+    ]
+  },
+  "answers": {
+    "projectLocation": "Yes",
+    "equipmentList": [
+      {
+        "id": "2003",
+        "value": "1"
+      }
+    ],
+    "projectPostcode": "RM14 1SW"
+  },
+  "score": 60
+}

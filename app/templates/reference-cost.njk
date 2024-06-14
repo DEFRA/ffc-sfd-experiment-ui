@@ -1,0 +1,60 @@
+{% extends '.layout.njk' %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "./components/macro.njk" import crumbToken %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% block pageTitle %}
+  Reference grant amounts - {{ siteTitle }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: backLink,
+	  attributes: {id: 'linkBack'}
+  }) }}
+{% endblock %}
+{% block content %}
+  <div class="govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Grant amounts for eligible items</h1>
+        <p class="govuk-body">The Slurry Infrastructure grant uses  referenced costs for the eligible items.</p>
+        <br/>
+        {% for catagory in catagories %}
+          <h2 class="govuk-heading-m">{{ catagory.title }}</h2>
+          <table class="govuk-table govuk-body govuk-!-font-size-16">
+            <thead class="govuk-table__head">
+              <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header ">Items</th>
+                <th scope="col" class="govuk-table__header govuk-!-width-one-third">Grant amount</th>
+              </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+              {% for item in catagory.items %}
+                <tr class="govuk-table__row">
+                  <th scope="row" class="govuk-table__header">
+                    {{ item.item }}
+                  </th>
+                  <td class="govuk-table__cell">
+                    £{{ item.amount }}
+                    {{ item.unit }}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% endfor %}
+        <div class="govuk-grid-row">
+          <h2 class="govuk-heading-m">Next steps</h2>
+          <p class="govuk-body">Next, select the items you want for your project.</p>
+        </div>
+        <br/><br/>
+        <form method="POST" action="{{ formActionPage }}" autocomplete="off" novalidate>
+          {{ crumbToken(crumb) }}
+          {{ govukButton({
+        text: "Continue",
+        attributes: {id: "btnContinue"}
+      }) }}
+        </form>
+      </div>
+    {% endblock %}

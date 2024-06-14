@@ -1,0 +1,73 @@
+{% extends '.layout.njk' %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "./components/macro.njk" import crumbToken %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "./components/macro.njk" import crumbToken, multiSideBar, conditionalButtons %}
+{% block pageTitle %}
+  Project items - {{ siteTitle }}
+{% endblock %}
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: backLink
+  }) }}
+{% endblock %}
+{% block content %}
+  <div class="govuk-body">
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Your project items</h1>
+        <p class="govuk-body">We have calculated your total requested grant amount based on the reference cost for each item and the approximate size and quantities you entered.</p>
+        <br/>
+        <h2 class="govuk-heading-m">Breakdown of funding</h2>
+        <table class="govuk-table govuk-body">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header ">Item</th>
+              <th scope="col" class="govuk-table__header">Grant amount per unit</th>
+              <th scope="col" class="govuk-table__header">Quantity or size</th>
+              <th scope="col" class="govuk-table__header">Total</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+            {% for item in catagory %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__header">
+                  {{ item.item }}
+                </td>
+                <td class="govuk-table__cell">
+                  {{ item.amount }}
+                </td>
+                <td class="govuk-table__cell">
+                  {{ item.quantity }}
+                </td>
+                <td class="govuk-table__cell">
+                  {{ item.total }}
+                </td>
+              </tr>
+            {% endfor %}
+            <tr class="govuk-table__row">
+              <td colspan="3" class="govuk-!-padding-left-8">
+                <strong>
+                  Total requested grant amount</strong>
+              </td>
+              <td class="govuk-table__cell">
+                <strong>£{{ totalValue }}</strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="govuk-grid-row">
+          {{ govukWarningText({
+          text: "The minimum grant you can claim is £25,000. The maximum grant is capped at £250,000.",
+          iconFallbackText: "Warning"
+        }) }}
+        </div>
+        <br/><br/>
+        <form method="POST" action="{{ formActionPage }}" autocomplete="off" novalidate>
+          {{ crumbToken(crumb) }}
+          {{ conditionalButtons('true', 'Continue', 'Change your items') }}
+        </form>
+      </div>
+    {% endblock %}

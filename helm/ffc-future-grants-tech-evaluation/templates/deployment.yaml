@@ -1,0 +1,8 @@
+{{- include "ffc-helm-library.deployment" (list . "ffc-future-grants-tech-evaluation.deployment") -}}
+{{- define "ffc-future-grants-tech-evaluation.deployment" -}}
+spec:
+  template:
+    spec:
+      containers:
+      - {{ include "ffc-helm-library.container" (list . "ffc-future-grants-tech-evaluation.container") }}
+{{- end -}}

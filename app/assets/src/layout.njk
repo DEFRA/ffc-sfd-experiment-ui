@@ -1,0 +1,82 @@
+{% extends "govuk/template.njk" %}
+{% from "govuk/components/header/macro.njk" import govukHeader %}
+{% from "../../templates/components/timeout-warning/macro.njk" import govukTimeoutWarning %}
+{% set urlPrefix = "<%= htmlWebpackPlugin.options.metadata.urlPrefix %>" %}
+{% set assetPath = urlPrefix + "/assets" %}
+{% set timeoutPath = urlPrefix + "/session-timeout" %}
+{% set siteTitle = "Check if you can apply for a future grants Grant - Defra - GOV.UK" %}
+{% block pageTitle %}
+  {{ siteTitle }}
+{% endblock %}
+{% block head %}
+  <meta name="robots" content="noindex, nofollow">
+    <%= htmlWebpackPlugin.tags.headTags %>
+    {% if cookiesPolicy.analytics %}
+      {% include "tag-manager/head-content.njk" %}
+    {% endif %}
+  {% endblock %}
+  {% block header %}
+
+    {{
+      govukHeader({
+        homepageUrl: urlPrefix + "/login",
+        serviceName: "Check if you can apply for a Grant",
+        serviceUrl: urlPrefix + "/login"
+      })
+    }}
+
+    {% if showTimeout %}  
+      {{
+        govukTimeoutWarning({
+          "modalIdleTime": sessionTimeoutInMin,
+          "modalVisibleTime": 5,
+          "redirectUrl": timeoutPath
+        }) }}
+    {% endif %}
+  {% endblock %}
+  {% block bodyStart %}
+    {% if not cookiesPolicy.confirmed %}
+      {% include "cookies/cookie-banner.njk" %}
+    {% endif %}
+    {% if cookiesPolicy.analytics %}
+      {% include "tag-manager/body-content.njk" %}
+    {% endif %}
+  {% endblock %}
+  {% block footer %}
+    {% set footer_html_code %}
+    <ul class="govuk-footer__inline-list">
+      <li class="govuk-footer__inline-list-item">
+        <a class="govuk-footer__link" href="<%= htmlWebpackPlugin.options.metadata.urlPrefix %>/accessibility" rel="noopener noreferrer">
+          Accessibility
+        </a>
+      </li>
+      <li class="govuk-footer__inline-list-item">
+        <a class="govuk-footer__link" href="<%= htmlWebpackPlugin.options.metadata.urlPrefix %>/cookies" rel="noopener noreferrer">
+          Cookies
+        </a>
+      </li>
+      <li class="govuk-footer__inline-list-item">
+        <a class="govuk-footer__link" href="{{ surveyLink }}" target="_blank" rel="noopener noreferrer">
+          Feedback
+        </a>
+      </li>
+      <li class="govuk-footer__inline-list-item">
+        <a
+          class="govuk-footer__link"
+          href="https://www.gov.uk/government/organisations/rural-payments-agency/about/personal-information-charter"
+          target="_blank"
+          rel="noopener noreferrer">
+          Privacy
+        </a>
+      </li>
+    </ul>
+    {% endset %}
+    {{ govukFooter({
+        meta: {
+          html: footer_html_code
+        }
+      }) }}
+  {% endblock %}
+  {% block bodyEnd %}
+    <%= htmlWebpackPlugin.tags.bodyTags %>
+  {% endblock %}

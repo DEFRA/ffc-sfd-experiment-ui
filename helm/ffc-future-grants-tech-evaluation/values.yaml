@@ -1,0 +1,104 @@
+environment: development
+name: ffc-future-grants-tech-evaluation
+namespace: ffc-grants
+workstream: ffc-grants
+image: ffc-future-grants-tech-evaluation
+
+labels: {}
+
+appInsights:
+  key: not-a-real-key
+
+azureIdentity:
+  clientID: not-a-real-clientID
+  resourceID: not-a-real-resourceID
+
+containerConfigMap:
+  name: ffc-future-grants-tech-evaluation-config-map
+
+containerSecret:
+  name: ffc-future-grants-tech-evaluation-container-secret
+  type: Opaque
+
+deployment:
+  restartPolicy: Always
+  priorityClassName: high
+  minReadySeconds: 2
+  redeployOnChange: update this field to force a change
+  replicas: 2
+  minReplicas: 2
+  maxReplicas: 4
+  cpuThreshold: 80
+  memoryThreshold: 80
+
+container:
+  imagePullPolicy: IfNotPresent
+  requestMemory: 120Mi
+  requestCpu: 120m
+  limitMemory: 120Mi
+  limitCpu: 120m
+  port: 3000
+  readOnlyRootFilesystem: true
+  redisHostname: redis
+  redisPassword: redis
+  cookiePassword: thisisnotarealpasswordthisisnotarealpassword
+  redisPort: 6379
+  redisPartition: ffc-future-grants-tech-evaluation
+  sessionCacheTTL: 1200000
+  messageQueueHost: dummy
+  contactDetailsQueueAddress: contact-details
+  loginRequired: false
+  authUsername: grants
+  authPasswordHash: dummy
+  backendPollingHost: http://ffc-grants-slurry-eligibility
+  pollingInterval: 200
+  pollingRetries: 20
+  protectiveMonitoringUrl:
+  analyticsPropertyApi: dummy
+  analyticsTagKey: dummy
+  googleTagManagerKey: dummy
+  googleTagManagerServerKey: dummy
+  startPageUrl: dummy
+  serviceEndDate: dummy
+  serviceEndTime: dummy
+  surveyLink: dummy
+  grantRequestQueueAddressSf: ffc-grants-slurry-cost-details-req
+  grantResponseQueueAddressSf: ffc-grants-slurry-cost-details-res
+  grantRequestQueueAddressSnd: ffc-grants-slurry-cost-details-req
+  grantResponseQueueAddressSnd: ffc-grants-slurry-cost-details-res
+  grantRequestQueueAddressSn: dummy
+  grantResponseQueueAddressSn: dummy
+  grantRequestQueueAddressPega: dummy
+  grantResponseQueueAddressPega: dummy
+  desirabilitySubmittedTopicAddress: desirability-submitted
+  notifyEmailTemplate: dummy-template
+  worksheetProtectPassword: dummy-pwd
+  worksheetProtectEnabled: false
+  sendEmailToRpa: false
+  rpaEmail: FTF@rpa.gov.uk
+  worksheetHideEmptyRows: false
+  excelUploadEnvironment: dummy
+
+livenessProbe:
+  path: /healthz
+  port: 3000
+  initialDelaySeconds: 30
+  periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 5
+
+readinessProbe:
+  path: /healthy
+  port: 3000
+  initialDelaySeconds: 20
+  periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 5
+
+service:
+  port: 80
+
+ingress:
+  class: nginx
+  endpoint: ffc-future-grants-tech-evaluation
+  server: value.replaced.from.app.config

@@ -1,0 +1,172 @@
+$govuk-assets-path: "~govuk-frontend/govuk/assets/";
+@import "~govuk-frontend/govuk/all";
+@import "../../templates/components/timeout-warning/timeout-warning";
+
+.sideBarColor {
+  border: 1px solid #1d70b8;
+}
+
+.scoring-block {
+  background: #F8F8F8;
+  border: 1px solid #b1b4b6;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.scoring-block-key {
+  width: 30%;
+  padding: 10px 20px 10px 0;
+  text-align: left;
+  vertical-align: top;
+  font-weight: 700;
+  display: table-cell;
+}
+
+.scoring-block-value {
+  display: table-cell;
+  padding: 10px 20px 10px 0;
+  text-align: left;
+  vertical-align: top;
+}
+
+.check-detail-heading {
+  width: 90%;
+  padding: 10px 20px 0 0;
+  text-align: left;
+  vertical-align: top;
+  font-weight: 700;
+  display: table-cell;
+}
+
+.check-detail-change {
+  display: table-cell;
+  padding: 10px 0 0 0;
+  text-align: right;
+  vertical-align: top;
+}
+
+.js-enabled .nojs-hidden {
+  display: block;
+}
+
+.check-your-answers {
+  td {
+    vertical-align: top;
+
+    &.required {
+      color: $govuk-error-colour;
+    }
+  }
+
+  .change-answer {
+    text-align: right;
+    padding-right: 0;
+  }
+}
+
+.govuk-prose-scope {
+
+  // @extend inheritance
+
+  // Contextual heading and paragraph combinations are inherited
+  // through the use of @extend
+
+  h1 {
+    @extend %govuk-heading-xl;
+  }
+
+  h2 {
+    @extend %govuk-heading-l;
+  }
+
+  h3 {
+    @extend %govuk-heading-m;
+  }
+
+  h4 {
+    @extend %govuk-heading-s;
+  }
+
+  p {
+    @extend %govuk-body-m;
+  }
+
+  strong,
+  b {
+    @include govuk-typography-weight-bold;
+  }
+
+  ul,
+  ol {
+    @extend %govuk-list;
+  }
+
+  ol {
+    @extend %govuk-list--number;
+  }
+
+  ul {
+    @extend %govuk-list--bullet;
+  }
+
+  a {
+    @extend %govuk-link;
+  }
+
+  hr {
+    @extend %govuk-section-break;
+    @extend %govuk-section-break--visible;
+    @extend %govuk-section-break--xl;
+  }
+}
+.timeoutDiv {
+  opacity: 0;  
+  animation: fadeIn 6s;
+  animation-delay: 600s;
+  animation-fill-mode: forwards;
+  height: 0px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; height: 280px;}
+}
+
+.checkBoxMargin {
+  margin-left: -53px;
+}
+
+.govuk-back-link:hover, .govuk-details__summary-text:hover,  .govuk-link:hover {
+  text-decoration-thickness: max(3px, 0.1875rem, 0.12em);
+  -webkit-text-decoration-skip-ink: none;
+  text-decoration-skip-ink: none;
+  -webkit-text-decoration-skip: none;
+  text-decoration-skip: none;
+  color: #003078;
+}
+
+.panel-background-color {
+  background-color: govuk-colour("light-grey");
+}
+
+.button-dressed-as-link {
+  border: 0 solid transparent;
+  background-color: transparent;
+  color: blue;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  text-decoration: underline;
+  &:hover,
+  &:focus,
+  &:visited,
+  &:active:disabled {
+    background-color: transparent;
+    color: black;
+    text-decoration: underline;
+  }
+}
+
+.error-panel-background-color {
+  background-color: $govuk-error-colour;
+}

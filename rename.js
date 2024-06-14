@@ -31,7 +31,7 @@ async function confirmRename (projectName, description) {
     input: process.stdin,
     output: process.stdout
   })
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _reject) => {
     rl.question(`Do you want to rename the project to '${projectName}', with a description of '${description}'?\nType '${affirmativeAnswer}' to confirm\n`, (answer) => {
       rl.close()
       resolve(answer === affirmativeAnswer)
@@ -53,7 +53,7 @@ async function getHelmFiles () {
   // getting the name here removes dependency on it being updated.
   const helmDir = await getHelmDir()
   const baseFiles = ['Chart.yaml', 'values.yaml']
-  const templateFiles = ['templates/_container.yaml', 'templates/cluster-ip-service.yaml', 'templates/config-map.yaml', 'templates/container-secret.yaml', 'templates/deployment.yaml']
+  const templateFiles = ['templates/_container.yaml', 'templates/cluster-ip-service.yaml', 'templates/config-map.yaml', 'templates/deployment.yaml']
   const files = [...baseFiles, ...templateFiles]
 
   return files.map((file) => {
@@ -62,10 +62,10 @@ async function getHelmFiles () {
 }
 
 function getRootFiles () {
-  return ['docker-compose.yaml', 'docker-compose.override.yaml', 'docker-compose.debug.yaml', 'docker-compose.test.yaml', 'docker-compose.test.watch.yaml', 'docker-compose.test.debug.yaml', 'package.json', 'package-lock.json']
+  return ['docker-compose.yaml', 'docker-compose.override.yaml', 'docker-compose.test.yaml', 'docker-compose.test.watch.yaml', 'package.json', 'package-lock.json']
 }
 
-function getScriptFiles () {
+async function getScriptFiles () {
   const scriptDir = getScriptDir()
   const files = ['test']
   return files.map((file) => {
@@ -119,8 +119,8 @@ async function updateProjectDescription (description) {
 
 async function rename () {
   const { description, projectName } = processInput(process.argv)
-  const rename = await confirmRename(projectName, description)
-  if (rename) {
+  const renameProject = await confirmRename(projectName, description)
+  if (renameProject) {
     await renameDirs(projectName)
     await updateProjectName(projectName)
     await updateProjectDescription(description)

@@ -3,70 +3,30 @@
 set -e
 projectRoot="$(a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; cd "$a/.." || return; pwd)"
 
-service="ffc-template-node"
-
-show_help() {
-  echo "
-    Usage: scripts/test [OPTION...]
-    Run tests.
-
-    Options:
-      -w, --watch   watch tests
-      -d, --debug   debug tests
-      -h, --help    display this help text
-    "
-}
-
-while :; do
-  case $1 in
-    -w|--watch)
-      watch="true"
-      ;;
-
-    -d|--debug)
-      debug="true"
-      ;;
-
-    -h|--help)   # Call a "show_help" function to display a synopsis, then exit.
-      show_help
-      exit
-      ;;
-    *)
-      break
-  esac
-
-  shift
-done
+command="$@"
+project="ffc-future-grants-tech-evaluation"
+service="ffc-future-grants-tech-evaluation"
 
 compose() {
-  if [ "${watch}" = "true" ]; then
-    docker-compose -f docker-compose.yaml -f docker-compose.test.yaml -f docker-compose.test.watch.yaml -p "${service}-test" $@
-  elif [ "${debug}" = "true" ]; then
-    docker-compose -f docker-compose.yaml -f docker-compose.test.yaml -f docker-compose.test.watch.yaml -f docker-compose.test.debug.yaml -p "${service}-test" $@
-  else
-    docker-compose -f docker-compose.yaml -f docker-compose.test.yaml -p "${service}-test" $@
-  fi
+  docker-compose \
+    -f docker-compose.yaml \
+    -f docker-compose.test.yaml \
+    -p "${project}-test" \
+    $@
 }
 
 (
   cd "${projectRoot}"
 
-  # Create test output folder
-  mkdir -p test-output
-
   # Guarantee clean environment
-  compose down -v
+  compose down --volumes
 
   # Ensure container images are up to date
   compose build
 
   # Run tests
-  if [ "${debug}" = "true" ]; then
-    compose run --service-ports ${service} ${command}
-  else
-    compose run --rm ${service} ${command}
-  fi
+  compose run ${service} ${command}
 
   # Clean up
-  compose down -v
+  compose down --volumes
 )

@@ -1,0 +1,116 @@
+{% extends '.layout.njk' %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/warning-text/macro.njk" import govukWarningText %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+{% from "./components/macro.njk" import crumbToken %}
+
+{% block pageTitle %}
+  {{messageHeader}}{{reference.titleText}} - {{siteTitle}}
+{% endblock %}
+
+{% block beforeContent %}  
+  {% if backUrl %}
+    {{ govukBackLink({
+        text: "Back",
+        href: backUrl,
+        attributes: {id: 'linkBack'}
+      })
+    }}
+  {% endif %}
+{% endblock %}
+
+{% set checkboxConfirmOptional = {
+    idPrefix: consentOptionalData.idPrefix,
+    name: consentOptionalData.name,
+    items: [{
+      value: consentOptionalData.items[0].value,
+      text: consentOptionalData.items[0].text,
+      checked: consentOptionalData.items[0].checked,
+      selected: consentOptionalData.items[0].selected
+    }]
+  }
+%}
+
+
+{% block content %}
+  {% if reference %}
+    {{ govukPanel(reference) }}
+  {% endif%}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds govuk-body">
+      {{ crumbToken(crumb)}}
+      {%if messageHeader%}
+      <h1 class="govuk-heading-l">{{messageHeader}}</h1>
+      {% endif %}
+      <p class="govuk-body">{{ messageContent | safe}}</p>
+
+      {% if conditionalText.condition %}
+        <p class="govuk-body">{{ conditionalText.conditionalPara | safe}}</p>
+      {% endif %}
+
+      {% if warning %} 
+        {{ govukWarningText(warning) }}
+      {% endif %}
+
+      {% if extraMessageContent %}
+        <p class="govuk-body">{{ extraMessageContent | safe}}</p>
+      {% endif %}
+
+      {% if messageLink %}
+        <p class="govuk-body"><a href="{{messageLink.url}}" class="govuk-link">{{messageLink.title}}</a></p>
+      {% endif %}
+
+      
+      {% if isImpermeableCoverOnly %}
+            {{ govukButton({
+                text: 'Continue to apply for a store' ,
+                classes: "govuk-!-margin-top-5",
+                attributes: {id: "btnContinue"},
+                href: nextUrl
+              })}}
+        {% endif %}
+
+      {% if not consentOptionalData and not reference and not isImpermeableCoverOnly %}
+        {{ govukButton({
+                text: 'Continue' ,
+                classes: "govuk-!-margin-top-5",
+                attributes: {id: "btnContinue"},
+                href: nextUrl
+              })}}
+        {% endif %}
+    </div>
+  </div>
+
+
+  {%if url === 'confirm' %}
+    <div class="govuk-grid-column-two-thirds">
+      <form method="POST" action="{{ url }}" autocomplete="off" novalidate="novalidate">
+        {{ crumbToken(crumb)}}
+        {{ govukCheckboxes(checkboxConfirmOptional) }}
+          {{ govukInput(consentOptionalData.hiddenInput) }}
+          {{ govukWarningText({
+            text: 'You can only submit your details once',
+            iconFallbackText: 'Warning'
+          })
+        }}
+        {{ govukButton({
+          text: "Confirm and send",
+          attributes: {id: "btnConfirmSend"}
+        }) }}
+      </form>
+    </div>
+    <div class="govuk-grid-row govuk-body">
+      <div class="govuk-grid-column-full">
+        <hr/>
+        <p>
+          The Department for Environment, Food and Rural Affairs (Defra) is the data controller for personal data you give to RPA. For information on how we handle personal data go to <a class="govuk-link" href="https://www.gov.uk" target="_blank" rel="noopener noreferrer">GOV.UK (opens in new tab)</a> and search
+          <a class="govuk-link" href="https://www.gov.uk/government/organisations/rural-payments-agency/about/personal-information-charter" target="_blank" rel="noopener noreferrer">Rural Payments Agency personal information charter (opens in new tab).</a>
+        </p>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

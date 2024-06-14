@@ -1,0 +1,67 @@
+{% macro crumbToken(crumb) %}
+  {% from "govuk/components/details/macro.njk" import govukDetails %}
+  {% from "govuk/components/button/macro.njk" import govukButton %} <input type="hidden" name="crumb" id="crumb" value="{{ crumb }}" autocomplete="off"/>
+{% endmacro %}
+{% macro sideBar(content) %}
+  <div class="govuk-grid-column-one-third  govuk-!-padding-top-4 govuk-body">
+    <hr class="sideBarColor"/>
+    <h2 class="govuk-heading-m" id="subsection-title">
+      {{ content.heading }}
+    </h2>
+    <p>{{ content.para  | striptags(true) | escape | nl2br }}</p>
+    <ul class="govuk-list govuk-list--bullet">
+      {% for item in content.items %}
+        <li>{{ item }}</li>
+      {% endfor %}
+    </ul>
+    {% if content.details %}
+      {{ govukDetails(content.details) }}
+    {% endif %}
+  </div>
+{% endmacro %}
+{% macro multiSideBar(sideBars) %}
+  <div class="govuk-grid-column-one-third  govuk-!-padding-top-4 govuk-body">
+    <hr class="sideBarColor"/>
+    {% set sideBarSubHeadingTag = 'h2' %}
+    {% if sideBars.mainHeading %}
+      {% set sideBarSubHeadingTag = 'h3' %}
+      <h2 class="govuk-heading-m" id="subsection-title-{{ sideBars.mainHeading.replace(' ', '-') | lower }}">{{ sideBars.mainHeading }}</h2>
+    {% endif %}
+    {% for sidebar in sideBars.values %}
+      {% if sidebar.heading %}
+      <{{ sideBarSubHeadingTag }} class="govuk-heading-s" id="subsection-title-{{ sidebar.heading.replace(' ', '-') | lower }}">
+        {{ sidebar.heading }}
+      </{{ sideBarSubHeadingTag }}>
+      {% endif %}
+      {% for content in sidebar.content %}
+        <p>{{ content.para  | striptags(true) | escape | nl2br }}</p>
+        <ul class="govuk-list govuk-list--bullet">
+          {% for item in content.items %}
+            <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% if content.additionalPara %}
+          <p>{{ content.additionalPara  | striptags(true) | escape | nl2br }}</p>
+        {% endif %}
+      {% endfor %}
+    {% endfor %}
+    {% if sideBars.details %}
+      {{ govukDetails(sideBars.details) }}
+    {% endif %}
+  </div>
+{% endmacro %}
+{% macro conditionalButtons (showSecondaryButton, contBtnText, secButtonText ) %}
+  {{ govukButton({
+      text: contBtnText,
+      attributes: {id: contBtnText.split(' ').join('-')}
+    }) }} &nbsp;
+  {% if showSecondaryButton %}
+    {{ govukButton({
+        classes: "govuk-button--secondary",
+        text: secButtonText,
+        name: "secBtn",
+        value: secButtonText,
+        attributes: {id: secButtonText.split(' ').join('-')}
+      }) }}
+  {% endif %}
+{% endmacro %}

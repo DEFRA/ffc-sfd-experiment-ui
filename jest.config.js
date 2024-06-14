@@ -10,11 +10,13 @@ module.exports = {
     'lcov'
   ],
   coveragePathIgnorePatterns: [
+    '<rootDir>/app/build/',
+    '<rootDir>/app/assets/',
     '<rootDir>/node_modules/',
     '<rootDir>/test-output/',
     '<rootDir>/test/',
-    '<rootDir>/rename.js',
-    '<rootDir>/jest.config.js'
+    '<rootDir>/jest.config.js',
+    '<rootDir>/webpack.config.js'
   ],
   modulePathIgnorePatterns: [
     'node_modules'
@@ -32,5 +34,10 @@ module.exports = {
   ],
   testEnvironment: 'node',
   testPathIgnorePatterns: [],
-  verbose: true
+  verbose: true,
+  setupFilesAfterEnv: [
+    '<rootDir>/test/setup.js',
+    '<rootDir>/test/teardown.js',
+    './jest.setup.js'
+  ]
 }

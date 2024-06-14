@@ -1,0 +1,12 @@
+version: "3.7"
+services:
+  wdio-cucumber:
+    build: .
+    image: ffc-future-grants-tech-evaluation-acceptance
+    container_name: webdriver-cuke
+    environment:
+      TEST_ENVIRONMENT_ROOT_URL: ${TEST_ENVIRONMENT_ROOT_URL}
+      CHROME_ARGS: "--headless --ignore-certificate-errors"
+      BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
+      BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
+      BROWSERSTACK_PARALLEL_RUNS: ${BROWSERSTACK_PARALLEL_RUNS}

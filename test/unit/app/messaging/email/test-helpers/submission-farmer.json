@@ -1,0 +1,100 @@
+{
+    "applying": "Farmer",
+    "consentOptional": false,
+    "farmerDetails": {
+        "title": "Mrs",
+        "firstName": "Mary",
+        "lastName": "Jones",
+        "emailAddress": "test@test.com",
+        "landline": "01888 123665",
+        "mobile": "08870 554024",
+        "address1": "123 Road",
+        "address2": "Fulford",
+        "town": "York",
+        "county": "North Yorkshire",
+        "postcode": "YO33 4FF"
+    },
+    "businessDetails": {
+        "projectName": "Farm reservoir",
+        "businessName": "My Farm",
+        "numberEmployees": "30",
+        "businessTurnover": "5000000",
+        "sbi": "",
+        "calvingSystem": "Year round",
+        "calvesNumber": 30
+    },
+    "confirmationId": "12345678",
+    "applicantType": "Beef (including calf rearing)",
+    "legalStatus": "Sole trader",
+    "inEngland": "Yes",
+    "planningPermission": "Not needed",
+    "projectStart": "Yes, preparatory work",
+    "tenancy": "No",
+    "projectResponsibility": "Yes, I plan to ask my landlord to underwrite my Grant Funding Agreement",
+    "systemType": "Slurry-based system",
+    "existingStorageCapacity": "Less than 6 months",
+    "plannedStorageCapacity": "6 months",
+    "applyingFor": "Building a new store, replacing or expanding an existing store",
+    "projectType": "Replace an existing store that is no longer fit for purpose with a new store",
+    "grantFundedCover": "Yes, I need a cover",
+    "existingCover": "Yes",
+    "fitForPurpose": "Yes",
+    "storageType": "Above-ground steel slurry store",
+    "serviceCapacityIncrease": 22,
+    "coverType": "Fixed flexible cover",
+    "coverSize": 23,
+    "grantFundedStore": 22,
+    "existingStore": 22,
+    "separator": "Yes",
+    "separatorOptions": [
+        "Roller screen press",
+        "Concrete bunker",
+        "Size: 45m2"
+    ],
+    "separatorType": "Roller screen press",
+    "gantry": "No",
+    "solidFractionStorage" : "Concrete bunker",
+    "concreteBunkerSize" : 102,
+    "otherItems": "None of the above",
+    "applicantBusiness": "",
+    "project": "Building new calf housing",
+    "minimumFloorArea": "Yes",
+    "housedIndividually": "No",
+    "isolateCalves": "Yes",
+    "concreteFlooring": "Yes",
+    "enrichment": "Yes",
+    "structure": "A-frame building",
+    "structureEligibility": "Yes",
+    "yesStructureEligibility": "we have got proof and everthing for it",
+    "drainageSlope": "Yes",
+    "additionalItems": "Yes",
+    "roofSolarPV": "Yes",
+    "projectCost": 100000,
+    "potentialFunding": "40000.00",
+    "remainingCost": "60000.00",
+    "housing": "Yes",
+    "calfGroupSize": "2 to 3",
+    "moistureControl": [
+        "A drain or drainage channel inside the pen",
+        "Positioning drinking areas near drainage and away from bedding"
+    ],
+    "permanentSickPen": [
+        "A permanent sick pen",
+        "A separate air space"
+    ],
+    "environmentalImpact": [
+        "Solar PV panels on the roof of the building",
+        "Collect and store rainwater"
+    ],
+    "sustainableMaterials": [
+        "Low carbon concrete",
+        "Steel replacement products"
+    ],
+    "introducingInnovation": [
+        "Technology",
+        "Collaboration"
+    ],
+    "calvingSystem": "Year round",
+    "calvesNumber": 22,
+    "gridReference": "SE 123 456"
+}

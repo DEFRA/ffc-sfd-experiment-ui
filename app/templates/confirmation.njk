@@ -1,0 +1,25 @@
+{% extends '.layout.njk' %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+{% block beforeContent %}
+  {% if headerData %}
+    <div class="govuk-!-margin-top-3 govuk-grid-row">
+      <div class="govuk-grid-column-two-thirds govuk-!-text-align-left">
+        <p class="govuk-heading-l govuk-grid-column-one-half govuk-!-margin-bottom-2 govuk-!-padding-left-0">{{headerData.chosenFarm}}</p>
+        <p class="govuk-grid-column-one-half govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">SBI: {{headerData.sbi}}</p>
+      </div>
+      
+      <div class="govuk-!-text-align-right govuk-grid-column-one-third">
+        <p class="govuk-heading-l govuk-!-margin-bottom-2">{{headerData.firstName}} {{headerData.lastName}}</p>
+      </div>
+    </div>
+    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {{ govukPanel(reference) }}
+
+  <a href="{{portalUrl}}" class="govuk-link">Continue to portal</a>
+{% endblock %}

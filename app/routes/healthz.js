@@ -1,7 +1,7 @@
 module.exports = {
   method: 'GET',
   path: '/healthz',
-  handler: (request, h) => {
+  handler: (_request, h) => {
     return h.response('ok').code(200)
   }
 }
