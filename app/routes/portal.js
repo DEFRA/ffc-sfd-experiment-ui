@@ -2,7 +2,7 @@ const { urlPrefix } = require('../config/server')
 const viewTemplate = 'portal'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const { setYarValue, getYarValue } = require('../helpers/session')
-const { getGrants } = require('../messaging/application')
+const { getActions, getGrants } = require('../messaging/application')
 const { drawSectionGetRequests, drawSectionPostRequests } = require('../routes')
 const grantStatus = {
   available: {
@@ -27,15 +27,36 @@ const grantStatus = {
   }
 }
 
-const fakeGrants = {
-  grants: [
-    {
-      subTitle: 'Top of the crops',
-      status: 'available',
-      name: 'CSAM2: Multi-species winter cover crop',
-      id: 'a01WT00001tGtA2YAK'
-    }
-  ]
+const stringifyJSON = data => {
+  if (data === undefined) return undefined
+  else if (data === null) return 'null'
+  else if (data.constructor === String)
+    return '"' + data.replace(/"/g, '\\"') + '"'
+  else if (data.constructor === Number) return String(data)
+  else if (data.constructor === Boolean) return data ? 'true' : 'false'
+  else if (data.constructor === Array)
+    return (
+      '[ ' +
+      data
+        .reduce((acc, v) => {
+          if (v === undefined) return [...acc, 'null']
+          else return [...acc, stringifyJSON(v)]
+        }, [])
+        .join(', ') +
+      ' ]'
+    )
+  else if (data.constructor === Object)
+    return (
+      '{ ' +
+      Object.keys(data)
+        .reduce((acc, k) => {
+          if (data[k] === undefined) return acc
+          else return [...acc, stringifyJSON(k) + ':' + stringifyJSON(data[k])]
+        }, [])
+        .join(', ') +
+      ' }'
+    )
+  else return '{}'
 }
 
 module.exports = [
@@ -55,17 +76,16 @@ module.exports = [
       // const userData = { userID: farmerData.crn, sbi: chosenFarmObject.sbi }
       try {
         console.log('Sending session message .....')
-        const result = fakeGrants
+        const result = await getActions()
 
-        // const result = availableGrantsMock
-        console.log(result, '[THIS IS RESULT WE GOT BACK]')
-        request.yar.set('available-grants', result)
+        console.log(result, '[Available actions]')
+        request.yar.set('available-actions', result)
       } catch (error) {
         console.log(error)
         return h.view('500').takeover()
       }
-      const availableGrants = getYarValue(request, 'available-grants').grants
-      // setYarValue(request, 'available-grants', availableGrants);
+      const availableGrants = getYarValue(request, 'available-actions')
+      // setYarValue(request, 'available-actions', availableGrants);
       // Format the grant status to be displayed properly
       availableGrants.forEach(grant => {
         grant.tagDisplay = grantStatus[grant.status]
@@ -101,7 +121,7 @@ module.exports = [
           grantID
         )
         console.log(
-          questionBankData.themes[0].questions,
+          stringifyJSON(questionBankData.themes[0].questions),
           '[QUESTIONS WE GOT BACK]'
         )
       } catch (error) {

@@ -7,9 +7,13 @@ const inert = require('@hapi/inert')
 const config = require('./config/server')
 const crumb = require('@hapi/crumb')
 const Uuid = require('uuid')
-const { sendMonitoringEvent } = require('./services/protective-monitoring-service')
+const {
+  sendMonitoringEvent
+} = require('./services/protective-monitoring-service')
 const cacheConfig = require('./config/cache')
-const catbox = cacheConfig.useRedis ? require('@hapi/catbox-redis') : require('@hapi/catbox-memory')
+const catbox = cacheConfig.useRedis
+  ? require('@hapi/catbox-redis')
+  : require('@hapi/catbox-memory')
 const authConfig = require('./config/auth')
 
 require('dotenv').config()
@@ -17,13 +21,15 @@ require('dotenv').config()
 async function createServer () {
   const server = Hapi.server({
     port: process.env.PORT,
-    cache: [{
-      name: 'session',
-      provider: {
-        constructor: catbox,
-        options: cacheConfig.catboxOptions
+    cache: [
+      {
+        name: 'session',
+        provider: {
+          constructor: catbox,
+          options: cacheConfig.catboxOptions
+        }
       }
-    }]
+    ]
   })
 
   if (authConfig.enabled) {
@@ -104,8 +110,8 @@ async function createServer () {
           isSecure: config.cookieOptions.isSecure
         }
       }
-    }]
-  )
+    }
+  ])
 
   const routes = [].concat(
     require('./routes/healthy'),
@@ -147,14 +153,14 @@ async function createServer () {
       pageTitle: 'FFC Grants Service',
       googleTagManagerKey: config.googleTagManagerKey,
       analyticsTagKey: config.analyticsTagKey
-
     }
   })
 
   return server
 
   function getSecurityPolicy () {
-    return "default-src 'self';" +
+    return (
+      "default-src 'self';" +
       "object-src 'none';" +
       "script-src 'self' www.google-analytics.com *.googletagmanager.com ajax.googleapis.com *.googletagmanager.com/gtm.js 'unsafe-inline' 'unsafe-eval' 'unsafe-hashes';" +
       "form-action 'self';" +
@@ -162,6 +168,7 @@ async function createServer () {
       "connect-src 'self' *.google-analytics.com *.analytics.google.com *.googletagmanager.com;" +
       "style-src 'self' 'unsafe-inline' tagmanager.google.com *.googleapis.com;" +
       "img-src 'self' *.google-analytics.com *.googletagmanager.com;"
+    )
   }
 }
 module.exports = createServer

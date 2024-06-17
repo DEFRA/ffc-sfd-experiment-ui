@@ -12,6 +12,21 @@ const {
   grantResponseQueueAddressPega
 } = require('../../config/messaging.js')
 
+async function getActions () {
+  return Promise.resolve([
+    {
+      subTitle: 'Top of the crops',
+      status: 'available',
+      name: 'CSAM2: Multi-species winter cover crop',
+      id: 'a01WT00001tGtA2YAK'
+    }
+  ])
+}
+
+async function getLandParcels () {}
+
+async function getAvailableArea () {}
+
 async function getGrants (sessionId, msgQueueSuffix, userData, grantID = null) {
   console.log(
     '[MADE IT TO MESSAGE]',
@@ -79,5 +94,8 @@ const getGrantReqResQueueAddress = msgQueueSuffix => {
 
 module.exports = {
   getGrants,
-  grantSubmitted
+  grantSubmitted,
+  getActions,
+  getLandParcels,
+  getAvailableArea
 }
