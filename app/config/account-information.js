@@ -1,21 +1,21 @@
 const accountInformation = {
-  '1789678903': {
+  1789678903: {
     crn: '1789678903',
     firstName: 'Farmer',
-    lastName: 'Giles',
-    email: 'Giles@testnull.com',
+    lastName: 'Sarah',
+    email: 'Sarah@testnull.com',
     landlinePhone: '056712678',
     mobilePhone: '012345678',
     businesSize: 'Micro',
     numberOfEmployees: 5,
     areasManaged: {
-      agricultural:  '20 Hectares',
+      agricultural: '20 Hectares',
       horticultural: '5 Hectares',
       woodland: '5 Hectares'
     },
-    registeredOwner: 'Farmer Giles',
-    gender: 'Male',
-    address: 'Imagery Farm, Suffolk, SF1 23ED',
+    registeredOwner: 'Farmer Sarah',
+    gender: 'Female',
+    address: 'Imaginary Farm Co, Suffolk, SF1 23ED',
     businessType: 'Farm',
     activity: 'Arable Farm',
     companies: [
@@ -31,7 +31,7 @@ const accountInformation = {
       }
     ]
   },
-  '3567890743': {
+  3567890743: {
     crn: '3567890743',
     firstName: 'Farmer',
     lastName: 'Gill',
@@ -41,7 +41,7 @@ const accountInformation = {
     businesSize: 'Micro',
     numberOfEmployees: 7,
     areasManaged: {
-      agricultural:  '25 Hectares',
+      agricultural: '25 Hectares',
       horticultural: '10 Hectares',
       woodland: '5 Hectares'
     },
@@ -58,7 +58,7 @@ const accountInformation = {
       }
     ]
   },
-  '7892345678': {
+  7892345678: {
     crn: '7892345678',
     firstName: 'Farmer',
     lastName: 'Tom',
@@ -68,7 +68,7 @@ const accountInformation = {
     businesSize: 'Micro',
     numberOfEmployees: 6,
     areasManaged: {
-      agricultural:  '15 Hectares',
+      agricultural: '15 Hectares',
       horticultural: '5 Hectares',
       woodland: '10 Hectares'
     },
