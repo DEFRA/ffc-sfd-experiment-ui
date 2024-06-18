@@ -65,7 +65,7 @@ const questionBank = {
     subScheme: {
       subSchemeId: 'AHG74',
       subSchemeDisplayName: 'Animal Housing Grant'
-    },
+    }
   },
   themes: [
     {
@@ -77,11 +77,12 @@ const questionBank = {
           journeyStart: true,
           title: 'Is your project in England?',
           backUrl: 'portal',
-          nextUrl: 'livestock',
+          nextUrl: 'choose-parcel',
           classes: 'govuk-radios--inline govuk-fieldset__legend--l',
           url: 'project-location',
           ineligibleContent: {
-            messageContent: 'This grant is only for projects registered in England.',
+            messageContent:
+              'This grant is only for projects registered in England.'
           },
           type: 'boolean',
           validate: [
@@ -155,7 +156,7 @@ const questionBank = {
             },
             {
               type: 'REGEX',
-              regex: "WHOLE_NUMBER_REGEX",
+              regex: 'WHOLE_NUMBER_REGEX',
               error: 'Enter a whole number'
             }
           ],
@@ -187,13 +188,13 @@ const questionBank = {
             },
             {
               type: 'REGEX',
-              regex: "WHOLE_NUMBER_REGEX",
+              regex: 'WHOLE_NUMBER_REGEX',
               error: 'Enter a number'
             }
           ],
           answers: [],
           yarKey: 'projectAmount'
-        },       
+        },
         {
           key: 'check-details',
           title: 'Check application details and submit',
@@ -248,7 +249,7 @@ const equipmentGrant = {
     subScheme: {
       subSchemeId: 'Fhs74',
       subSchemeDisplayName: 'Farming equipment and technology fund'
-    },
+    }
   },
   themes: [
     {
@@ -264,7 +265,8 @@ const equipmentGrant = {
           classes: 'govuk-radios--inline govuk-fieldset__legend--l',
           url: 'project-location',
           ineligibleContent: {
-            messageContent: 'This grant is only for projects registered in England.'
+            messageContent:
+              'This grant is only for projects registered in England.'
           },
           type: 'boolean',
           validate: [
@@ -295,7 +297,7 @@ const equipmentGrant = {
           type: 'item-list',
           grantInfo: {
             minGrant: 2000,
-            maxGrant: 25000,
+            maxGrant: 25000
           },
           sidebar: [
             'Note that the minimum grant value is {{_minGrant_}} and the maximum grant value is {{_maxGrant_}}. You can apply for a total of £50,000 over multiple rounds.'
@@ -305,15 +307,17 @@ const equipmentGrant = {
               equipmentId: 2001,
               equipmentName: 'Electronic tray filling machine',
               shortName: 'FETF1',
-              description: 'Electronic tray filling machine. To be eligible machine must be able to fill polystyrene trays, plug trays, shuttle trays and pots in trays. Machine must be able to fill 500 trays per hour. Machine must be capable of varying filling density to achieve optimal compaction for different seeding requirements. Must be capable of handling 600mm x 400mm trays. While the machine can be used as a standalone tray filler, to allow for future expansion the tray filler must be capable of being used with a conveyor belt system to allow incorporation into a fully automated seeding line or transplanting line.',
+              description:
+                'Electronic tray filling machine. To be eligible machine must be able to fill polystyrene trays, plug trays, shuttle trays and pots in trays. Machine must be able to fill 500 trays per hour. Machine must be capable of varying filling density to achieve optimal compaction for different seeding requirements. Must be capable of handling 600mm x 400mm trays. While the machine can be used as a standalone tray filler, to allow for future expansion the tray filler must be capable of being used with a conveyor belt system to allow incorporation into a fully automated seeding line or transplanting line.',
               referenceValue: '5938',
-              score: '60',
+              score: '60'
             },
             {
               equipmentId: 2003,
               equipmentName: 'Five row seeder',
               shortName: 'FETF3',
-              description: 'Manual push seeder which can sow a minimum of 5 rows. It must have soil openers at the front and roller(s) at the rear, and changeable seed wheels/rollers for different crops and spacing. Maximum 2 per application.',
+              description:
+                'Manual push seeder which can sow a minimum of 5 rows. It must have soil openers at the front and roller(s) at the rear, and changeable seed wheels/rollers for different crops and spacing. Maximum 2 per application.',
               referenceValue: '16079',
               score: '46',
               quantityLimit: 2
@@ -322,7 +326,7 @@ const equipmentGrant = {
           validate: [
             {
               type: 'REGEX',
-              regex: "WHOLE_NUMBER_REGEX",
+              regex: 'WHOLE_NUMBER_REGEX',
               error: 'Enter a whole number for the item quantities'
             },
             {
@@ -355,7 +359,7 @@ const equipmentGrant = {
             },
             {
               type: 'REGEX',
-              regex: "POSTCODE_REGEX",
+              regex: 'POSTCODE_REGEX',
               error: 'Enter a project postcode, like AA1 1AA'
             }
           ],
@@ -373,7 +377,7 @@ const equipmentGrant = {
               title: 'Equipment selections',
               type: 'items',
               changeUrl: 'select-equipment',
-              yarKey: 'equipmentList',
+              yarKey: 'equipmentList'
             },
             {
               title: 'Equipment location',
@@ -409,7 +413,14 @@ questionBank.themes.forEach(({ questions }) => {
 })
 const ALL_URLS = []
 ALL_QUESTIONS.forEach(item => ALL_URLS.push(item.url))
-const YAR_KEYS = ['itemsTotalValue', 'remainingCost', 'calculatedGrant', 'separatorOptions', 'concreteBunkerSize', 'cappedAmount']
+const YAR_KEYS = [
+  'itemsTotalValue',
+  'remainingCost',
+  'calculatedGrant',
+  'separatorOptions',
+  'concreteBunkerSize',
+  'cappedAmount'
+]
 ALL_QUESTIONS.forEach(item => YAR_KEYS.push(item.yarKey))
 module.exports = {
   questionBank,

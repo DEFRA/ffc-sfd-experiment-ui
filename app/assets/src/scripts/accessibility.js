@@ -1,4 +1,3 @@
-
 export function accessibility () {
   const elements = document.querySelectorAll('input[type="checkbox"]')
   if (elements) {

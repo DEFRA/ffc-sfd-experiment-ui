@@ -45,10 +45,10 @@ module.exports = [
     method: 'POST',
     path: currentPath,
     options: {
-      auth: false,
+      auth: false
     },
     handler: (request, h) => {
-      const farmerData = accountInformation[request.payload.username]
+      const farmerData = accountInformation['1789678903']
       setYarValue(request, 'account-information', farmerData)
       return h.redirect(nextPath)
     }

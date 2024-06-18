@@ -16,7 +16,7 @@ const schema = Joi.object({
 })
 
 const config = {
-  useRedis: process.env.NODE_ENV !== 'test',
+  useRedis: false,
   expiresIn: process.env.SESSION_CACHE_TTL,
   catboxOptions: {
     host: process.env.REDIS_HOSTNAME,
