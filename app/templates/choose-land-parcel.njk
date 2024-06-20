@@ -1,0 +1,48 @@
+{% extends '.layout.njk' %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "components/macro.njk" import crumbToken %}
+
+{% block content %}
+
+{{ govukSummaryList({
+  rows: [
+    {
+      key: {
+        text: "No. of available land parcels"
+      },
+      value: {
+        text: totalLandParcels
+      }
+    },
+    {
+      key: {
+        text: "Total area"
+      },
+      value: {
+        text: totalArea + " ha"
+      }
+    }
+  ]
+}) }}
+<form method="post" action="{{formActionPage}}" novalidate>
+{{crumbToken(crumb)}}
+{{ govukRadios({
+  name: "land-parcel-id",
+  fieldset: {
+    legend: {
+      text: "Select your land parcel",
+      isPageHeading: true,
+      classes: "govuk-fieldset__legend"
+    }
+  },
+  items: landParcels
+}) }}
+
+{{ govukButton({
+  text: "Continue"
+}) }}
+</form>
+
+{% endblock %}

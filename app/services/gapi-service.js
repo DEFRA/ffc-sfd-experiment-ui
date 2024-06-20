@@ -38,9 +38,9 @@ const sendGAEvent = async (request, metrics) => {
     host_name
   }
   try {
-    const event = { name, params: dmetrics }
-    await request.ga.view(request, [event])
-    console.log('Metrics Sending analytics %s for %s', name, request.route.path)
+    // const event = { name, params: dmetrics }
+    // await request.ga.view(request, [event])
+    // console.log('Metrics Sending analytics %s for %s', name, request.route.path)
   } catch (err) {
     appInsights.logException(request, { error: err })
   }

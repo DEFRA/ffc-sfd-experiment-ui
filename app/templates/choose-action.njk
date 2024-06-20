@@ -1,0 +1,17 @@
+{% extends '.layout.njk' %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "components/macro.njk" import crumbToken %}
+
+{% block content %}
+
+<p>Your available actions for the selected land parcel</p>
+<form method="post" action="{{formActionPage}}" novalidate>
+{{crumbToken(crumb)}}
+
+{{ govukButton({
+  text: "Continue"
+}) }}
+</form>
+
+{% endblock %}

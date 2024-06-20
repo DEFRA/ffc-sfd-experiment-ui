@@ -26,6 +26,7 @@ const grantStatus = {
     classes: 'govuk-tag--red'
   }
 }
+const { questionBank } = require('../config/question-bank')
 
 module.exports = [
   {
@@ -82,12 +83,13 @@ module.exports = [
       // GET the requested grant questions
       try {
         console.log('Sending session message .....')
-        questionBankData = await getGrants(
-          request.yar.id,
-          getYarValue(request, 'msgQueueSuffix'),
-          null,
-          grantID
-        )
+        questionBankData = questionBank
+        // questionBankData = await getGrants(
+        //   request.yar.id,
+        //   getYarValue(request, 'msgQueueSuffix'),
+        //   null,
+        //   grantID
+        // )
         console.log(
           JSON.stringify(questionBankData.themes[0].questions),
           '[QUESTIONS WE GOT BACK]'

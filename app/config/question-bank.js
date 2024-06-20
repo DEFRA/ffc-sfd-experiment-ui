@@ -60,7 +60,7 @@ const {
  */
 const questionBank = {
   grantScheme: {
-    grantID: 'AHG001',
+    grantID: 'a01WT00001tGtA2YAK',
     schemeName: 'AHG',
     subScheme: {
       subSchemeId: 'AHG74',
@@ -73,77 +73,75 @@ const questionBank = {
       title: 'Productivity',
       questions: [
         {
-          key: 'project-location',
+          key: 'maps-correct',
           journeyStart: true,
-          title: 'Is your project in England?',
+          title: 'Do your digital maps show the correct land details?',
           backUrl: 'portal',
-          nextUrl: 'choose-parcel',
+          nextUrl: 'management-control',
           classes: 'govuk-radios--inline govuk-fieldset__legend--l',
-          url: 'project-location',
+          url: 'land-details-confirmation',
           ineligibleContent: {
             messageContent:
-              'This grant is only for projects registered in England.'
+              'Please update your land details via the RLE1 form.'
           },
           type: 'boolean',
           validate: [
             {
               type: 'NOT_EMPTY',
-              error: 'Select yes if the project is in England'
+              error: 'Select yes if your maps show the correct land details'
             }
           ],
           answers: [
             {
-              key: 'project-location-A1',
+              key: 'maps-correct-A1',
               value: 'Yes'
             },
             {
-              key: 'project-location-A2',
+              key: 'maps-correct-A2',
               value: 'No',
               notEligible: true
             }
           ],
-          yarKey: 'projectLocation'
+          yarKey: 'mapsCorrect'
         },
         {
-          key: 'livestock-type',
-          title: 'What livestock do you have?',
-          backUrl: 'project-location',
-          nextUrl: 'livestock-quantity',
-          url: 'livestock',
-          type: 'single-answer',
+          key: 'management-control',
+          title: 'Management control of land',
+          backUrl: 'land-details-confirmation',
+          nextUrl: 'historic-features',
+          url: 'management-control',
+          type: 'boolean',
+          ineligibleContent: {
+            messageContent:
+              'You are not eligible if you do not have management control of the land.'
+          },
           validate: [
             {
               type: 'NOT_EMPTY',
-              error: 'Select the type of livestock you have'
+              error: 'Select yes if you have management control of your land'
             }
           ],
           answers: [
             {
-              key: 'livestock-type-A1',
-              value: 'Beef cattle'
+              key: 'management-control-A1',
+              value: 'Yes'
             },
             {
-              key: 'livestock-type-A2',
-              value: 'Dairy cattle'
-            },
-            {
-              key: 'livestock-type-A3',
-              value: 'Sheep'
-            },
-            {
-              key: 'livestock-type-A3',
-              value: 'Pigs'
+              key: 'management-control-A2',
+              value: 'No',
+              notEligible: true
             }
           ],
-          yarKey: 'livestockType'
+          yarKey: 'managementControl'
         },
         {
-          key: 'livestock-quantity',
+          key: 'hefer-confirmation',
+          title: 'Land with historic or archaeological features',
           classes: 'govuk-input--width-10',
-          url: 'livestock-quantity',
-          backUrl: 'livestock',
-          nextUrl: 'project-amount',
-          type: 'input',
+          url: 'historic-features',
+          backUrl: 'management-control',
+          nextUrl: 'eligibility-confirmation',
+          type: 'boolean',
           label: {
             text: 'How many {{_livestockType_}} do you have?',
             classes: 'govuk-label--l',
@@ -152,90 +150,34 @@ const questionBank = {
           validate: [
             {
               type: 'NOT_EMPTY',
-              error: 'Enter the total number of livestock'
-            },
-            {
-              type: 'REGEX',
-              regex: 'WHOLE_NUMBER_REGEX',
-              error: 'Enter a whole number'
+              error: 'Select yes to confirm you will get a HEFER if needed'
             }
           ],
-          answers: [],
-          yarKey: 'livestockQuantity'
-        },
-        {
-          key: 'project-amount',
-          classes: 'govuk-input--width-10',
-          url: 'project-amount',
-          backUrl: 'livestock-quantity',
-          nextUrl: 'check-details',
-          type: 'input',
-          hint: {
-            html: `<p>Please enter the amount for your project.<p/>`
-          },
-          label: {
-            text: 'What is the total grant amount you are applying for?',
-            classes: 'govuk-label--l',
-            isPageHeading: true
-          },
-          prefix: {
-            text: '£'
-          },
-          validate: [
+          answers: [
             {
-              type: 'NOT_EMPTY',
-              error: 'Enter the project amount'
+              key: 'hefer-confirmation-A1',
+              value: 'Yes'
             },
             {
-              type: 'REGEX',
-              regex: 'WHOLE_NUMBER_REGEX',
-              error: 'Enter a number'
+              key: 'hefer-confirmation-A2',
+              value: 'No',
+              notEligible: true
             }
           ],
-          answers: [],
-          yarKey: 'projectAmount'
+          yarKey: 'heferConfirmation'
         },
         {
-          key: 'check-details',
-          title: 'Check application details and submit',
-          url: 'check-details',
-          backUrl: 'project-amount',
+          key: 'eligibility-confirmation',
+          title: 'You are eligible',
+          url: 'eligibility-confirmation',
+          backUrl: 'hefer-confirmation',
           nextUrl: 'confirmation',
           answers: [],
-          summarySections: [
-            {
-              title: 'Answers',
-              type: 'simple',
-              rows: [
-                {
-                  title: 'What livestock do you have?',
-                  yarKey: 'livestockType',
-                  changeUrl: 'livestock'
-                },
-                {
-                  title: 'How many {{_livestockType_}} do you have?',
-                  yarKey: 'livestockQuantity',
-                  changeUrl: 'livestock-quantity'
-                },
-                {
-                  title: 'What is the total grant amount you are applying for?',
-                  yarKey: 'projectAmount',
-                  changeUrl: 'project-amount',
-                  format: 'currency'
-                }
-              ]
-            }
-          ],
+          showSidebar: true,
           sidebar: [
-            'Note that the minimum grant value is £2,000 and the maximum grant value is £25,000.',
-            'You can apply for a total of £50,000 over multiple rounds'
-          ]
-        },
-        {
-          key: 'reference-number',
-          title: 'Details submitted',
-          url: 'confirmation',
-          answers: []
+            'You are eligible to apply'
+          ],
+          secButtonHref: '/select-land-parcel'
         }
       ]
     }
@@ -423,7 +365,7 @@ const YAR_KEYS = [
 ]
 ALL_QUESTIONS.forEach(item => YAR_KEYS.push(item.yarKey))
 module.exports = {
-  questionBank,
+  questionBank,  
   equipmentGrant,
   ALL_QUESTIONS,
   YAR_KEYS,

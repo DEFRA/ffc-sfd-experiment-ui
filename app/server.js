@@ -123,7 +123,9 @@ async function createServer () {
     require('./routes/accessibility'),
     require('./routes/session-timeout'),
     require('./routes/choose-organisation'),
-    require('./routes/portal')
+    require('./routes/portal'),
+    require('./routes/choose-land-parcel'),
+    require('./routes/choose-action')
   )
   server.route(routes)
 
