@@ -122,7 +122,7 @@ const showBackToEvidenceSummaryButton = (key, request) => {
 }
 
 const getModel = (data, question, request, conditionalHtml = '') => {
-  let { type, backUrl, key, sidebar, title, hint, score, label, itemList } = question
+  let { type, backUrl, key, sidebar, title, preQuestionContent, hint, score, label, itemList } = question
   const hasScore = !!getYarValue(request, 'current-score')
 
   title = title ?? label?.text
@@ -175,6 +175,7 @@ const getModel = (data, question, request, conditionalHtml = '') => {
     type,
     key,
     title,
+    preQuestionContent,
     hint,
     backUrl: updatedBackUrl,
     items: getOptions(data, question, conditionalHtml, request),
