@@ -1,13 +1,49 @@
 {% extends '.layout.njk' %}
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
 {% from "components/macro.njk" import crumbToken %}
 
 {% block content %}
 
-<p>Your available actions for the selected land parcel</p>
 <form method="post" action="{{formActionPage}}" novalidate>
 {{crumbToken(crumb)}}
+
+{% set tableRows = [] %}
+{% for action in actions %}
+
+{#
+<div class="govuk-checkboxes__item govuk-checkboxes--small moj-multi-select__checkbox">
+          <input type="checkbox" class="govuk-checkboxes__input" id="mountain-aconcagua">
+          <label class="govuk-label govuk-checkboxes__label" for="mountain-aconcagua"><span class="govuk-visually-hidden">Select Aconcagua</span></label>
+        </div>
+#}
+
+    {% set checkboxHtml = ["<div class=\"govuk-checkboxes__item\"><input class=\"govuk-checkboxes__input\" name=\"selectedActionCodes\" type=\"checkbox\" value=\"", action.code, "\"/><label class=\"govuk-label govuk-checkboxes__label\"><span class=\"govuk-visually-hidden\">Select Aconcagua</span></label></div>"] | join %}
+    {% set inputHtml = ['<input class="govuk-input govuk-!-width-one-half" name="quantity', action.code, '" type="text" >'] | join %}
+    {% set tableRows = (tableRows.push([{ html: checkboxHtml }, { text: action.code }, { text: "8.1" }, {html: inputHtml }]), tableRows) %}
+{% endfor %}
+
+{{ govukTable({
+  caption: "Your available actions for the selected land parcel",
+  captionClasses: "govuk-table__caption--m",
+  firstCellIsHeader: true,
+  head: [
+    {
+      text: "Select action"
+    },
+    {
+      text: "Action"
+    },
+    {
+      text: "Available area"
+    },
+    {
+      text: "Quantity (ha)"
+    }
+  ],
+  rows: tableRows
+}) }}
+
 
 {{ govukButton({
   text: "Continue"

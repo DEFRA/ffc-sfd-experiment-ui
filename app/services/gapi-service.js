@@ -44,7 +44,7 @@ const sendGAEvent = async (request, metrics) => {
   } catch (err) {
     appInsights.logException(request, { error: err })
   }
-  console.log('[ %s MATRIC SENT ]', name.toUpperCase())
+  // console.log('[ %s MATRIC SENT ]', name.toUpperCase())
 }
 
 const getTimeofJourneySinceStart = (request) => {

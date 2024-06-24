@@ -2,9 +2,12 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-message/macro.njk" import govukErrorMessage %}
 {% from "components/macro.njk" import crumbToken %}
 
 {% block content %}
+
+<h1 class="govuk-heading-xl">Select land for your actions</h1>
 
 {{ govukSummaryList({
   rows: [
@@ -26,17 +29,15 @@
     }
   ]
 }) }}
-<form method="post" action="{{formActionPage}}" novalidate>
+<form method="post" novalidate>
 {{crumbToken(crumb)}}
+{% if errMessage %}
+    {{ govukErrorMessage({
+      text: errMessage
+    }) }}
+{% endif %}
 {{ govukRadios({
-  name: "land-parcel-id",
-  fieldset: {
-    legend: {
-      text: "Select your land parcel",
-      isPageHeading: true,
-      classes: "govuk-fieldset__legend"
-    }
-  },
+  name: "landParcelId",
   items: landParcels
 }) }}
 

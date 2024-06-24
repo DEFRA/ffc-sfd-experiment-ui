@@ -125,7 +125,8 @@ async function createServer () {
     require('./routes/choose-organisation'),
     require('./routes/portal'),
     require('./routes/choose-land-parcel'),
-    require('./routes/choose-action')
+    require('./routes/choose-action'),
+    require('./routes/payment')
   )
   server.route(routes)
 
