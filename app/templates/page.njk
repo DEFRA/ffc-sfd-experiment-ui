@@ -23,7 +23,7 @@
         <p class="govuk-heading-l govuk-grid-column-one-half govuk-!-margin-bottom-2 govuk-!-padding-left-0">{{headerData.chosenFarm}}</p>
         <p class="govuk-grid-column-one-half govuk-caption-m govuk-!-margin-top-2 govuk-!-margin-bottom-2">SBI: {{headerData.sbi}}</p>
       </div>
-      
+
       <div class="govuk-!-text-align-right govuk-grid-column-one-third">
         <p class="govuk-heading-l govuk-!-margin-bottom-2">{{headerData.firstName}} {{headerData.lastName}}</p>
       </div>
@@ -50,8 +50,15 @@
       <form method="POST" action="{{ url }}" novalidate="novalidate">
         {{ crumbToken(crumb) }}
 
+        {% if preQuestionContent[0] %}
+          <h1 class="govuk-heading-l govuk-!-margin-bottom-3">{{ preQuestionContent[0] }}</h1>
+        {% endif %}
+        {% if preQuestionContent[1] %}
+          <pre class='govuk-body'>{{ preQuestionContent[1] | safe }}</pre>
+        {% endif %}
+
         {% if type ==='single-answer' or type ==='boolean' %}
-          {{ govukRadios(items) }}
+        {{ govukRadios(items) }}
         {% endif %}
 
         {% if type ==='multi-answer' %}
@@ -67,12 +74,12 @@
         {% endif %}
 
         {% if type === 'multi-input' %}
+
+        <p>{{ preQuestionContent }}</p>
           <h1 class="govuk-heading-l govuk-!-margin-bottom-3">{{ title }}</h1>
           {% if hint.html %}
             <span class="govuk-hint">{{ hint.html | safe }}</span>
           {% endif %}
-
-
 
           {% for item in items %}
             {% if item.type ==='sub-heading' %}

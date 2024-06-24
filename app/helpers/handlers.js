@@ -76,7 +76,7 @@ const titleInterpolation = (title, question, request) => {
   const changedTitle = interpolateString(title, request)
   return {
     ...question,
-    title: changedTitle
+    title: changedTitle,
   }
 }
 
