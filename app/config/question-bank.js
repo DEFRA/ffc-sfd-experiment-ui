@@ -284,13 +284,13 @@ const questionBank = {
           title: 'You are eligible',
           url: 'eligibility-confirmation',
           backUrl: 'public-bodies',
-          nextUrl: 'select-land-parcel',
+          nextUrl: '/tech-evaluation/choose-land-parcel',
           answers: [],
           showSidebar: true,
           sidebar: [
             'You are eligible to apply'
           ],
-          secButtonHref: '/select-land-parcel'
+          secButtonHref: '/choose-land-parcel'
         }
       ]
     }
