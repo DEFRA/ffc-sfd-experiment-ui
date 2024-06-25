@@ -1,3 +1,0 @@
-{{- include "ffc-helm-library.azure-ingress" (list . "ffc-sfd-experiment-ui.ingress") -}}
-{{- define "ffc-sfd-experiment-ui-apply.ingress" -}}
-{{- end -}}
