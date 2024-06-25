@@ -2,7 +2,7 @@ const createMessage = (body, type, options) => {
   return {
     body,
     type,
-    source: 'ffc-future-grants-tech-evaluation',
+    source: 'ffc-sfd-experiment-ui',
     ...options
   }
 }
