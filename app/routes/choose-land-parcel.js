@@ -4,10 +4,10 @@ const viewTemplate = 'choose-land-parcel'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const nextPath = `${urlPrefix}/choose-action`
 const { setYarValue, getYarValue } = require('../helpers/session')
-const LAND_PARCEL_YAR_KEY = 'selectedLandParcelId'
+const LAND_PARCEL_YAR_KEY = 'selectedLandParcel'
 const DF_SBI = 200599768
 
-const createModel = (rawLandParcels, selectedLandParcelId, errMessage) => {
+const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
   return {
     totalLandParcels: rawLandParcels.length,
     totalArea: rawLandParcels
@@ -17,8 +17,8 @@ const createModel = (rawLandParcels, selectedLandParcelId, errMessage) => {
     landParcels: rawLandParcels.map((lp) => {
       return {
         text: `${lp.osSheetId} ${lp.parcelId} (${parseFloat(lp.area).toFixed(4)} ha)`,
-        value: lp.parcelId,
-        checked: parseInt(lp.parcelId,10) === selectedLandParcelId
+        value: JSON.stringify({ parcelId: lp.parcelId, area: lp.area }),
+        checked: lp.parcelId === selectedLandParcel?.parcelId ?? 0
       }
     }),
     errMessage
@@ -45,8 +45,8 @@ module.exports = [
     },
     handler: async (request, h) => {
       const rawLandParcels = await getLandParcels(DF_SBI)
-      const selectedLandParcelId = getYarValue(request, LAND_PARCEL_YAR_KEY)
-      return h.view(viewTemplate, createModel(rawLandParcels, selectedLandParcelId))
+      const selectedLandParcel = getYarValue(request, LAND_PARCEL_YAR_KEY)
+      return h.view(viewTemplate, createModel(rawLandParcels, selectedLandParcel))
     }
   },
   {
@@ -56,7 +56,7 @@ module.exports = [
       auth: false,
       validate: {
         payload: Joi.object({
-          landParcelId: Joi.number().integer().required()
+          selectedLandParcel: Joi.required()
         }),
         failAction: async (request, h, err) => {
           const landParcels = await getLandParcels(DF_SBI)
@@ -65,7 +65,7 @@ module.exports = [
       }
     },
     handler: async (request, h) => {
-      setYarValue(request, LAND_PARCEL_YAR_KEY, request.payload.landParcelId)
+      setYarValue(request, LAND_PARCEL_YAR_KEY, JSON.parse(request.payload.selectedLandParcel))
       return h.redirect(nextPath)
     }
   }

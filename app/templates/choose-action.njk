@@ -10,17 +10,9 @@
 
 {% set tableRows = [] %}
 {% for action in actions %}
-
-{#
-<div class="govuk-checkboxes__item govuk-checkboxes--small moj-multi-select__checkbox">
-          <input type="checkbox" class="govuk-checkboxes__input" id="mountain-aconcagua">
-          <label class="govuk-label govuk-checkboxes__label" for="mountain-aconcagua"><span class="govuk-visually-hidden">Select Aconcagua</span></label>
-        </div>
-#}
-
-    {% set checkboxHtml = ["<div class=\"govuk-checkboxes__item\"><input class=\"govuk-checkboxes__input\" name=\"selectedActionCodes\" type=\"checkbox\" value=\"", action.code, "\"/><label class=\"govuk-label govuk-checkboxes__label\"><span class=\"govuk-visually-hidden\">Select Aconcagua</span></label></div>"] | join %}
-    {% set inputHtml = ['<input class="govuk-input govuk-!-width-one-half" name="quantity', action.code, '" type="text" >'] | join %}
-    {% set tableRows = (tableRows.push([{ html: checkboxHtml }, { text: action.code }, { text: "8.1" }, {html: inputHtml }]), tableRows) %}
+    {% set checkboxHtml = ["<div class=\"govuk-checkboxes__item\"><input class=\"govuk-checkboxes__input\" name=\"selectedActionCodes\" type=\"checkbox\" value=\"", action.code, "\" checked=\"", action.code in selectedActionCodes, "\"/><label class=\"govuk-label govuk-checkboxes__label\"><span class=\"govuk-visually-hidden\">Select ", action.code, "</span></label></div>"] | join %}
+    {% set inputHtml = ['<input class="govuk-input govuk-!-width-one-half" name="quantity', action.code, '" type="text" value="', selectedActionQuantities[action.code], '" />'] | join %}
+    {% set tableRows = (tableRows.push([{ html: checkboxHtml }, { text: action.code }, { text: action.availableArea }, {html: inputHtml }]), tableRows) %}
 {% endfor %}
 
 {{ govukTable({

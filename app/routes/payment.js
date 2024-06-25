@@ -4,12 +4,11 @@ const viewTemplate = 'payment'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const ACTION_YAR_KEY = 'selectedActions'
 const RAW_ACTION_YAR_KEY = 'rawActions'
-const ACTION_QUANTITY_YAR_KEY = 'quantity'
 const DF_SBI = 200599768
 
 const createModel = (paymentAmount, action, actionQuantity) => {
   return {
-    paymentAmount,
+    paymentAmount: paymentAmount.toFixed(2),
     action,
     actionQuantity,
     sbi: DF_SBI
@@ -38,7 +37,7 @@ module.exports = [
       const rawActions = getYarValue(request, RAW_ACTION_YAR_KEY) ?? []
       const action = rawActions[0].code + ':' + rawActions[0].description
       const paymentAmount = await getPaymentAmount(selectedActions)
-      const actionQuantity = getYarValue(request, ACTION_QUANTITY_YAR_KEY)
+      const actionQuantity = selectedActions[0].quantity
       return h.view(viewTemplate, createModel(paymentAmount, action, actionQuantity))
     }
   }
