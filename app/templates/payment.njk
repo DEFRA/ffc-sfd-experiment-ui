@@ -1,6 +1,39 @@
 {% extends '.layout.njk' %}
 
 {% block content %}
-
-<p>{{ paymentAmount }}</p>
+<h1 class="govuk-heading-xl">Payment calculation</h1>
+<table class="govuk-table">
+    <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+        <th class="govuk-table__header" style="font-weight: normal !important; width: 40%;">
+            Single business identifier (SBI)
+        </th>
+        <td class="govuk-table__cell" style="width: 30%;">
+            {{ sbi }}
+        </td>
+        <td class="govuk-table__cell" style="width: 30%;">
+        </td>
+    </tr>
+    <tr class="govuk-table__row">
+        <th class="govuk-table__header" style="width: 40%;">
+            Parcel based actions
+        </th>
+        <td class="govuk-table__cell" style="width: 30%;">
+        </td>
+        <td class="govuk-table__cell" style="width: 30%;">
+        </td>
+    </tr>
+    <tr class="govuk-table__row">
+        <th class="govuk-table__header" style="font-weight: normal !important; width: 40%;">
+            {{ action }}
+        </th>
+        <td class="govuk-table__cell" style="width: 30%;">
+            {{ actionQuantity }} ha
+        </td>
+        <td class="govuk-table__cell" style="width: 30%;">
+            £{{ paymentAmount }}
+        </td>
+    </tr>
+    </tbody>
+</table>
 {% endblock %}

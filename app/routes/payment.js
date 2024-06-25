@@ -3,10 +3,16 @@ const { getYarValue } = require('../helpers/session')
 const viewTemplate = 'payment'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const ACTION_YAR_KEY = 'selectedActions'
+const RAW_ACTION_YAR_KEY = 'rawActions'
+const ACTION_QUANTITY_YAR_KEY = 'quantity'
+const DF_SBI = 200599768
 
-const createModel = (paymentAmount) => {
+const createModel = (paymentAmount, action, actionQuantity) => {
   return {
-    paymentAmount
+    paymentAmount,
+    action,
+    actionQuantity,
+    sbi: DF_SBI
   }
 }
 
@@ -29,8 +35,11 @@ module.exports = [
     },
     handler: async (request, h) => {
       const selectedActions = getYarValue(request, ACTION_YAR_KEY) ?? []
+      const rawActions = getYarValue(request, RAW_ACTION_YAR_KEY) ?? []
+      const action = rawActions[0].code + ':' + rawActions[0].description
       const paymentAmount = await getPaymentAmount(selectedActions)
-      return h.view(viewTemplate, createModel(paymentAmount))
+      const actionQuantity = getYarValue(request, ACTION_QUANTITY_YAR_KEY)
+      return h.view(viewTemplate, createModel(paymentAmount, action, actionQuantity))
     }
   }
 ]
