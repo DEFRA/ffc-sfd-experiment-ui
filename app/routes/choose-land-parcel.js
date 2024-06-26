@@ -5,7 +5,6 @@ const currentPath = `${urlPrefix}/${viewTemplate}`
 const nextPath = `${urlPrefix}/choose-action`
 const { setYarValue, getYarValue } = require('../helpers/session')
 const LAND_PARCEL_YAR_KEY = 'selectedLandParcel'
-const DF_SBI = 200599768
 
 const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
   return {
@@ -25,7 +24,7 @@ const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
   }
 }
 
-const getErrorMessage = (err) => {
+const getErrorMessage = () => {
   return 'Please select a land parcel'
 }
 
@@ -36,6 +35,10 @@ const getLandParcels = async (sbi) => {
   return JSON.parse(responseBody) ?? []
 }
 
+const getSBI = (request) => {
+  return getYarValue(request, 'chosen-organisation')
+}
+
 module.exports = [
   {
     method: 'GET',
@@ -44,7 +47,8 @@ module.exports = [
       auth: false
     },
     handler: async (request, h) => {
-      const rawLandParcels = await getLandParcels(DF_SBI)
+      const sbi = getSBI(request)
+      const rawLandParcels = await getLandParcels(sbi)
       const selectedLandParcel = getYarValue(request, LAND_PARCEL_YAR_KEY)
       return h.view(viewTemplate, createModel(rawLandParcels, selectedLandParcel))
     }
@@ -59,8 +63,9 @@ module.exports = [
           selectedLandParcel: Joi.required()
         }),
         failAction: async (request, h, err) => {
-          const landParcels = await getLandParcels(DF_SBI)
-          return h.view(viewTemplate, createModel(landParcels, undefined, getErrorMessage(err))).takeover()
+          const sbi = getSBI(request)
+          const landParcels = await getLandParcels(sbi)
+          return h.view(viewTemplate, createModel(landParcels, undefined, getErrorMessage())).takeover()
         }
       }
     },
