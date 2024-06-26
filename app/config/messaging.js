@@ -143,7 +143,7 @@ const config = {
   fetchApplicationRequestMsgType: `${msgTypePrefix}.fetch.application.request`,
   eligibilityAnswersMsgType: `${msgTypePrefix}.slurry.eligibility.details`,
   contactDetailsMsgType: `${msgTypePrefix}.slurry.contact.details`,
-  msgSrc: 'ffc-sfd-experiment-ui'
+  msgSrc: 'ffc-future-grants-tech-evaluation'
 }
 
 // Validate config
