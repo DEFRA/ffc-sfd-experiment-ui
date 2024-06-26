@@ -170,3 +170,7 @@ $govuk-assets-path: "~govuk-frontend/govuk/assets/";
 .error-panel-background-color {
   background-color: $govuk-error-colour;
 }
+
+#actions-table .govuk-table__cell {
+  vertical-align: middle;
+}

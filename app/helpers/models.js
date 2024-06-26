@@ -127,7 +127,7 @@ const getModel = (data, question, request, conditionalHtml = '') => {
 
   title = title ?? label?.text
 
-  const farmerData = getYarValue(request, 'account-information')
+  // const farmerData = getYarValue(request, 'account-information')
   const chosenOrganisation = getYarValue(request, 'chosen-organisation')
   const grantInformation = getYarValue(request, 'grant-information')
   const grantId = grantInformation.grantScheme.grantID
@@ -170,7 +170,7 @@ const getModel = (data, question, request, conditionalHtml = '') => {
     })
   }
   const updatedBackUrl = backUrl === 'portal' ? `${urlPrefix}/${backUrl}` : `${urlPrefix}/${grantId}/${backUrl}`
-  const chosenFarm = farmerData.companies.find((company) => company.id === chosenOrganisation)
+  // const chosenFarm = farmerData.companies.find((company) => company.id === chosenOrganisation)
   return {
     type,
     key,
@@ -180,10 +180,10 @@ const getModel = (data, question, request, conditionalHtml = '') => {
     backUrl: updatedBackUrl,
     items: getOptions(data, question, conditionalHtml, request),
     headerData: {
-      chosenFarm: chosenFarm.name,
-      sbi: chosenFarm.sbi,
-      firstName: farmerData.firstName,
-      lastName: farmerData.lastName
+      chosenFarm: 'Sarah\'s Farm',
+      sbi: chosenOrganisation,
+      firstName: '',
+      lastName: ''
     },
     sidebar,
     itemList,
