@@ -4,13 +4,13 @@ version: '3.8'
 # to provide dependencies and expose ports for local testing
 
 services:
-  ffc-future-grants-tech-evaluation:
+  ffc-rps-experiment-ui:
     build:
       context: .
       target: development
     depends_on:
       - redis
-    image: ffc-future-grants-tech-evaluation-development
+    image: ffc-rps-experiment-ui
     environment:
       NODE_ENV: development
     ports:
