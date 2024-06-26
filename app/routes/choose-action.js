@@ -21,7 +21,7 @@ const createModel = (actions, selectedActions) => {
 
 const getActions = async (selectedLandParcelId) => {
   // eslint-disable-next-line no-undef
-  const response = await fetch(`http://ffc-rps-experiment-api:3000/action?parcel-id=${selectedLandParcelId}`)
+  const response = await fetch(`http://localhost:3000/action?parcel-id=${selectedLandParcelId}`)
   const responseBody = await response.text()
   return responseBody?.length ? JSON.parse(responseBody) : []
 }
@@ -29,7 +29,7 @@ const getActions = async (selectedLandParcelId) => {
 const calculateAvailableArea = async (actionCode, landParcelArea) => {
   // eslint-disable-next-line no-undef
   const response = await fetch(
-    'http://ffc-rps-experiment-api:3000/available-area',
+    'http://localhost:3000/available-area',
     {
       method: 'POST',
       headers: {

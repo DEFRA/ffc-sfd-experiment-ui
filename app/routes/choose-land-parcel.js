@@ -31,7 +31,7 @@ const getErrorMessage = (err) => {
 
 const getLandParcels = async (sbi) => {
   // eslint-disable-next-line no-undef
-  const response = await fetch(`http://ffc-rps-experiment-api:3000/land-parcel/${sbi}`)
+  const response = await fetch(`http://localhost:3000/land-parcel/${sbi}`)
   const responseBody = await response.text()
   return JSON.parse(responseBody) ?? []
 }

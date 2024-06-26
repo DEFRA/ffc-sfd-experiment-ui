@@ -18,7 +18,7 @@ const createModel = (paymentAmount, action, actionQuantity) => {
 const getPaymentAmount = async (selectedActions) => {
   if (selectedActions?.length) {
     // eslint-disable-next-line no-undef
-    const response = await fetch(`http://ffc-rps-experiment-api:3000/payment?action-code=${selectedActions[0].actionCode}&hectares-applied-for=${selectedActions[0].quantity}`)
+    const response = await fetch(`http://localhost:3000/payment?action-code=${selectedActions[0].actionCode}&hectares-applied-for=${selectedActions[0].quantity}`)
     const responseBody = await response.text()
     return responseBody?.length ? JSON.parse(responseBody) : null
   }
