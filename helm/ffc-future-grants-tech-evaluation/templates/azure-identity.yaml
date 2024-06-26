@@ -1,3 +1,0 @@
-{{- include "ffc-helm-library.azure-identity" (list . "ffc-future-grants-tech-evaluation.azure-identity") -}}
-{{- define "ffc-future-grants-tech-evaluation.azure-identity" -}}
-{{- end -}}

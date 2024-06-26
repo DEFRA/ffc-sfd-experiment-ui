@@ -1,0 +1,8 @@
+{{- include "ffc-helm-library.deployment" (list . "ffc-sfd-experiment-ui.deployment") -}}
+{{- define "ffc-sfd-experiment-ui.deployment" -}}
+spec:
+  template:
+    spec:
+      containers:
+      - {{ include "ffc-helm-library.container" (list . "ffc-sfd-experiment-ui.container") }}
+{{- end -}}
