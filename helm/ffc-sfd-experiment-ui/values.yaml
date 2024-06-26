@@ -3,7 +3,7 @@ environmentCode:
 name: ffc-rps-experiment-ui
 namespace: ffc-rps
 workstream: ffc-rps
-image: ffc-rps-experiment-ui
+image: ffc-sfd-experiment-ui
 
 labels:
   component: service
@@ -29,7 +29,7 @@ container:
 
 livenessProbe:
   path: /healthz
-  port: 3000
+  port: 3600
   initialDelaySeconds: 20
   periodSeconds: 10
   failureThreshold: 3
@@ -37,7 +37,7 @@ livenessProbe:
 
 readinessProbe:
   path: /healthy
-  port: 3000
+  port: 3600
   initialDelaySeconds: 30
   periodSeconds: 10
   failureThreshold: 3
