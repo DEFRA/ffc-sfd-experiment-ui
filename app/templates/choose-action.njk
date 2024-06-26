@@ -10,15 +10,18 @@
 
 {% set tableRows = [] %}
 {% for action in actions %}
-    {% set checkboxHtml = ["<div class=\"govuk-checkboxes__item\"><input class=\"govuk-checkboxes__input\" name=\"selectedActionCodes\" type=\"checkbox\" value=\"", action.code, "\" checked=\"", action.code in selectedActionCodes, "\"/><label class=\"govuk-label govuk-checkboxes__label\"><span class=\"govuk-visually-hidden\">Select ", action.code, "</span></label></div>"] | join %}
+    {% set checkboxChecked = " checked" if action.code in selectedActionCodes else " " %}
+    {% set checkboxHtml = ["<div class=\"govuk-checkboxes__item\"><input class=\"govuk-checkboxes__input\" name=\"selectedActionCodes\" type=\"checkbox\" value=\"", action.code, "\"", checkboxChecked, " /><label class=\"govuk-label govuk-checkboxes__label\"><span class=\"govuk-visually-hidden\">Select ", action.code, "</span></label></div>"] | join %}
     {% set inputHtml = ['<input class="govuk-input govuk-!-width-one-half" name="quantity', action.code, '" type="text" value="', selectedActionQuantities[action.code], '" />'] | join %}
-    {% set tableRows = (tableRows.push([{ html: checkboxHtml }, { text: action.code }, { text: action.availableArea }, {html: inputHtml }]), tableRows) %}
+    {% set availableAreaHtml = [action.availableArea,'<input type="hidden" name="',action.code,'availableArea" value="', action.availableArea, '" />'] | join %}
+    {% set tableRows = (tableRows.push([{ html: checkboxHtml }, { text: [action.code, " - ", action.description] | join }, { html: availableAreaHtml }, {html: inputHtml }, { text: "ha" }]), tableRows) %}
 {% endfor %}
 
 {{ govukTable({
   caption: "Your available actions for the selected land parcel",
   captionClasses: "govuk-table__caption--m",
   firstCellIsHeader: true,
+  attributes: { "id": "actions-table" },
   head: [
     {
       text: "Select action"
@@ -30,7 +33,10 @@
       text: "Available area"
     },
     {
-      text: "Quantity (ha)"
+      text: "Quantity"
+    },
+    {
+      text: "Unit"
     }
   ],
   rows: tableRows

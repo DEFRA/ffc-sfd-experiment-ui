@@ -10,15 +10,6 @@
   {{ title }} - {{ siteTitle }}
 {% endblock %}
 {% block beforeContent %}
-  {% if headerData %}
-    <div class="govuk-!-margin-top-3 govuk-grid-row">
-      <div class="govuk-!-text-align-right govuk-grid-column-full">
-        <p class="govuk-heading-l govuk-!-margin-bottom-2">{{ headerData.firstName }}
-          {{ headerData.lastName }}</p>
-      </div>
-    </div>
-    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
-  {% endif %}
   {% if errorList %}
     {{ govukErrorSummary ({
         "titleText": "There is a problem",
