@@ -4,15 +4,15 @@ version: '3.8'
 # that test output is saved to the host
 
 services:
-  ffc-future-grants-tech-evaluation:
+  ffc-rps-experiment-ui:
     build:
       target: development
-    image: ffc-future-grants-tech-evaluation-development
+    image: ffc-rps-experiment-ui-test
     environment:
       NODE_ENV: test
       GOOGLE_TAG_MANAGER_KEY: 'GT-MJPRKW7'
       SESSION_CACHE_TTL: 1200000
-    container_name: ffc-future-grants-tech-evaluation-test
+    container_name: ffc-sfd-experiment-ui-test
     command: npm run test
     volumes:
       - ./test-output/:/home/node/test-output/
