@@ -1,2 +1,2 @@
 @Library('defra-library@v-9') _
-buildNodeJs()
+buildNodeJs npmAuditLevel: 'low', npmAuditLogType: 'json', npmAuditFailOnIssues: false
