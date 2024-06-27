@@ -25,7 +25,7 @@ container:
   requestCpu: 100m
   limitMemory: 100Mi
   limitCpu: 100m
-  port: 3000
+  port: 3600
 
 livenessProbe:
   path: /healthz
@@ -42,3 +42,16 @@ readinessProbe:
   periodSeconds: 10
   failureThreshold: 3
   timeoutSeconds: 5
+
+cache:
+  host: your-cache-host
+  port: your-cache-port
+  partition: your-cache-partition
+
+experimentApi:
+  baseUrl: http://10.244.5.71:3000
+
+ingress:
+  class: nginx
+  endpoint: ffc-sfd-experiment-ui
+  server: value.replaced.from.app.config

@@ -1,7 +1,0 @@
-browserstack.err
-allure*
-reporter
-/.env.snd
-/.env.dev
-/.env.test
-/.env.pre

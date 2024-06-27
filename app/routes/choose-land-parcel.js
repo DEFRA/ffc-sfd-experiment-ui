@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const { getLandParcels } = require('../services/experiment-api')
 const { urlPrefix } = require('../config/server')
 const viewTemplate = 'choose-land-parcel'
 const currentPath = `${urlPrefix}/${viewTemplate}`
@@ -26,13 +27,6 @@ const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
 
 const getErrorMessage = () => {
   return 'Please select a land parcel'
-}
-
-const getLandParcels = async (sbi) => {
-  // eslint-disable-next-line no-undef
-  const response = await fetch(`http://localhost:3000/land-parcel/${sbi}`)
-  const responseBody = await response.text()
-  return JSON.parse(responseBody) ?? []
 }
 
 const getSBI = (request) => {

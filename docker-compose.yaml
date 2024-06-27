@@ -8,8 +8,8 @@ services:
     image: ffc-sfd-experiment-ui
     environment:     
       NODE_ENV: production
-      PORT: ${PORT:-3000}
-      SITE_URL: localhost:3000
+      PORT: ${PORT:-3600}
+      SITE_URL: localhost:3600
       LOGIN_REQUIRED: ${LOGIN_REQUIRED:-false}
       AUTH_USERNAME: ${AUTH_USERNAME:-grants}
       AUTH_PASSWORD_HASH: ${AUTH_PASSWORD_HASH:-grants}

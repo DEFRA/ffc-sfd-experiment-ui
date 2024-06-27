@@ -4,4 +4,5 @@ data:
   NODE_ENV: {{ quote .Values.environment }}
   PORT: {{ quote .Values.container.port }}
   APPINSIGHTS_CLOUDROLE: {{ quote .Values.name }}
+  EXPERIMENT_API_BASE_URL: {{ quote .Values.experimentApi.baseUrl }}
 {{- end -}}
