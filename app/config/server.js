@@ -28,8 +28,9 @@ const schema = Joi.object({
   }),
   appInsights: {
     key: Joi.string(),
-    role: Joi.string().default('ffc-sfd-experiment-ui')
-  }
+    role: Joi.string().default('ffc-future-grants-tech-evaluation')
+  },
+  experimentApiBaseUrl: Joi.string()
 })
 
 // Build config
@@ -55,7 +56,8 @@ const config = {
   appInsights: {
     key: process.env.APPINSIGHTS_INSTRUMENTATIONKEY,
     role: process.env.APPINSIGHTS_CLOUDROLE
-  }
+  },
+  experimentApiBaseUrl: process.env.EXPERIMENT_API_BASE_URL
 }
 
 // Validate config

@@ -16,7 +16,8 @@ services:
     ports:
       - "3600:3600"
       - "9235:9229"
-    network_mode: host
+    networks:
+      - ffc-rps-experiment-api_default
     volumes:
       - ./app/:/home/node/app/
       - ./package.json:/home/node/package.json
@@ -30,3 +31,7 @@ services:
 
 volumes:
   redis_data:
+
+networks:
+  ffc-rps-experiment-api_default:
+    external: true

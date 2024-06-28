@@ -3,7 +3,7 @@ environmentCode:
 name: ffc-rps-experiment-ui
 namespace: ffc-rps
 workstream: ffc-rps
-image: ffc-rps-experiment-ui
+image: ffc-sfd-experiment-ui
 
 labels:
   component: service
@@ -25,11 +25,11 @@ container:
   requestCpu: 100m
   limitMemory: 100Mi
   limitCpu: 100m
-  port: 3000
+  port: 3600
 
 livenessProbe:
   path: /healthz
-  port: 3000
+  port: 3600
   initialDelaySeconds: 20
   periodSeconds: 10
   failureThreshold: 3
@@ -37,8 +37,21 @@ livenessProbe:
 
 readinessProbe:
   path: /healthy
-  port: 3000
+  port: 3600
   initialDelaySeconds: 30
   periodSeconds: 10
   failureThreshold: 3
   timeoutSeconds: 5
+
+cache:
+  host: your-cache-host
+  port: your-cache-port
+  partition: your-cache-partition
+
+experimentApi:
+  baseUrl: http://ffc-rps-experiment-api.ffc-rps-experiment.svc.cluster.local:3000
+
+ingress:
+  class: nginx
+  endpoint: ffc-sfd-experiment-ui
+  server: value.replaced.from.app.config

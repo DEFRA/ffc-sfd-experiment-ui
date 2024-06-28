@@ -9,7 +9,7 @@ const schema = Joi.object({
 
 // Build config
 const config = {
-  notifyTemplate: process.env.NOTIFY_EMAIL_TEMPLATE
+  notifyTemplate: process.env.NOTIFY_EMAIL_TEMPLATE || '444'
 }
 
 // Validate config

@@ -1,4 +1,6 @@
+const Joi = require('joi')
 const { urlPrefix } = require('../config/server')
+const { getActions, calculateAvailableArea } = require('../services/experiment-api')
 const viewTemplate = 'choose-action'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const nextPath = `${urlPrefix}/payment`
@@ -17,29 +19,6 @@ const createModel = (actions, selectedActions) => {
     selectedActionQuantities,
     selectedActionCodes: selectedActions.map((a) => a.actionCode)
   }
-}
-
-const getActions = async (selectedLandParcelId) => {
-  // eslint-disable-next-line no-undef
-  const response = await fetch(`http://ffc-rps-experiment-api:3000/action?parcel-id=${selectedLandParcelId}`)
-  const responseBody = await response.text()
-  return responseBody?.length ? JSON.parse(responseBody) : []
-}
-
-const calculateAvailableArea = async (actionCode, landParcelArea) => {
-  // eslint-disable-next-line no-undef
-  const response = await fetch(
-    'http://ffc-rps-experiment-api:3000/available-area',
-    {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ applicationFor: actionCode, landParcel: { area: landParcelArea } })
-    })
-  const deserializedResponse = await response.json()
-  return deserializedResponse ?? null
 }
 
 module.exports = [
