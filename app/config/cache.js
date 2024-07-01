@@ -19,10 +19,10 @@ const config = {
   useRedis: false,
   expiresIn: process.env.SESSION_CACHE_TTL,
   catboxOptions: {
-    host: process.env.REDIS_HOSTNAME,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD,
-    partition: process.env.REDIS_PARTITION,
+    host: process.env.REDIS_HOSTNAME || 'redis',
+    port: process.env.REDIS_PORT || '6379',
+    password: process.env.REDIS_PASSWORD || '',
+    partition: process.env.REDIS_PARTITION || 'ffc-sfd-experiment-ui',
     tls: process.env.NODE_ENV === 'production' ? {} : undefined
   }
 }

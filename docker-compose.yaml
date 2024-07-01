@@ -1,16 +1,15 @@
 version: '3.8'
 
 services:
-  ffc-rps-experiment-ui:
+  ffc-sfd-experiment-ui:
     build:
       context: .
       target: production
-    image: ffc-rps-experiment-ui
-    container_name: ffc-rps-experiment-ui
+    image: ffc-sfd-experiment-ui
     environment:     
       NODE_ENV: production
-      PORT: ${PORT:-3000}
-      SITE_URL: localhost:3000
+      PORT: ${PORT:-3600}
+      SITE_URL: localhost:3600
       LOGIN_REQUIRED: ${LOGIN_REQUIRED:-false}
       AUTH_USERNAME: ${AUTH_USERNAME:-grants}
       AUTH_PASSWORD_HASH: ${AUTH_PASSWORD_HASH:-grants}

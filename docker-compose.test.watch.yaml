@@ -1,6 +1,6 @@
 version: '3.8'
 
 services:
-  ffc-rps-experiment-ui:
+  ffc-sfd-experiment-ui:
     command: >
       sh -c "npm run test:watch"

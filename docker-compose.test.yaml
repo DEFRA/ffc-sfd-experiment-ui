@@ -4,10 +4,10 @@ version: '3.8'
 # that test output is saved to the host
 
 services:
-  ffc-rps-experiment-ui:
+  ffc-sfd-experiment-ui:
     build:
       target: development
-    image: ffc-rps-experiment-ui-test
+    image: ffc-sfd-experiment-ui-development
     environment:
       NODE_ENV: test
       GOOGLE_TAG_MANAGER_KEY: 'GT-MJPRKW7'
