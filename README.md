@@ -1,6 +1,6 @@
 ## Run
 
-`docker-compose up --build`
+`docker-compose -f docker-compose.local up --build`
 
 http://localhost:3600/tech-evaluation/login
 
