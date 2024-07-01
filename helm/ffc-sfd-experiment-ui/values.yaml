@@ -49,7 +49,7 @@ cache:
   partition: your-cache-partition
 
 experimentApi:
-  baseUrl: http://10.244.5.71:3000
+  baseUrl: http://ffc-rps-experiment-api.ffc-rps-experiment.svc.cluster.local:80
 
 ingress:
   class: nginx
