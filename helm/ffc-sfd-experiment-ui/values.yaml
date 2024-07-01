@@ -1,6 +1,6 @@
 environment: production
 environmentCode:
-name: ffc-rps-experiment-ui
+name: ffc-sfd-experiment-ui
 namespace: ffc-rps
 workstream: ffc-rps
 image: ffc-sfd-experiment-ui
@@ -12,10 +12,10 @@ appInsights:
   connectionString:
 
 containerConfigMap:
-  name: ffc-rps-experiment-ui-config-map
+  name: ffc-sfd-experiment-ui-config-map
 
 containerSecret:
-  name: ffc-rps-experiment-ui-container-secret
+  name: ffc-sfd-experiment-ui-container-secret
   type: Opaque
 
 deployment: {}
