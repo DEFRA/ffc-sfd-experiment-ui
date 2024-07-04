@@ -21,10 +21,10 @@ containerSecret:
 deployment: {}
 
 container:
-  requestMemory: 200Mi
+  requestMemory: 256Mi
   requestCpu: 200m
-  limitMemory: 200Mi
-  limitCpu: 200m
+  limitMemory: 512Mi
+  limitCpu: 300m
   port: 3600
 
 livenessProbe:
