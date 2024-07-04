@@ -30,18 +30,18 @@ container:
 livenessProbe:
   path: /healthz
   port: 3600
-  initialDelaySeconds: 20
-  periodSeconds: 10
-  failureThreshold: 3
-  timeoutSeconds: 5
+  initialDelaySeconds: 60
+  periodSeconds: 20
+  failureThreshold: 15
+  timeoutSeconds: 10
 
 readinessProbe:
   path: /healthy
   port: 3600
-  initialDelaySeconds: 30
-  periodSeconds: 10
-  failureThreshold: 3
-  timeoutSeconds: 5
+  initialDelaySeconds: 60
+  periodSeconds: 20
+  failureThreshold: 15
+  timeoutSeconds: 10
 
 cache:
   host: your-cache-host
