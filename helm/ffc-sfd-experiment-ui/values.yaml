@@ -21,9 +21,9 @@ containerSecret:
 deployment: {}
 
 container:
-  requestMemory: 300Mi
-  requestCpu: 300m
-  limitMemory: 300Mi
+  requestMemory: 200Mi
+  requestCpu: 200m
+  limitMemory: 200Mi
   limitCpu: 200m
   port: 3600
 
