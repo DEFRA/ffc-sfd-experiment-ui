@@ -21,27 +21,27 @@ containerSecret:
 deployment: {}
 
 container:
-  requestMemory: 200Mi
-  requestCpu: 200m
-  limitMemory: 200Mi
+  requestMemory: 300Mi
+  requestCpu: 300m
+  limitMemory: 300Mi
   limitCpu: 200m
   port: 3600
 
 livenessProbe:
   path: /healthz
   port: 3600
-  initialDelaySeconds: 60
-  periodSeconds: 20
-  failureThreshold: 15
-  timeoutSeconds: 10
+  initialDelaySeconds: 120
+  periodSeconds: 40
+  failureThreshold: 30
+  timeoutSeconds: 20
 
 readinessProbe:
   path: /healthy
   port: 3600
-  initialDelaySeconds: 60
-  periodSeconds: 20
-  failureThreshold: 15
-  timeoutSeconds: 10
+  initialDelaySeconds: 120
+  periodSeconds: 40
+  failureThreshold: 30
+  timeoutSeconds: 20
 
 cache:
   host: your-cache-host
