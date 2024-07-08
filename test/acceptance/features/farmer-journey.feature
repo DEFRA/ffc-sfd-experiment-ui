@@ -11,3 +11,4 @@ Feature: Sarah the Farmer Journey
     Examples:
       | value | payment |
       | 2     | 258.00  |
+      | 3.5   | 451.50  |
