@@ -5,6 +5,8 @@ const {setYarValue, getYarValue} = require('../helpers/session')
 const {questionBank} = require('../config/question-bank')
 const {drawSectionGetRequests, drawSectionPostRequests} = require('./index')
 
+global.addedGrantIDs = global.addedGrantIDs || [];
+
 function createModel() {
     const model = {
         formActionPage: currentPath,
@@ -83,14 +85,17 @@ module.exports = [
                     allQuestions.push(...questions)
                 })
                 setYarValue(request, 'grant-questions', allQuestions)
-                const pages = questionBankData.themes
-                    .map(section => drawSectionGetRequests(section, grantID))[0]
-                    .concat(
-                        questionBankData.themes.map(section =>
-                            drawSectionPostRequests(section, grantID)
-                        )[0]
-                    )
-                request.server.route(pages)
+                if (!global.addedGrantIDs.includes(grantID)) {
+                    const pages = questionBankData.themes
+                        .map(section => drawSectionGetRequests(section, grantID))[0]
+                        .concat(
+                            questionBankData.themes.map(section =>
+                                drawSectionPostRequests(section, grantID)
+                            )[0]
+                        )
+                    request.server.route(pages)
+                    global.addedGrantIDs.push(grantID);
+                }
             }
             const startUrl = questionBankData.themes[0].questions.find(
                 theme => theme.journeyStart
