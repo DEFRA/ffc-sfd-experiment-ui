@@ -6,3 +6,17 @@ helm/**/*.lock
 .env
 /app/assets/dist
 .idea
+
+
+# Acceptance tests
+.DS_Store
+/test/acceptance/.env.snd
+/test/acceptance/allure-report/
+/test/acceptance/allure-results/
+/test/acceptance/screenShots/
+/.idea/
+/test/acceptance/reporter/cucumber_report.html
+/test/acceptance/reporter/cucumber_report.html.json
+/test/acceptance/.env.dev
+/test/acceptance/.env.test
+/test/acceptance/.env.pre
