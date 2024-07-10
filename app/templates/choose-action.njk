@@ -7,7 +7,10 @@
 
 <form method="post" action="{{formActionPage}}" novalidate>
 {{crumbToken(crumb)}}
-
+    {# Error message block styled to appear under the table caption #}
+    {% if errorMessage %}
+    <span class="govuk-error-message">{{ errorMessage }}</span>
+    {% endif %}
 {% set tableRows = [] %}
 {% for action in actions %}
     {% set checkboxChecked = " checked" if action.code in selectedActionCodes else " " %}
@@ -42,7 +45,6 @@
   ],
   rows: tableRows
 }) }}
-
 
 {{ govukButton({
   text: "Continue"

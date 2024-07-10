@@ -14,11 +14,15 @@ const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
       .reduce((accumulator, currentValue) => accumulator + currentValue, 0.0)
       .toFixed(4),
     landParcels: rawLandParcels.map((lp) => {
-      return {
-        text: `${lp.osSheetId} ${lp.parcelId} (${parseFloat(lp.area).toFixed(4)} ha)`,
-        value: JSON.stringify({ parcelId: lp.parcelId, area: lp.area, osSheetId: lp.osSheetId }),
-        checked: lp.parcelId === selectedLandParcel?.parcelId ?? 0
-      }
+        const landUseDescriptions = lp.landUseList.map(use => use.CROP_PLAN).join(', ')
+        const landUseArea = lp.landUseList.map(use => use.AREA).join(', ')
+        console.log('landUseCodes::', lp)
+        return {
+            text: `${lp.osSheetId} ${lp.parcelId} (${parseFloat(lp.area).toFixed(4)} ha)`,
+            hint: { text: `Land use: ${landUseDescriptions}: ${landUseArea} ha` },
+            value: JSON.stringify({parcelId: lp.parcelId, area: lp.area, osSheetId: lp.osSheetId}),
+            checked: lp.parcelId === selectedLandParcel?.parcelId ?? 0
+        }
     }),
     errMessage
   }
@@ -39,12 +43,13 @@ module.exports = [
     options: {
       auth: false
     },
-    handler: async (request, h) => {
-      const sbi = getSBI(request)
-      const rawLandParcels = await getLandParcels(sbi)
-      const selectedLandParcel = getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL)
-      return h.view(viewTemplate, createModel(rawLandParcels, selectedLandParcel))
-    }
+      handler: async (request, h) => {
+          const sbi = getSBI(request)
+          const rawLandParcels = await getLandParcels(sbi)
+          setYarValue(request, SESSION_KEYS.RAW_PARCELS, rawLandParcels)
+          const selectedLandParcel = getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL)
+          return h.view(viewTemplate, createModel(rawLandParcels, selectedLandParcel))
+      }
   },
   {
     method: 'POST',

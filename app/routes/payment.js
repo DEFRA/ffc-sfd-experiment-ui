@@ -1,20 +1,33 @@
 const { urlPrefix } = require('../config/server')
 const { getYarValue, SESSION_KEYS, setYarValue } = require('../helpers/session')
-const { getPaymentAmount, submitFundingApplication } = require('../services/experiment-api')
+const { getPaymentAmount, submitFundingApplication, getLandParcels } = require('../services/experiment-api')
 const viewTemplate = 'payment'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const nextPath = `${urlPrefix}/application-confirmation`
 
-const createModel = (request, paymentAmount, selectedActions) => {
-  const sbi = getYarValue(request, SESSION_KEYS.SELECTED_ORG)
-  const action = selectedActions[0].actionCode + ': ' + selectedActions[0].description
-  const actionQuantity = selectedActions[0].quantity
-  return {
-    paymentAmount: paymentAmount.toFixed(2),
-    action,
-    actionQuantity,
-    sbi
-  }
+const createModel = (selectedActions, actionPayments, sbi) => {
+    const model = {
+        payments: selectedActions.map((selectedAction, index) => {
+            const actionPayment = actionPayments.find(p => p['action-code'] === selectedAction.actionCode)
+
+            return {
+                paymentAmount: actionPayment ? actionPayment.payment.toFixed(2) : 0.00,
+                action: selectedAction.actionCode + ': ' + selectedAction.description,
+                quantity: selectedAction.quantity
+            }
+        }),
+        sbi
+    }
+    console.log('model::', model)
+    return model
+}
+
+const getLandUseCodesOfSeletedLandParcel = (parcelId, landParcelsList) => {
+    const matchingParcel = landParcelsList.find(parcel => parcel.parcelId === parcelId);
+    if (matchingParcel && matchingParcel.landUseList) {
+        return matchingParcel.landUseList.map(use => use.CODE);
+    }
+    return [];
 }
 
 const createFundingApplication = (request) => {
@@ -40,12 +53,17 @@ module.exports = [
     options: {
       auth: false
     },
-    handler: async (request, h) => {
-      const selectedActions = getYarValue(request, SESSION_KEYS.SELECTED_ACTIONS) ?? []
-      const paymentAmount = await getPaymentAmount(selectedActions)
-      setYarValue(request, SESSION_KEYS.PAYMENT_AMOUNT, paymentAmount)
-      return h.view(viewTemplate, createModel(request, paymentAmount, selectedActions))
-    }
+      handler: async (request, h) => {
+          const sbi = getYarValue(request, SESSION_KEYS.SELECTED_ORG)
+          const selectedActions = getYarValue(request, SESSION_KEYS.SELECTED_ACTIONS) ?? []
+          const selectedLandParcel = getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL)
+          const allLandParcels = await getLandParcels(sbi)
+          const landUseCodes = getLandUseCodesOfSeletedLandParcel(selectedLandParcel.parcelId, allLandParcels);
+          const actionPayments = await getPaymentAmount(selectedActions, landUseCodes)
+          setYarValue(request, SESSION_KEYS.PAYMENT_AMOUNT, actionPayments)
+
+          return h.view(viewTemplate, createModel(selectedActions, actionPayments, sbi))
+      }
   },
   {
     method: 'POST',

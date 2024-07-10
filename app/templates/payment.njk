@@ -25,17 +25,19 @@
         <td class="govuk-table__cell" style="width: 30%;">
         </td>
     </tr>
+    {% for payment in payments %}
     <tr class="govuk-table__row">
         <td class="govuk-table__header" style="font-weight: normal !important; width: 40%;">
-            {{ action }}
+            {{ payment.action }}
         </td>
         <td class="govuk-table__cell" style="width: 30%;">
-            {{ actionQuantity }} ha
+            {{ payment.quantity }} ha
         </td>
         <td class="govuk-table__cell" style="width: 30%;">
-            £{{ paymentAmount }}
+            £{{ payment.paymentAmount }}
         </td>
     </tr>
+    {% endfor %}
     </tbody>
 </table>
 <form method="post" novalidate>
