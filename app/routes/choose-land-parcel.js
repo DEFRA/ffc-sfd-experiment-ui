@@ -4,8 +4,7 @@ const { urlPrefix } = require('../config/server')
 const viewTemplate = 'choose-land-parcel'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const nextPath = `${urlPrefix}/choose-action`
-const { setYarValue, getYarValue } = require('../helpers/session')
-const LAND_PARCEL_YAR_KEY = 'selectedLandParcel'
+const { setYarValue, getYarValue, SESSION_KEYS } = require('../helpers/session')
 
 const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
   return {
@@ -17,7 +16,7 @@ const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
     landParcels: rawLandParcels.map((lp) => {
       return {
         text: `${lp.osSheetId} ${lp.parcelId} (${parseFloat(lp.area).toFixed(4)} ha)`,
-        value: JSON.stringify({ parcelId: lp.parcelId, area: lp.area }),
+        value: JSON.stringify({ parcelId: lp.parcelId, area: lp.area, osSheetId: lp.osSheetId }),
         checked: lp.parcelId === selectedLandParcel?.parcelId ?? 0
       }
     }),
@@ -30,7 +29,7 @@ const getErrorMessage = () => {
 }
 
 const getSBI = (request) => {
-  return getYarValue(request, 'chosen-organisation')
+  return getYarValue(request, SESSION_KEYS.SELECTED_ORG)
 }
 
 module.exports = [
@@ -43,7 +42,7 @@ module.exports = [
     handler: async (request, h) => {
       const sbi = getSBI(request)
       const rawLandParcels = await getLandParcels(sbi)
-      const selectedLandParcel = getYarValue(request, LAND_PARCEL_YAR_KEY)
+      const selectedLandParcel = getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL)
       return h.view(viewTemplate, createModel(rawLandParcels, selectedLandParcel))
     }
   },
@@ -64,7 +63,7 @@ module.exports = [
       }
     },
     handler: async (request, h) => {
-      setYarValue(request, LAND_PARCEL_YAR_KEY, JSON.parse(request.payload.selectedLandParcel))
+      setYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL, JSON.parse(request.payload.selectedLandParcel))
       return h.redirect(nextPath)
     }
   }
