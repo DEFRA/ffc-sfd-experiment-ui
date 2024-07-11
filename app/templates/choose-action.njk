@@ -14,7 +14,8 @@
     {% set checkboxHtml = ["<div class=\"govuk-checkboxes__item\"><input class=\"govuk-checkboxes__input\" name=\"selectedActionCodes\" type=\"checkbox\" value=\"", action.code, "\"", checkboxChecked, " /><label class=\"govuk-label govuk-checkboxes__label\"><span class=\"govuk-visually-hidden\">Select ", action.code, "</span></label></div>"] | join %}
     {% set inputHtml = ['<input class="govuk-input govuk-!-width-one-half" name="quantity', action.code, '" type="text" value="', selectedActionQuantities[action.code], '" />'] | join %}
     {% set availableAreaHtml = [action.availableArea,'<input type="hidden" name="',action.code,'availableArea" value="', action.availableArea, '" />'] | join %}
-    {% set tableRows = (tableRows.push([{ html: checkboxHtml }, { text: [action.code, " - ", action.description] | join }, { html: availableAreaHtml }, {html: inputHtml }, { text: "ha" }]), tableRows) %}
+    {% set actionDescHtml = ['<span class="action-desc">', action.code, ' - ', action.description, '</span><input type="hidden" name="actionDesc', action.code, '" value="', action.description, '" />'] | join %}
+    {% set tableRows = (tableRows.push([{ html: checkboxHtml }, { html: actionDescHtml }, { html: availableAreaHtml }, {html: inputHtml }, { text: "ha" }]), tableRows) %}
 {% endfor %}
 
 {{ govukTable({
