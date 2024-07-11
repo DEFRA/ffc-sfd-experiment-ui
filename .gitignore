@@ -6,7 +6,7 @@ helm/**/*.lock
 .env
 /app/assets/dist
 .idea
-
+yarn.lock
 
 # Acceptance tests
 .DS_Store

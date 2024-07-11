@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  ffc-sdf-experiment-ui-acceptance-tests:
+    build: ../..
+    image: ffc-sdf-experiment-ui-acceptance-tests
+    container_name: ffc-sdf-experiment-ui-acceptance-tests
+    environment:
+      BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
+      BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
+      CHROME_ARGS: "--ignore-certificate-errors"
+      TEST_ENVIRONMENT_ROOT_URL: ${TEST_ENVIRONMENT_ROOT_URL}
