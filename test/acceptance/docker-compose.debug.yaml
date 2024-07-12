@@ -1,4 +1,0 @@
-version: '3.8'
-services:
-  ffc-sfd-experiment-ui-acceptance-tests:
-    command: npm run test:debug
