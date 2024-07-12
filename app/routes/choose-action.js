@@ -4,11 +4,14 @@ const { getActions, calculateAvailableArea } = require('../services/experiment-a
 const viewTemplate = 'choose-action'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const nextPath = `${urlPrefix}/payment`
-const { getYarValue, setYarValue } = require('../helpers/session')
-const ACTION_YAR_KEY = 'selectedActions'
+const { getYarValue, setYarValue, SESSION_KEYS } = require('../helpers/session')
 
 const getActionQuantity = (requestPayload, selectedActionCode) => {
   return requestPayload[`quantity${selectedActionCode}`]
+}
+
+const getActionDescription = (requestPayload, selectedActionCode) => {
+  return requestPayload[`actionDesc${selectedActionCode}`]
 }
 
 const createModel = (actions, selectedActions) => {
@@ -29,10 +32,9 @@ module.exports = [
       auth: false
     },
     handler: async (request, h) => {
-      const selectedParcel = getYarValue(request, 'selectedLandParcel')
-      const selectedActions = getYarValue(request, ACTION_YAR_KEY) ?? []
+      const selectedParcel = getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL)
+      const selectedActions = getYarValue(request, SESSION_KEYS.SELECTED_ACTIONS) ?? []
       const rawActions = await getActions(selectedParcel.parcelId)
-      setYarValue(request, 'rawActions', rawActions)
       const enrichedActions = []
       for (const action of rawActions) {
         const availableArea = await calculateAvailableArea(action.code, selectedParcel.area)
@@ -50,13 +52,18 @@ module.exports = [
     handler: async (request, h) => {
       const userSelectedActions = (request.payload?.selectedActionCodes && Array.isArray(request.payload.selectedActionCodes))
         ? request.payload.selectedActionCodes.map((actionCode) => {
-            return { actionCode, quantity: getActionQuantity(request.payload, actionCode) }
+            return {
+              actionCode,
+              quantity: getActionQuantity(request.payload, actionCode),
+              description: getActionDescription(request.payload, actionCode)
+            }
           })
         : [{
             actionCode: request.payload.selectedActionCodes,
-            quantity: getActionQuantity(request.payload, request.payload.selectedActionCodes)
+            quantity: getActionQuantity(request.payload, request.payload.selectedActionCodes),
+            description: getActionDescription(request.payload, request.payload.selectedActionCodes)
           }]
-      setYarValue(request, ACTION_YAR_KEY, userSelectedActions)
+      setYarValue(request, SESSION_KEYS.SELECTED_ACTIONS, userSelectedActions)
       return h.redirect(nextPath)
     }
   }
