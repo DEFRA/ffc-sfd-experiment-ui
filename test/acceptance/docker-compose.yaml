@@ -1,10 +1,10 @@
 version: '3.8'
 
 services:
-  ffc-sdf-experiment-ui-acceptance-tests:
+  ffc-sfd-experiment-ui-acceptance-tests:
     build: ../..
-    image: ffc-sdf-experiment-ui-acceptance-tests
-    container_name: ffc-sdf-experiment-ui-acceptance-tests
+    image: ffc-sfd-experiment-ui-acceptance-tests
+    container_name: ffc-sfd-experiment-ui-acceptance-tests
     environment:
       BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
       BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
