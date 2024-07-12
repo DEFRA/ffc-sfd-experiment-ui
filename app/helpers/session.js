@@ -13,8 +13,18 @@ function clearYarValue (request, key) {
   request.yar.clear(key)
 }
 
+const SESSION_KEYS = {
+  SELECTED_LAND_PARCEL: 'selectedLandParcel',
+  SELECTED_ACTIONS: 'selectedActions',
+  SELECTED_ORG: 'chosen-organisation',
+  APPLICANT_NAME: 'applicantName',
+  PAYMENT_AMOUNT: 'paymentAmount',
+  APPLICATION_REF: 'applicationReference'
+}
+
 module.exports = {
   setYarValue,
   getYarValue,
-  clearYarValue
+  clearYarValue,
+  SESSION_KEYS
 }

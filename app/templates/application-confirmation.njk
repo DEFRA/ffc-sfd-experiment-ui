@@ -1,0 +1,10 @@
+{% extends '.layout.njk' %}
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+{% block content %}
+{{ govukPanel({
+  titleText: "Application submitted",
+  html: ["Your reference number<br><strong>", applicationRef,"</strong>"] | join
+}) }}
+
+{% endblock %}
