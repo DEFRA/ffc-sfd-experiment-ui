@@ -23,7 +23,7 @@
     "chai": "^4.1.2"
   },
   "scripts": {
-    "test": "wdio run ./wdio.conf.js",
+    "test": "wdio wdio.conf.js",
     "generate-report:allure": "allure generate --clean allure-results && allure open"
   },
   "dependencies": {
