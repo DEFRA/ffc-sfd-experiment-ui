@@ -31,7 +31,7 @@ export const config = {
     ],
     logLevel: 'info',
     bail: 0,
-    baseUrl: 'http://ffc-sfd-experiment-ui.ffc-rps-experiment.svc.cluster.local:80',
+    baseUrl: 'http://172.0.64.37:80',
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,

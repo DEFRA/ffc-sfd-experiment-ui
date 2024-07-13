@@ -2,10 +2,9 @@ const { browser } = require('@wdio/globals')
 const {expect} = require('chai')
 const {waitFor} = require("@babel/core/lib/gensync-utils/async");
 
-
 class CommonActions {
     open (path) {
-        const url = 'http://ffc-sfd-experiment-ui.ffc-rps-experiment.svc.cluster.local:80/tech-evaluation/' + path
+        const url = 'http://172.0.64.37:80/tech-evaluation/' + path
         return browser.url(url)
     }
 
