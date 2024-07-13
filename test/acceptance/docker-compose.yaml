@@ -5,7 +5,6 @@ services:
     build: .
     volumes:
       - .:/usr/src/app
-    network_mode: host
     environment:
       BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
       BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
