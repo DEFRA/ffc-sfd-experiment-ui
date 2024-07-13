@@ -5,7 +5,7 @@ const {waitFor} = require("@babel/core/lib/gensync-utils/async");
 
 class CommonActions {
     open (path) {
-        const url = 'http://localhost:3600/tech-evaluation/' + path
+        const url = 'http://ffc-sfd-experiment-ui.ffc-rps-experiment.svc.cluster.local:80/tech-evaluation/' + path
         return browser.url(url)
     }
 
