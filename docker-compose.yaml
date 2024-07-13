@@ -1,12 +1,9 @@
 version: '3.8'
 
-# This override file should be used when running this service in isolation
-# to provide dependencies and expose ports for local testing
-
 services:
   ffc-sfd-experiment-ui:
     build:
-      context: .
+      context: ../../
       target: development
     depends_on:
       - redis
@@ -16,11 +13,24 @@ services:
     ports:
       - "3600:3600"
       - "9235:9229"
-#    networks:
-#      - ffc-rps-experiment-api_default
     volumes:
-      - ./app/:/home/node/app/
-      - ./package.json:/home/node/package.json
+      - ../../app/:/home/node/app/
+      - ../../package.json:/home/node/package.json
+    network_mode: host
+
+  app:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    environment:
+      BROWSERSTACK_ACCESS_KEY: ${BROWSERSTACK_ACCESS_KEY}
+      BROWSERSTACK_USERNAME: ${BROWSERSTACK_USERNAME}
+      CHROME_ARGS: "--headless --disable-gpu --no-sandbox --disable-dev-shm-usage --disable-software-rasterizer --disable-setuid-sandbox --window-size=1920,1080"
+      TEST_ENVIRONMENT_ROOT_URL: http://localhost:3600
+    command: npm run test
+    depends_on:
+      - ffc-sfd-experiment-ui
+    network_mode: host
 
   redis:
     image: redis:4.0.14
@@ -28,10 +38,7 @@ services:
       - redis_data:/data
     ports:
       - "6383:6379"
+    network_mode: host
 
 volumes:
   redis_data:
-
-#networks:
-#  ffc-rps-experiment-api_default:
-#    external: true
