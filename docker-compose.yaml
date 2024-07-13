@@ -1,49 +1,37 @@
 version: '3.8'
 
+# This override file should be used when running this service in isolation
+# to provide dependencies and expose ports for local testing
+
 services:
   ffc-sfd-experiment-ui:
     build:
       context: .
-      target: production
-    image: ffc-sfd-experiment-ui
-    environment:     
-      NODE_ENV: production
-      PORT: ${PORT:-3600}
-      SITE_URL: localhost:3600
-      LOGIN_REQUIRED: ${LOGIN_REQUIRED:-false}
-      AUTH_USERNAME: ${AUTH_USERNAME:-grants}
-      AUTH_PASSWORD_HASH: ${AUTH_PASSWORD_HASH:-grants}
-      GOOGLE_TAG_MANAGER_KEY: 'GT-MJPRKW7'
-      GOOGLE_TAG_MANAGER_SERVER_KEY: ${GOOGLE_TAG_MANAGER_SERVER_KEY:-notset}
-      ANALYTICS_PROPERTY_API: ${ANALYTICS_PROPERTY_API:-notset}
-      COOKIE_PASSWORD: thisistestcookiepasswordthisistestcookiepasswordthisistestcookiepassword
-      SERVICE_BUS_HOST: ${SERVICE_BUS_HOST:-notset}
-      SERVICE_BUS_PASSWORD: ${SERVICE_BUS_PASSWORD:-notset}
-      SERVICE_BUS_USER: ${SERVICE_BUS_USER:-notset}
-      CONTACT_DETAILS_QUEUE_ADDRESS: ${CONTACT_DETAILS_QUEUE_ADDRESS:-notset}
-      BACKEND_POLLING_HOST: http://host.docker.internal:3021
-      POLLING_INTERVAL: 200
-      POLLING_RETRIES: 20
-      APPINSIGHTS_CLOUDROLE: ffc-grants-slurry
-      APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY:-notset}
-      REDIS_HOSTNAME: redis
-      REDIS_PORT: 6379
-      REDIS_PARTITION: ffc-sfd-experiment-ui
-      REDIS_PASSWORD: ""
-      SESSION_CACHE_TTL: 1200000
-      SURVEY_LINK: https://defragroup.eu.qualtrics.com/jfe/preview/SV_8elUWS7UgbUh3iC?Q_CHL=preview&Q_SurveyVersionID=current
-      GRANTS_REQUEST_QUEUE_ADDRESS_SF: ${GRANTS_REQUEST_QUEUE_ADDRESS_SF:-notset}
-      GRANTS_RESPONSE_QUEUE_ADDRESS_SF: ${GRANTS_RESPONSE_QUEUE_ADDRESS_SF:-notset}
-      GRANTS_REQUEST_QUEUE_ADDRESS_SND: ${GRANTS_REQUEST_QUEUE_ADDRESS_SND:-notset}
-      GRANTS_RESPONSE_QUEUE_ADDRESS_SND: ${GRANTS_RESPONSE_QUEUE_ADDRESS_SND:-notset}
-      GRANTS_REQUEST_QUEUE_ADDRESS_SN: ${GRANTS_REQUEST_QUEUE_ADDRESS_SN:-notset}
-      GRANTS_RESPONSE_QUEUE_ADDRESS_SN: ${GRANTS_RESPONSE_QUEUE_ADDRESS_SN:-notset}
-      GRANTS_REQUEST_QUEUE_ADDRESS_PEGA: ${GRANTS_REQUEST_QUEUE_ADDRESS_PEGA:-notset}
-      GRANTS_RESPONSE_QUEUE_ADDRESS_PEGA: ${GRANTS_RESPONSE_QUEUE_ADDRESS_PEGA:-notset}
-      DESIRABILITY_SUBMITTED_TOPIC_ADDRESS: ${DESIRABILITY_SUBMITTED_TOPIC_ADDRESS:-notset}
-      WORKSHEET_HIDE_EMPTY_ROWS: ${WORKSHEET_HIDE_EMPTY_ROWS:-false}
-      WORKSHEET_PROTECT_ENABLED: ${WORKSHEET_PROTECT_ENABLED:-false}
-      SEND_EMAIL_TO_RPA: ${SEND_EMAIL_TO_RPA:-false}
-      WORKSHEET_PROTECT_PASSWORD: ${WORKSHEET_PROTECT_PASSWORD:-notset}
-      NOTIFY_EMAIL_TEMPLATE: ${NOTIFY_EMAIL_TEMPLATE:-notset}
-      EXCEL_UPLOAD_ENVIRONMENT: ${EXCEL_UPLOAD_ENVIRONMENT:-notset}
+      target: development
+    depends_on:
+      - redis
+    image: ffc-sfd-experiment-ui-development
+    environment:
+      NODE_ENV: development
+    ports:
+      - "3600:3600"
+      - "9235:9229"
+    networks:
+      - ffc-rps-experiment-api_default
+    volumes:
+      - ./app/:/home/node/app/
+      - ./package.json:/home/node/package.json
+
+  redis:
+    image: redis:4.0.14
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6383:6379"
+
+volumes:
+  redis_data:
+
+networks:
+  ffc-rps-experiment-api_default:
+    external: true
