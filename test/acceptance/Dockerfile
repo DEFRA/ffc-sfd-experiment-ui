@@ -44,6 +44,9 @@ COPY package*.json ./
 # Install the dependencies
 RUN npm install
 
+# Add the node_modules/.bin directory to the PATH
+ENV PATH="./node_modules/.bin:$PATH"
+
 # Copy the rest of the application code
 COPY . .
 
