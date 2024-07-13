@@ -9,7 +9,7 @@ services:
     environment:     
       NODE_ENV: production
       PORT: ${PORT:-3600}
-      SITE_URL: localhost:3600
+      SITE_URL: http://ffc-sfd-experiment-ui.ffc-rps-experiment.svc.cluster.local:80
       LOGIN_REQUIRED: ${LOGIN_REQUIRED:-false}
       AUTH_USERNAME: ${AUTH_USERNAME:-grants}
       AUTH_PASSWORD_HASH: ${AUTH_PASSWORD_HASH:-grants}
