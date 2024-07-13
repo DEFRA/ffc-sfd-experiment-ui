@@ -32,6 +32,6 @@ services:
 volumes:
   redis_data:
 
-networks:
-  ffc-rps-experiment-api_default:
-    external: true
+#networks:
+#  ffc-rps-experiment-api_default:
+#    external: true
