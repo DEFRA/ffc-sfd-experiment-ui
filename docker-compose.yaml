@@ -16,8 +16,8 @@ services:
     ports:
       - "3600:3600"
       - "9235:9229"
-    networks:
-      - ffc-rps-experiment-api_default
+#    networks:
+#      - ffc-rps-experiment-api_default
     volumes:
       - ./app/:/home/node/app/
       - ./package.json:/home/node/package.json
