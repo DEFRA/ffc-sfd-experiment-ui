@@ -31,7 +31,7 @@ export const config = {
     ],
     logLevel: 'info',
     bail: 0,
-    baseUrl: 'http://localhost:3600',
+    baseUrl: 'http://localhost',
     waitforTimeout: 10000,
     connectionRetryTimeout: 120000,
     connectionRetryCount: 3,
