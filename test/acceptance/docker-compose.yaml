@@ -29,7 +29,7 @@ services:
       PORT: "3600"
       DEBUG: "*"
       SERVICE_BUS_HOST: "SNDFFCINFSB1001.servicebus.windows.net"
-      SERVICE_BUS_PASSWORD: "XAs4qFZfUz0aURxztvK/q7nTxx74yNQB+ASbFzFhhg="
+      SERVICE_BUS_PASSWORD: "XAs4qFZfUz0aURxztvK/qeeefffffeea+ASbFzFhhg="
       SERVICE_BUS_USER: "RootManageSharedAccessKey"
       COOKIE_PASSWORD: 'supersecurecookiepasswordthatismorethan32characters'
       BACKEND_POLLING_HOST: "http://localhost:3021/"
@@ -46,7 +46,7 @@ services:
       SITE_URL: "http://172.0.64.37:80"
       REDIS_HOSTNAME: "DEVFFCINFRD1001.redis.cache.windows.net"
       REDIS_PORT: 6382
-      REDIS_PASSWORD: "gdD6CrvADyYLorEeCMzD0wUNN60gIYxcfaZ85e+byUU="
+      REDIS_PASSWORD: "gdD6CrvADyYLorfffffffffff60gIYxcfaZ85e+byUU="
       REDIS_PARTITION: "ffc-future-grants-tech-evaluation"
       SERVER_TIMEOUT: 5
       LOGIN_REQUIRED: 'sdfgsdfgsdfgsdf'
@@ -102,7 +102,7 @@ services:
       - SITE_VERSION=tech-evaluation
       - REDIS_HOSTNAME=DEVFFCINFRD1001.redis.cache.windows.net
       - REDIS_PORT=6382
-      - REDIS_PASSWORD=gdD6CrvADyYLorEeCMzD0wUNN60gIYxcfaZ85e+byUU=
+      - REDIS_PASSWORD=gdD6CrvADyYfffffffffffUNN60gIYxcfaZ85e+byUU=
       - REDIS_PARTITION=ffc-future-grants-tech-evaluation
       - SERVER_TIMEOUT=5
       - LOGIN_REQUIRED=sdfgsdfgsdfgsdf
@@ -110,7 +110,7 @@ services:
       - AUTH_PASSWORD_HASH=grants
       - GOOGLE_TAG_MANAGER_KEY=GTM-WJ5C78H
       - SERVICE_BUS_HOST=SNDFFCINFSB1001.servicebus.windows.net
-      - SERVICE_BUS_PASSWORD=XAs4qFZfUz0aURxztvK/q7nTxx74yNQB+ASbFzFhhg=
+      - SERVICE_BUS_PASSWORD=XAs4qeeeeeeeURxztvK/q7nTxx74yNQB+ASbFzFhhg=
       - SERVICE_BUS_USER=RootManageSharedAccessKey
       - COOKIE_PASSWORD='supersecurecookiepasswordthatismorethan32characters'
       - PORT=3600
