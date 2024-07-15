@@ -116,8 +116,7 @@ services:
       - PORT=3600
       - DEBUG=*
       - HEADLESS=true
-    networks:
-      - app-network
+    network_mode: host
 
 networks:
   app-network:

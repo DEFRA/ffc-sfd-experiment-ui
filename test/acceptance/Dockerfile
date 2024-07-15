@@ -1,20 +1,45 @@
-# Use an official Node.js runtime as the base image
 FROM node:18
 
-# Set the working directory inside the container
+# Install necessary dependencies for Chrome/Chromium
+RUN apt-get update && apt-get install -y \
+    libnss3 \
+    libgconf-2-4 \
+    libxi6 \
+    libxcursor1 \
+    libxcomposite1 \
+    libasound2 \
+    libatk1.0-0 \
+    libxrandr2 \
+    libxdamage1 \
+    libxkbcommon0 \
+    libx11-xcb1 \
+    libgbm1 \
+    libgtk-3-0 \
+    libpango-1.0-0 \
+    libpangocairo-1.0-0 \
+    libpangoft2-1.0-0 \
+    libcups2 \
+    libxss1 \
+    fonts-liberation \
+    xdg-utils \
+    wget \
+    curl \
+    unzip
+
+# Set working directory
 WORKDIR /usr/src/app
 
-# Install curl to check the /healthy endpoint
-RUN apt-get update && apt-get install -y curl
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Copy the current directory contents into the container at /usr/src/app
-COPY . .
-
-# Install app dependencies
+# Install dependencies
 RUN npm install
 
-# Make the acceptance test script executable
-RUN chmod +x ./start-tests.sh
+# Copy the rest of the application
+COPY . .
 
-# Command to run the acceptance tests
-CMD ["./start-tests.sh"]
+# Make the start-tests.sh script executable
+RUN chmod +x start-tests.sh
+
+# Set the entrypoint to the start-tests.sh script
+ENTRYPOINT ["./start-tests.sh"]
