@@ -116,6 +116,7 @@ services:
       - PORT=3600
       - DEBUG=*
       - HEADLESS=true
+      - DISABLE_ALLURE_REPORTING=true
     network_mode: host
 
 networks:
