@@ -14,7 +14,7 @@ COPY . .
 RUN npm install
 
 # Make the acceptance test script executable
-RUN chmod +x ./test-script.sh
+RUN chmod +x ./start-tests.sh
 
 # Command to run the acceptance tests
-CMD ["./test-script.sh"]
+CMD ["./start-tests.sh"]

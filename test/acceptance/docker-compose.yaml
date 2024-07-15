@@ -18,7 +18,7 @@ services:
 
   ui:
     build:
-      context: ../..
+      context: ../../
       dockerfile: Dockerfile
     depends_on:
       - redis
@@ -42,7 +42,7 @@ services:
       GRANTS_RESPONSE_QUEUE_ADDRESS_PEGA: "ffc-future-grants-res-pega"
       GRANTS_REQUEST_QUEUE_ADDRESS_SN: "ffc-future-grants-req-sn"
       GRANTS_RESPONSE_QUEUE_ADDRESS_SN: "ffc-future-grants-res-sn"
-      EXPERIMENT_API_BASE_URL: "http://api:3000"  # Update to use the service name
+      EXPERIMENT_API_BASE_URL: "http://api:3000"
       SITE_URL: "http://172.0.64.37:80"
       REDIS_HOSTNAME: "DEVFFCINFRD1001.redis.cache.windows.net"
       REDIS_PORT: 6382
@@ -82,12 +82,10 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    depends_on:
-      ui:
-        condition: service_healthy
+    command: ["./start-tests.sh"]
     environment:
-      - API_URL=http://localhost:3000
-      - UI_URL=http://localhost:3001
+      - API_URL=http://api:3000
+      - UI_URL=http://ui:3600
       - BACKEND_POLLING_HOST=http://localhost:3021/
       - CONTACT_DETAILS_QUEUE_ADDRESS=ffc-grants-slurry-contact-details-mk
       - GRANTS_REQUEST_QUEUE_ADDRESS_SND=ffc-future-grants-req-snd
@@ -98,7 +96,7 @@ services:
       - GRANTS_RESPONSE_QUEUE_ADDRESS_PEGA=ffc-future-grants-res-pega
       - GRANTS_REQUEST_QUEUE_ADDRESS_SN=ffc-future-grants-req-sn
       - GRANTS_RESPONSE_QUEUE_ADDRESS_SN=ffc-future-grants-res-sn
-      - EXPERIMENT_API_BASE_URL=http://api:3000  # Update to use the service name
+      - EXPERIMENT_API_BASE_URL=http://api:3000
       - NODE_ENV=dev
       - SITE_URL=http://172.0.64.37:80
       - SITE_VERSION=tech-evaluation
