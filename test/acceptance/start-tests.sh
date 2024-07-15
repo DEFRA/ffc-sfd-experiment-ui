@@ -13,4 +13,5 @@ until curl -s http://ui:3600/health > /dev/null; do
 done
 
 # Run the acceptance tests
+export HEADLESS=true
 npm run test

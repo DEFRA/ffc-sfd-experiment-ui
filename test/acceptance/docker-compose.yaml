@@ -115,6 +115,7 @@ services:
       - COOKIE_PASSWORD='supersecurecookiepasswordthatismorethan32characters'
       - PORT=3600
       - DEBUG=*
+      - HEADLESS=true
     networks:
       - app-network
 
