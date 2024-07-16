@@ -4,7 +4,7 @@ test-output
 docker-compose*
 README.md
 LICENCE
-Dockerfile
+Dockerfile.old
 .secrets.baseline
 .snyk
 .pre-commit-config.yaml

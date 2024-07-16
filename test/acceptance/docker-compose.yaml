@@ -1,0 +1,126 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: https://github.com/DEFRA/ffc-rps-experiment-api.git
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3000/healthy || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    expose:
+      - "3000"
+    networks:
+      - app-network
+
+  ui:
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+      - api
+    environment:
+      NODE_ENV: development
+      SITE_VERSION: 'tech-evaluation'
+      PORT: "3600"
+      DEBUG: "*"
+      SERVICE_BUS_HOST: "SNDFFCINFSB1001.servicebus.windows.net"
+      SERVICE_BUS_PASSWORD: "XAs4qFZfUz0aURxztvK/qeeefffffeea+ASbFzFhhg="
+      SERVICE_BUS_USER: "RootManageSharedAccessKey"
+      COOKIE_PASSWORD: 'supersecurecookiepasswordthatismorethan32characters'
+      BACKEND_POLLING_HOST: "http://localhost:3021/"
+      CONTACT_DETAILS_QUEUE_ADDRESS: "ffc-grants-slurry-contact-details-mk"
+      GRANTS_REQUEST_QUEUE_ADDRESS_SND: "ffc-future-grants-req-snd"
+      GRANTS_RESPONSE_QUEUE_ADDRESS_SND: "ffc-future-grants-res-snd"
+      GRANTS_REQUEST_QUEUE_ADDRESS_SF: "ffc-future-grants-req-sf"
+      GRANTS_RESPONSE_QUEUE_ADDRESS_SF: "ffc-future-grants-res-sf"
+      GRANTS_REQUEST_QUEUE_ADDRESS_PEGA: "ffc-future-grants-req-pega"
+      GRANTS_RESPONSE_QUEUE_ADDRESS_PEGA: "ffc-future-grants-res-pega"
+      GRANTS_REQUEST_QUEUE_ADDRESS_SN: "ffc-future-grants-req-sn"
+      GRANTS_RESPONSE_QUEUE_ADDRESS_SN: "ffc-future-grants-res-sn"
+      EXPERIMENT_API_BASE_URL: "http://api:3000"
+      SITE_URL: "http://172.0.64.37:80"
+      REDIS_HOSTNAME: "DEVFFCINFRD1001.redis.cache.windows.net"
+      REDIS_PORT: 6382
+      REDIS_PASSWORD: "gdD6CrvADyYLorfffffffffff60gIYxcfaZ85e+byUU="
+      REDIS_PARTITION: "ffc-future-grants-tech-evaluation"
+      SERVER_TIMEOUT: 5
+      LOGIN_REQUIRED: 'sdfgsdfgsdfgsdf'
+      AUTH_USERNAME: grants
+      AUTH_PASSWORD_HASH: grants
+      GOOGLE_TAG_MANAGER_KEY: 'GTM-WJ5C78H'
+    ports:
+      - "3600:3600"
+      - "9235:9229"
+    volumes:
+      - ../../app:/home/node/app/
+      - ../../package.json:/home/node/package.json
+    expose:
+      - "3600"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:3600/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - app-network
+
+  redis:
+    image: redis:4.0.14
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6383:6379"
+    networks:
+      - app-network
+
+  acceptance:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["./start-tests.sh"]
+    environment:
+      - API_URL=http://api:3000
+      - UI_URL=http://ui:3600
+      - BACKEND_POLLING_HOST=http://localhost:3021/
+      - CONTACT_DETAILS_QUEUE_ADDRESS=ffc-grants-slurry-contact-details-mk
+      - GRANTS_REQUEST_QUEUE_ADDRESS_SND=ffc-future-grants-req-snd
+      - GRANTS_RESPONSE_QUEUE_ADDRESS_SND=ffc-future-grants-res-snd
+      - GRANTS_REQUEST_QUEUE_ADDRESS_SF=ffc-future-grants-req-sf
+      - GRANTS_RESPONSE_QUEUE_ADDRESS_SF=ffc-future-grants-res-sf
+      - GRANTS_REQUEST_QUEUE_ADDRESS_PEGA=ffc-future-grants-req-pega
+      - GRANTS_RESPONSE_QUEUE_ADDRESS_PEGA=ffc-future-grants-res-pega
+      - GRANTS_REQUEST_QUEUE_ADDRESS_SN=ffc-future-grants-req-sn
+      - GRANTS_RESPONSE_QUEUE_ADDRESS_SN=ffc-future-grants-res-sn
+      - EXPERIMENT_API_BASE_URL=http://api:3000
+      - NODE_ENV=dev
+      - SITE_URL=http://172.0.64.37:80
+      - SITE_VERSION=tech-evaluation
+      - REDIS_HOSTNAME=DEVFFCINFRD1001.redis.cache.windows.net
+      - REDIS_PORT=6382
+      - REDIS_PASSWORD=gdD6CrvADyYfffffffffffUNN60gIYxcfaZ85e+byUU=
+      - REDIS_PARTITION=ffc-future-grants-tech-evaluation
+      - SERVER_TIMEOUT=5
+      - LOGIN_REQUIRED=sdfgsdfgsdfgsdf
+      - AUTH_USERNAME=grants
+      - AUTH_PASSWORD_HASH=grants
+      - GOOGLE_TAG_MANAGER_KEY=GTM-WJ5C78H
+      - SERVICE_BUS_HOST=SNDFFCINFSB1001.servicebus.windows.net
+      - SERVICE_BUS_PASSWORD=XAs4qeeeeeeeURxztvK/q7nTxx74yNQB+ASbFzFhhg=
+      - SERVICE_BUS_USER=RootManageSharedAccessKey
+      - COOKIE_PASSWORD='supersecurecookiepasswordthatismorethan32characters'
+      - PORT=3600
+      - DEBUG=*
+      - HEADLESS=true
+      - DISABLE_ALLURE_REPORTING=true
+    network_mode: host
+
+networks:
+  app-network:
+
+volumes:
+  redis_data:
