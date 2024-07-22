@@ -81,9 +81,10 @@ module.exports = [
             description: getActionDescription(request.payload, request.payload.selectedActionCodes)
           }]
 
-      const landUseCodes = getLandUseCodes(getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL), getYarValue(request, SESSION_KEYS.RAW_PARCELS))
-      const actionCodes = userSelectedActions.map(action => action.actionCode);
-      const validationResult = await validateActions(actionCodes, landUseCodes)
+      const selectedLandParcel = getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL)
+      const landUseCodes = getLandUseCodes(selectedLandParcel, getYarValue(request, SESSION_KEYS.RAW_PARCELS))
+      const landParcelWithLandUseCodes = { ...selectedLandParcel, landUseCodes }
+      const validationResult = await validateActions(userSelectedActions, landParcelWithLandUseCodes)
 
       if (validationResult.isValidCombination === false) {
         const rawActions = await getActions(getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL).parcelId, landUseCodes);

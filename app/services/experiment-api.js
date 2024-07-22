@@ -23,8 +23,8 @@ const invokePostEndpoint = async (endpoint, requestPayload) => {
     return deserializedResponse ?? null
 }
 
-const validateActions = async (actions, landUseCodes) => {
-    return invokePostEndpoint('action-validation', {actions: actions, landUseCodes: landUseCodes})
+const validateActions = async (actions, landParcel) => {
+    return invokePostEndpoint('action-validation', {actions, landParcel})
 }
 
 const getLandParcels = async (sbi) => {
