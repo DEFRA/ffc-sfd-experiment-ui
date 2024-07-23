@@ -15,7 +15,7 @@ const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
       .toFixed(4),
     landParcels: rawLandParcels.map((lp) => {
       const landUseDescriptions = lp.landUseList.map(use => use.CROP_PLAN).join(', ')
-      const landUseArea = lp.landUseList.map(use => use.AREA).join(', ')
+      const landUseArea = lp.landUseList.map(use => use.area).join(', ')
       return {
         text: `${lp.osSheetId} ${lp.parcelId} (${parseFloat(lp.area).toFixed(4)} ha)`,
         hint: { text: `Land use: ${landUseDescriptions}: ${landUseArea} ha` },

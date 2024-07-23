@@ -25,7 +25,7 @@ const createModel = (selectedActions, actionPayments, sbi) => {
 const getLandUseCodesOfSeletedLandParcel = (parcelId, landParcelsList) => {
     const matchingParcel = landParcelsList.find(parcel => parcel.parcelId === parcelId);
     if (matchingParcel && matchingParcel.landUseList) {
-        return matchingParcel.landUseList.map(use => use.CODE);
+        return matchingParcel.landUseList.map(use => use.code);
     }
     return [];
 }

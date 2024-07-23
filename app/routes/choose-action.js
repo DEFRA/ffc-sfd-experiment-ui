@@ -16,7 +16,7 @@ const getActionDescription = (requestPayload, selectedActionCode) => {
 
 const getLandUseCodes = (selectedParcel, rawLandParcels) => {
   const parcel = rawLandParcels.find(lp => lp.parcelId === selectedParcel.parcelId)
-  return parcel ? parcel.landUseList.map(use => use.CODE) : []
+  return parcel ? parcel.landUseList.map(use => use.code) : []
 }
 
 const getEnrichedActions = async (rawActions, landUseCodes, selectedParcelArea) => {
