@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const { urlPrefix } = require('../config/server')
-const { getActions, calculateAvailableArea, getLandParcels, validateActions} = require('../services/experiment-api')
+const { getActions, calculateAvailableArea, getLandParcels, validateActions } = require('../services/experiment-api')
 const viewTemplate = 'choose-action'
 const currentPath = `${urlPrefix}/${viewTemplate}`
 const nextPath = `${urlPrefix}/payment`
@@ -19,7 +19,16 @@ const getLandUseCodes = (selectedParcel, rawLandParcels) => {
   return parcel ? parcel.landUseList.map(use => use.CODE) : []
 }
 
-const createModel = (actions, selectedActions, errorMessage= '') => {
+const getEnrichedActions = async (rawActions, landUseCodes, selectedParcelArea) => {
+  const enrichedActions = []
+  for (const action of rawActions) {
+    const availableArea = await calculateAvailableArea(action.code, selectedParcelArea, landUseCodes)
+    enrichedActions.push({ ...action, availableArea: availableArea.toFixed(4) })
+  }
+  return enrichedActions
+}
+
+const createModel = (actions, selectedActions, errorMessage = '') => {
   const selectedActionQuantities = {}
   selectedActions.forEach((a) => { selectedActionQuantities[a.actionCode] = a.quantity })
   return {
@@ -41,22 +50,11 @@ module.exports = [
       const sbi = getYarValue(request, SESSION_KEYS.SELECTED_ORG)
       const selectedParcel = getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL)
       const selectedActions = getYarValue(request, SESSION_KEYS.SELECTED_ACTIONS) ?? []
-      // const rawLandParcels = getYarValue(request, 'rawLandParcels')
       const landParcels = await getLandParcels(sbi)
-
 
       const landUseCodes = getLandUseCodes(selectedParcel, landParcels)
       const rawActions = await getActions(selectedParcel.parcelId, landUseCodes)
-      // setYarValue(request, 'rawActions', rawActions)
-      const enrichedActions = []
-      for (const action of rawActions) {
-        const availableArea = await calculateAvailableArea(action.code, selectedParcel.area, landUseCodes)
-
-        enrichedActions.push({...action, availableArea: availableArea.toFixed(4)})
-
-
-      }
-      console.log('enrichedActions::::', enrichedActions)
+      const enrichedActions = await getEnrichedActions(rawActions, landUseCodes, selectedParcel.area)
       return h.view(viewTemplate, createModel(enrichedActions, selectedActions))
     }
   },
@@ -86,9 +84,10 @@ module.exports = [
       const landParcelWithLandUseCodes = { ...selectedLandParcel, landUseCodes }
       const validationResult = await validateActions(userSelectedActions, landParcelWithLandUseCodes)
 
-      if (validationResult.isValidCombination === false) {
-        const rawActions = await getActions(getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL).parcelId, landUseCodes);
-        return h.view(viewTemplate, createModel(rawActions, userSelectedActions, 'Please choose a valid combination of actions')).takeover();
+      if (!validationResult.isValidCombination) {
+        const rawActions = await getActions(selectedLandParcel.parcelId, landUseCodes)
+        const enrichedActions = await getEnrichedActions(rawActions, landUseCodes, selectedLandParcel.area)
+        return h.view(viewTemplate, createModel(enrichedActions, userSelectedActions, validationResult.error)).takeover()
       }
       setYarValue(request, SESSION_KEYS.SELECTED_ACTIONS, userSelectedActions)
       return h.redirect(nextPath)

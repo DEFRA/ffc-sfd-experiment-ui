@@ -1,6 +1,7 @@
 {% extends '.layout.njk' %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "components/macro.njk" import crumbToken %}
 
 {% block content %}
@@ -9,7 +10,14 @@
 {{crumbToken(crumb)}}
     {# Error message block styled to appear under the table caption #}
     {% if errorMessage %}
-    <span class="govuk-error-message">{{ errorMessage }}</span>
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+          text: errorMessage
+        }
+      ]
+    }) }}
     {% endif %}
 {% set tableRows = [] %}
 {% for action in actions %}
