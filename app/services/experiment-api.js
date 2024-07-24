@@ -66,7 +66,7 @@ module.exports = {
   getLandParcels,
   getActions,
   calculateAvailableArea,
-  getPaymentAmount: calculatePaymentAmount,
+  calculatePaymentAmount,
   submitFundingApplication,
   validateActions
 }

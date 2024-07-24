@@ -8,7 +8,6 @@
 
 <form method="post" action="{{formActionPage}}" novalidate>
 {{crumbToken(crumb)}}
-    {# Error message block styled to appear under the table caption #}
     {% if errorMessage %}
     {{ govukErrorSummary({
       titleText: "There is a problem",
