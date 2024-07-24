@@ -13,6 +13,7 @@ const key = process.env.BROWSERSTACK_ACCESS_KEY
 
 export const config = {
     hostname: 'hub-cloud.browserstack.com',
+    port: 80,
     user,
     key,
     specs: ['./features/*.feature'],
@@ -21,25 +22,30 @@ export const config = {
     capabilities: [
         {
             maxInstances,
-            acceptInsecureCerts: true,
             browserName: 'chrome',
-            'browserstack.local': true,
-            'browserstack.networkLogs': true,
-            'browserstack.acceptSslCerts': true,
             'goog:chromeOptions': {
                 args: chromeArgs
+            },
+            'sauce:options': {
+                'browserstack.local': true,
+                'browserstack.networkLogs': true,
+                'browserstack.acceptSslCerts': true
             }
         }
     ],
-
     logLevel: 'warn',
     bail: 0,
     baseUrl: envRoot,
     waitforTimeout: 10000,
     connectionRetryTimeout: 90000,
     connectionRetryCount: 1,
-    services: ['browserstack'],
-    framework: 'cucumber',
+    services: [['browserstack', {
+        browserstackLocal: true,
+        browserstackOpts: {
+            // Disabling SSL verification for testing purposes
+            ssl: false
+        }
+    }]],    framework: 'cucumber',
     specFileRetries: 1,
     specFileRetriesDelay: 30,
 

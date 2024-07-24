@@ -1,0 +1,93 @@
+[90m2024-07-22T09:55:05.919Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Sending SDK event with data {
+  userName: 'mayanksolanki_O9zBKn',
+  accessKey: 'omyVoAfLtQ972djqsjqc',
+  event_type: 'SDKTestAttempted',
+  detectedFramework: 'WebdriverIO-cucumber',
+  event_properties: {
+    language_framework: 'WebdriverIO_cucumber',
+    referrer: 'WebdriverIO-cucumber/8.39.1',
+    language: 'WebdriverIO',
+    languageVersion: 'v20.15.0',
+    buildName: 'undefined',
+    buildIdentifier: 'undefined',
+    sdkRunId: '19c01af1-6baf-4f7a-a313-1f853110d3d6',
+    os: 'Darwin',
+    hostname: 'Mayanks-MacBook-Pro.local',
+    productMap: {
+      observability: true,
+      accessibility: false,
+      percy: false,
+      automate: true,
+      app_automate: false
+    },
+    product: [ 'observability', 'automate' ]
+  }
+}
+[90m2024-07-22T09:55:06.149Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Funnel event success
+[90m2024-07-22T09:55:06.149Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m app is not defined in browserstack-service config, skipping ...
+[90m2024-07-22T09:55:06.150Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Sending launch start event
+[90m2024-07-22T09:55:06.683Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m [Start_Build] Success response: {"build_hashed_id":"jvpm5dcaye8zrcwkbf1osyoztezhnzs4wk6tknw1","jwt":"eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJicm93c2Vyc3RhY2tfb2IiLCJzdWIiOiI4NzQ4NjE5IiwiZ3JvdXBfaWQiOjMzMjI5ODgsInVzZXJfaWQiOjg3NDg2MTksImJ1aWxkX2hhc2hlZF9pZCI6Imp2cG01ZGNheWU4enJjd2tiZjFvc3lvenRlemhuenM0d2s2dGtudzEiLCJob29rX2FzX3Rlc3QiOiIxIiwiYnVpbGRfbmFtZSI6ImFjY2VwdGFuY2UiLCJwcm9kdWN0X21hcCI6IntcIm9ic2VydmFiaWxpdHlcIjp0cnVlfSIsImdycl9yZWdpb24iOiIiLCJzaWduaW5nX2tleV9oYXNoIjoiNTc4ZmNjNDA2MDY4OTI4ZjMyNzQ2NGZkY2UwNWJiYzNlYWQ3YWVjMDMwN2NlNmJlNWQzOGRhYTQ3MDI2NDg5NiIsImlhdCI6MTcyMTY0MjEwNiwiZXhwIjoxNzIxOTg3NzA2fQ.37TCiUP85JNOdi0v3TM8Wgm3WOv7fpTPGXKA0uE2M-o","allow_screenshots":true}
+[90m2024-07-22T09:55:18.057Z[39m [96mINFO[39m [97m@wdio/browserstack-service[39m Browserstack Local successfully started after 11367.835916ms
+[90m2024-07-22T09:55:18.981Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m teardown started
+[90m2024-07-22T09:55:18.981Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m teardown ended
+[90m2024-07-22T09:55:50.150Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m teardown started
+[90m2024-07-22T09:55:50.150Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m teardown ended
+[90m2024-07-22T09:55:50.272Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Inside OnComplete hook..
+[90m2024-07-22T09:55:50.272Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Sending stop launch event
+[90m2024-07-22T09:55:50.397Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m [STOP_BUILD] Success response: ""
+[90m2024-07-22T09:55:50.398Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Reading worker file worker-data-88307.json
+[90m2024-07-22T09:55:50.398Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Reading worker file worker-data-88387.json
+[90m2024-07-22T09:55:50.402Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Sending SDK event with data {
+  userName: 'mayanksolanki_O9zBKn',
+  accessKey: 'omyVoAfLtQ972djqsjqc',
+  event_type: 'SDKTestSuccessful',
+  detectedFramework: 'WebdriverIO-cucumber',
+  event_properties: {
+    language_framework: 'WebdriverIO_cucumber',
+    referrer: 'WebdriverIO-cucumber/8.39.1',
+    language: 'WebdriverIO',
+    languageVersion: 'v20.15.0',
+    buildName: 'undefined',
+    buildIdentifier: 'undefined',
+    sdkRunId: '19c01af1-6baf-4f7a-a313-1f853110d3d6',
+    os: 'Darwin',
+    hostname: 'Mayanks-MacBook-Pro.local',
+    productMap: {
+      observability: true,
+      accessibility: false,
+      percy: false,
+      automate: true,
+      app_automate: false
+    },
+    product: [ 'observability', 'automate' ],
+    testhub_uuid: 'jvpm5dcaye8zrcwkbf1osyoztezhnzs4wk6tknw1',
+    productUsage: {
+      testObservability: {
+        enabled: true,
+        manuallySet: false,
+        buildHashedId: 'jvpm5dcaye8zrcwkbf1osyoztezhnzs4wk6tknw1',
+        events: {
+          buildEvents: {
+            started: { isTriggered: true, status: 'success', error: undefined },
+            finished: { isTriggered: true, status: 'success', error: undefined }
+          },
+          testEvents: {
+            started: { triggeredCount: 0, sentCount: 0, failedCount: 0 },
+            finished: { triggeredCount: 0, sentCount: 0, failedCount: 0 }
+          },
+          hookEvents: {
+            started: { triggeredCount: 0, sentCount: 0, failedCount: 0 },
+            finished: { triggeredCount: 0, sentCount: 0, failedCount: 0 }
+          },
+          logEvents: { triggeredCount: 0, sentCount: 0, failedCount: 0 },
+          cbtSessionEvents: { triggeredCount: 0, sentCount: 0, failedCount: 0 }
+        }
+      }
+    }
+  }
+}
+[90m2024-07-22T09:55:50.598Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Funnel event success
+[90m2024-07-22T09:55:51.329Z[39m [32mDEBUG[39m [97m@wdio/browserstack-service[39m Response - {
+  status: 'success',
+  message: 'Logs upload successful in file - logs.gz'
+}
