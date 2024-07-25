@@ -4,8 +4,6 @@ const EligibilityPage = require('../pageobjects/future-rps-eligibility-evaluatio
 const LandActionsPage = require('../pageobjects/future-rps-land-actions-page');
 const PaymentsPage = require('../pageobjects/future-rps-payment-calculation-page');
 
-let landQuantity
-
 const pages = {
     login: LoginPage
 }
@@ -26,15 +24,25 @@ When(/^Sarah is eligible to apply for funding$/, async function () {
     await EligibilityPage.clickContinueButton()
 });
 
-When(/^Sarah selects the land parcel and the quantity (.*) she wants to apply for funding$/, async function (quantity) {
-    landQuantity = quantity
-    await LandActionsPage.selectLandParcel()
-    await LandActionsPage.selectCheckBox()
-    await LandActionsPage.enterQuantity(landQuantity)
+When(/^Sarah selects the land parcel type of Arable land$/, async function () {
+    await LandActionsPage.selectArableLandParcel()
 });
-
-Then(/^Sarah is shown (.*) amount she will receive$/, async function (payment) {
-    await PaymentsPage.validateLandArea(landQuantity)
-    await PaymentsPage.validatePaymentAmount(payment)
+Then(/^she can choose to apply for SAM1 and or SAM, but not LIG1$/, async function () {
+    await LandActionsPage.selectSam1Action()
+    await LandActionsPage.enterQuantityForSAM1('8.4')
 });
-
+Then(/^Sarah is shown amount she will receive for Arable land$/, async function () {
+    await PaymentsPage.validateLandArea(8.4)
+    await PaymentsPage.validatePaymentAmount(48.72)
+});
+When(/^Sarah selects the land parcel type of Permanent Grassland$/, async function () {
+    await LandActionsPage.selectPermanentGrasslandParcel()
+});
+Then(/^she can choose to apply for SAM1 and or LIG1, but not SAM2$/, async function () {
+    await LandActionsPage.selectSam1Action()
+    await LandActionsPage.enterQuantityForSAM1('4.2')
+});
+Then(/^Sarah is shown amount she will receive for Permanent Grassland$/, async function () {
+    await PaymentsPage.validateLandArea(4.2)
+    await PaymentsPage.validatePaymentAmount(24.36)
+});

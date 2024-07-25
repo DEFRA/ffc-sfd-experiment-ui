@@ -2,13 +2,18 @@ Feature: Sarah the Farmer Journey
   As a Farmer
   I want to be able to apply for funding using Rural Payments Service
 
-  Scenario Outline: Sarah the Farmer applies funding for land parcel area of <value> and is shown she is eligible to receive £<payment>.
+
+  Scenario: Sarah applies for Land Parcel which is Arable and land use is spring wheat(AC32)
      Given Sarah is on the Rural Payments Service login page
      When Sarah is eligible to apply for funding
-     And Sarah selects the land parcel and the quantity <value> she wants to apply for funding
-     Then Sarah is shown <payment> amount she will receive
+     And Sarah selects the land parcel type of Arable land
+     Then she can choose to apply for SAM1 and or SAM, but not LIG1
+     And Sarah is shown amount she will receive for Arable land
 
-    Examples:
-      | value | payment |
-      | 2     | 258.00  |
-      | 3.5   | 451.50  |
+
+  Scenario: Sarah applies for Land Parcel which is Permanent Grassland and use is Permanent Grassland(PG01)
+    Given Sarah is on the Rural Payments Service login page
+    When Sarah is eligible to apply for funding
+    And Sarah selects the land parcel type of Permanent Grassland
+    Then she can choose to apply for SAM1 and or LIG1, but not SAM2
+    And Sarah is shown amount she will receive for Permanent Grassland
