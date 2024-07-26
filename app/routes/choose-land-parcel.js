@@ -14,9 +14,12 @@ const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
       .reduce((accumulator, currentValue) => accumulator + currentValue, 0.0)
       .toFixed(4),
     landParcels: rawLandParcels.map((lp) => {
+      const landUseDescriptions = lp.landUseList.map(use => use.cropPlan).join(', ')
+      const landUseArea = lp.landUseList.map(use => use.area).join(', ')
       return {
         text: `${lp.osSheetId} ${lp.parcelId} (${parseFloat(lp.area).toFixed(4)} ha)`,
-        value: JSON.stringify({ parcelId: lp.parcelId, area: lp.area, osSheetId: lp.osSheetId }),
+        hint: { text: `Land use: ${landUseDescriptions}: ${landUseArea} ha` },
+        value: JSON.stringify({ parcelId: lp.parcelId, area: lp.area, osSheetId: lp.osSheetId, moorlandLineStatus: lp.attributes.moorlandLineStatus }),
         checked: lp.parcelId === selectedLandParcel?.parcelId ?? 0
       }
     }),
@@ -42,6 +45,7 @@ module.exports = [
     handler: async (request, h) => {
       const sbi = getSBI(request)
       const rawLandParcels = await getLandParcels(sbi)
+      setYarValue(request, SESSION_KEYS.RAW_PARCELS, rawLandParcels)
       const selectedLandParcel = getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL)
       return h.view(viewTemplate, createModel(rawLandParcels, selectedLandParcel))
     }

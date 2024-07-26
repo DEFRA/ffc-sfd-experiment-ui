@@ -10,37 +10,52 @@ const invokeGetEndpoint = async (endpoint, defaultReturnValue) => {
 const invokePostEndpoint = async (endpoint, requestPayload) => {
   // eslint-disable-next-line no-undef
   const response = await fetch(
-    `${experimentApiBaseUrl}/${endpoint}`,
-    {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(requestPayload)
-    })
+        `${experimentApiBaseUrl}/${endpoint}`,
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestPayload)
+        })
   const deserializedResponse = await response.json()
   return deserializedResponse ?? null
+}
+
+const validateActions = async (actions, landParcel) => {
+  return invokePostEndpoint('action-validation', { actions, landParcel })
 }
 
 const getLandParcels = async (sbi) => {
   return invokeGetEndpoint(`land-parcel/${sbi}`, [])
 }
 
-const getActions = async (selectedLandParcelId) => {
-  return invokeGetEndpoint(`action?parcel-id=${selectedLandParcelId}`, [])
+const getActions = async (selectedLandParcelId, landUseCodes) => {
+  const landUseCodesString = landUseCodes.join(',')
+  return invokeGetEndpoint(`action?parcel-id=${selectedLandParcelId}&land-use-codes=${encodeURIComponent(landUseCodesString)}`, [])
 }
 
-const calculateAvailableArea = async (actionCode, landParcelArea) => {
-  // eslint-disable-next-line no-undef
-  return invokePostEndpoint('available-area', { applicationFor: actionCode, landParcel: { area: landParcelArea } })
+const calculateAvailableArea = async (actionCode, landParcelArea, landUseCodes) => {
+  return invokePostEndpoint('available-area', {
+    applicationFor: actionCode,
+    landParcel: { area: landParcelArea },
+    landUseCodes
+  })
 }
 
-const getPaymentAmount = async (selectedActions) => {
+const calculatePaymentAmount = async (selectedActions, landUseCodes) => {
   if (selectedActions?.length) {
-    return invokeGetEndpoint(`payment?action-code=${selectedActions[0].actionCode}&hectares-applied-for=${selectedActions[0].quantity}`, null)
+    const payload = {
+      actions: selectedActions.map(action => ({
+        'action-code': action.actionCode,
+        'hectares-applied-for': parseFloat(action.quantity)
+      })),
+      'land-use-codes': landUseCodes
+    }
+    return invokePostEndpoint('payment-calculation', payload)
   }
-  return null
+  return []
 }
 
 const submitFundingApplication = async (fundingApplication) => {
@@ -51,6 +66,7 @@ module.exports = {
   getLandParcels,
   getActions,
   calculateAvailableArea,
-  getPaymentAmount,
-  submitFundingApplication
+  calculatePaymentAmount,
+  submitFundingApplication,
+  validateActions
 }

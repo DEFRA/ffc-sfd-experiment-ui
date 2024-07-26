@@ -19,7 +19,8 @@ const SESSION_KEYS = {
   SELECTED_ORG: 'chosen-organisation',
   APPLICANT_NAME: 'applicantName',
   PAYMENT_AMOUNT: 'paymentAmount',
-  APPLICATION_REF: 'applicationReference'
+  APPLICATION_REF: 'applicationReference',
+  RAW_PARCELS: 'rawLandParcels'
 }
 
 module.exports = {

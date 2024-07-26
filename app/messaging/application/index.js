@@ -23,10 +23,6 @@ async function getActions () {
   ])
 }
 
-async function getLandParcels () {}
-
-async function getAvailableArea () {}
-
 async function getGrants (sessionId, msgQueueSuffix, userData, grantID = null) {
   console.log(
     '[MADE IT TO MESSAGE]',
@@ -95,7 +91,5 @@ const getGrantReqResQueueAddress = msgQueueSuffix => {
 module.exports = {
   getGrants,
   grantSubmitted,
-  getActions,
-  getLandParcels,
-  getAvailableArea
+  getActions
 }
