@@ -34,11 +34,11 @@ function createModel () {
     },
     {
       value: '106846848',
-      text: 'John\'s Farm (future scenario)',
+      text: 'John\'s Farm',
       hint: {
         text: 'A more complex scenario where there are existing agreements in place.'
       },
-      disabled: true
+      disabled: false
     }
   ]
 
