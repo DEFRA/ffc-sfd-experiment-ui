@@ -36,13 +36,13 @@ const createFundingApplication = (request) => {
   const selectedLandParcel = getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL)
   const landParcelRef = `${selectedLandParcel.osSheetId} ${selectedLandParcel.parcelId}`
   const landActions = getYarValue(request, SESSION_KEYS.SELECTED_ACTIONS)
-  const paymentAmount = getYarValue(request, SESSION_KEYS.PAYMENT_AMOUNT)
+  const paymentAmounts = getYarValue(request, SESSION_KEYS.PAYMENT_AMOUNT)
   return {
     applicantName,
     sbi,
     landParcelRef,
     landActions,
-    paymentAmount
+    paymentAmount: paymentAmounts.map(pa => pa.payment).reduce((accumulator, current) => accumulator + current)
   }
 }
 
@@ -72,7 +72,7 @@ module.exports = [
       auth: false
     },
     handler: async (request, h) => {
-      const fundingApplication = createFundingApplication(request)
+      const fundingApplication = createFundingApplication(request)      
       const response = await submitFundingApplication(fundingApplication)
       if (response) {
         setYarValue(request, SESSION_KEYS.APPLICATION_REF, response.id)
