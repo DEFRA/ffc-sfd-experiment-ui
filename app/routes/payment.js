@@ -42,7 +42,7 @@ const createFundingApplication = (request) => {
     sbi,
     landParcelRef,
     landActions,
-    paymentAmount: paymentAmounts.map(pa => pa.payment).reduce((accumulator, current) => accumulator + current)
+    paymentAmount: paymentAmounts.map(pa => pa.payment).reduce((accumulator, payment) => accumulator + payment)
   }
 }
 
@@ -72,7 +72,7 @@ module.exports = [
       auth: false
     },
     handler: async (request, h) => {
-      const fundingApplication = createFundingApplication(request)      
+      const fundingApplication = createFundingApplication(request)
       const response = await submitFundingApplication(fundingApplication)
       if (response) {
         setYarValue(request, SESSION_KEYS.APPLICATION_REF, response.id)
