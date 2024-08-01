@@ -49,12 +49,13 @@ module.exports = [
     handler: async (request, h) => {
       const sbi = getYarValue(request, SESSION_KEYS.SELECTED_ORG)
       const selectedParcel = getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL)
+      const preexistingActions = selectedParcel.agreements.map(agreement => agreement.actionCode)
       const selectedActions = getYarValue(request, SESSION_KEYS.SELECTED_ACTIONS) ?? []
       const landParcels = await getLandParcels(sbi)
 
       const landUseCodes = getLandUseCodes(selectedParcel, landParcels)
-      const rawActions = await getActions(selectedParcel.parcelId, landUseCodes)
-      const enrichedActions = await getEnrichedActions(rawActions, landUseCodes, selectedParcel.area)
+      const rawActions = await getActions(selectedParcel.parcelId, landUseCodes, preexistingActions)
+      const enrichedActions = (await getEnrichedActions(rawActions, landUseCodes, selectedParcel.area))
       return h.view(viewTemplate, createModel(enrichedActions, selectedActions))
     }
   },
@@ -85,7 +86,8 @@ module.exports = [
       const validationResult = await validateActions(userSelectedActions, landParcelWithLandUseCodes)
 
       if (!validationResult.isValidCombination) {
-        const rawActions = await getActions(selectedLandParcel.parcelId, landUseCodes)
+        const preexistingActions = selectedLandParcel.agreements.map(agreement => agreement.actionCode)
+        const rawActions = await getActions(selectedLandParcel.parcelId, landUseCodes, preexistingActions)
         const enrichedActions = await getEnrichedActions(rawActions, landUseCodes, selectedLandParcel.area)
         return h.view(viewTemplate, createModel(enrichedActions, userSelectedActions, validationResult.error)).takeover()
       }

@@ -31,9 +31,9 @@ const getLandParcels = async (sbi) => {
   return invokeGetEndpoint(`land-parcel/${sbi}`, [])
 }
 
-const getActions = async (selectedLandParcelId, landUseCodes) => {
+const getActions = async (selectedLandParcelId, landUseCodes, preexistingActions) => {
   const landUseCodesString = landUseCodes.join(',')
-  return invokeGetEndpoint(`action?parcel-id=${selectedLandParcelId}&land-use-codes=${encodeURIComponent(landUseCodesString)}`, [])
+  return invokeGetEndpoint(`action?parcel-id=${selectedLandParcelId}&land-use-codes=${encodeURIComponent(landUseCodesString)}&preexisting-actions=${preexistingActions}`, [])
 }
 
 const calculateAvailableArea = async (actionCode, landParcelArea, landUseCodes) => {
