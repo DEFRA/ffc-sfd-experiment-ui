@@ -7,6 +7,11 @@ const { drawSectionGetRequests, drawSectionPostRequests } = require('./index')
 
 global.addedGrantIDs = global.addedGrantIDs || []
 
+const FARM_NAMES = {
+  200599768: 'Sarah\'s Farm',
+  106846848: 'Jim\'s Farm'
+}
+
 function createModel () {
   const model = {
     formActionPage: currentPath,
@@ -27,17 +32,17 @@ function createModel () {
   model.radioInput.items = [
     {
       value: '200599768',
-      text: 'Sarah\'s Farm',
+      text: FARM_NAMES['200599768'],
       hint: {
         text: 'Sarah does not have any existing agreements in place and she wishes to apply for one farming incentive on one piece of her land.'
       }
     },
     {
       value: '106846848',
-      text: 'Jim\'s Farm',
+      text: FARM_NAMES['106846848'],
       hint: {
         text: 'A more complex scenario where there are existing agreements in place.'
-      }      
+      }
     }
   ]
 
@@ -74,8 +79,10 @@ module.exports = [
           ]
         })
       }
+      const farmName = FARM_NAMES[request.payload.selectedSBI]
       setYarValue(request, SESSION_KEYS.SELECTED_ORG, request.payload.selectedSBI)
-      setYarValue(request, SESSION_KEYS.APPLICANT_NAME, 'Sarah Farmer')
+      setYarValue(request, SESSION_KEYS.APPLICANT_NAME, farmName)
+      setYarValue(request, SESSION_KEYS.SELECTED_FARM_NAME, farmName)
       const grantID = 'a01WT00001tGtA2YAK'
       const questionBankData = questionBank
       if (!getYarValue(request, 'grant-information')) {

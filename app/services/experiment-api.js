@@ -36,10 +36,17 @@ const getActions = async (selectedLandParcelId, landUseCodes, preexistingActions
   return invokeGetEndpoint(`action?parcel-id=${selectedLandParcelId}&land-use-codes=${encodeURIComponent(landUseCodesString)}&preexisting-actions=${preexistingActions}`, [])
 }
 
-const calculateAvailableArea = async (actionCode, landParcelArea, landUseCodes) => {
+const calculateAvailableArea = async (actionCode, selectedLandParcel, landUseCodes) => {
   return invokePostEndpoint('available-area', {
     applicationFor: actionCode,
-    landParcel: { area: landParcelArea },
+    landParcel: {
+      area: selectedLandParcel.area,
+      existingAgreements: selectedLandParcel.agreements?.length
+        ? selectedLandParcel.agreements.map((agreement) => {
+            return { area: agreement.area, code: agreement.actionCode }
+          })
+        : []
+    },
     landUseCodes
   })
 }

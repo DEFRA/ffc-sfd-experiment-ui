@@ -1,6 +1,6 @@
 const { getUrl } = require('../helpers/urls')
 const { getOptions } = require('../helpers/answer-options')
-const { getYarValue, setYarValue } = require('../helpers/session')
+const { getYarValue, setYarValue, SESSION_KEYS } = require('../helpers/session')
 const { formatUKCurrency } = require('../helpers/data-formats')
 const urlPrefix = require('../config/server').urlPrefix
 
@@ -128,7 +128,8 @@ const getModel = (data, question, request, conditionalHtml = '') => {
   title = title ?? label?.text
 
   // const farmerData = getYarValue(request, 'account-information')
-  const chosenOrganisation = getYarValue(request, 'chosen-organisation')
+  const chosenOrganisation = getYarValue(request, SESSION_KEYS.SELECTED_ORG)
+  const chosenFarm = getYarValue(request, SESSION_KEYS.SELECTED_FARM_NAME)
   const grantInformation = getYarValue(request, 'grant-information')
   const grantId = grantInformation.grantScheme.grantID
 
@@ -180,7 +181,7 @@ const getModel = (data, question, request, conditionalHtml = '') => {
     backUrl: updatedBackUrl,
     items: getOptions(data, question, conditionalHtml, request),
     headerData: {
-      chosenFarm: 'Sarah\'s Farm',
+      chosenFarm,
       sbi: chosenOrganisation,
       firstName: '',
       lastName: ''

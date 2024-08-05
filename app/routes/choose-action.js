@@ -1,4 +1,3 @@
-const Joi = require('joi')
 const { urlPrefix } = require('../config/server')
 const { getActions, calculateAvailableArea, getLandParcels, validateActions } = require('../services/experiment-api')
 const viewTemplate = 'choose-action'
@@ -19,10 +18,10 @@ const getLandUseCodes = (selectedParcel, rawLandParcels) => {
   return parcel ? parcel.landUseList.map(use => use.code) : []
 }
 
-const getEnrichedActions = async (rawActions, landUseCodes, selectedParcelArea) => {
+const getEnrichedActions = async (rawActions, landUseCodes, selectedParcel) => {
   const enrichedActions = []
   for (const action of rawActions) {
-    const availableArea = await calculateAvailableArea(action.code, selectedParcelArea, landUseCodes)
+    const availableArea = await calculateAvailableArea(action.code, selectedParcel, landUseCodes)
     enrichedActions.push({ ...action, availableArea: availableArea.toFixed(4) })
   }
   return enrichedActions
@@ -55,7 +54,7 @@ module.exports = [
 
       const landUseCodes = getLandUseCodes(selectedParcel, landParcels)
       const rawActions = await getActions(selectedParcel.parcelId, landUseCodes, preexistingActions)
-      const enrichedActions = (await getEnrichedActions(rawActions, landUseCodes, selectedParcel.area))
+      const enrichedActions = await getEnrichedActions(rawActions, landUseCodes, selectedParcel)
       return h.view(viewTemplate, createModel(enrichedActions, selectedActions))
     }
   },
@@ -88,7 +87,7 @@ module.exports = [
       if (!validationResult.isValidCombination) {
         const preexistingActions = selectedLandParcel.agreements.map(agreement => agreement.actionCode)
         const rawActions = await getActions(selectedLandParcel.parcelId, landUseCodes, preexistingActions)
-        const enrichedActions = await getEnrichedActions(rawActions, landUseCodes, selectedLandParcel.area)
+        const enrichedActions = await getEnrichedActions(rawActions, landUseCodes, selectedLandParcel)
         return h.view(viewTemplate, createModel(enrichedActions, userSelectedActions, validationResult.error)).takeover()
       }
       setYarValue(request, SESSION_KEYS.SELECTED_ACTIONS, userSelectedActions)
