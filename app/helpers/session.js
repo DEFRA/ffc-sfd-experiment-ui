@@ -20,7 +20,8 @@ const SESSION_KEYS = {
   APPLICANT_NAME: 'applicantName',
   PAYMENT_AMOUNT: 'paymentAmount',
   APPLICATION_REF: 'applicationReference',
-  RAW_PARCELS: 'rawLandParcels'
+  RAW_PARCELS: 'rawLandParcels',
+  SELECTED_FARM_NAME: 'selectedFarmName'
 }
 
 module.exports = {

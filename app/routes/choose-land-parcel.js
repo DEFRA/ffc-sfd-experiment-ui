@@ -7,6 +7,7 @@ const nextPath = `${urlPrefix}/choose-action`
 const { setYarValue, getYarValue, SESSION_KEYS } = require('../helpers/session')
 
 const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
+  console.log('rawLandParcels::', JSON.stringify(rawLandParcels))
   return {
     totalLandParcels: rawLandParcels.length,
     totalArea: rawLandParcels
@@ -19,7 +20,7 @@ const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
       return {
         text: `${lp.osSheetId} ${lp.parcelId} (${parseFloat(lp.area).toFixed(4)} ha)`,
         hint: { text: `Land use: ${landUseDescriptions}: ${landUseArea} ha` },
-        value: JSON.stringify({ parcelId: lp.parcelId, area: lp.area, osSheetId: lp.osSheetId, moorlandLineStatus: lp.attributes.moorlandLineStatus }),
+        value: JSON.stringify({ parcelId: lp.parcelId, area: lp.area, osSheetId: lp.osSheetId, moorlandLineStatus: lp.attributes.moorlandLineStatus, agreements: lp.agreements }),
         checked: lp.parcelId === selectedLandParcel?.parcelId ?? 0
       }
     }),
