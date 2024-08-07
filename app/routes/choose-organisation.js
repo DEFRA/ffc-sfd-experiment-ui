@@ -41,7 +41,7 @@ function createModel () {
       value: '106846848',
       text: FARM_NAMES['106846848'],
       hint: {
-        text: 'A more complex scenario where there are existing agreements in place.'
+        text: 'Jim would like to add action(s) to a land parcel that already has a Countryside Stewardship agreement in place.'
       }
     }
   ]
