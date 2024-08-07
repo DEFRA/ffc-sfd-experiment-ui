@@ -2,6 +2,7 @@ const { $ } = require('@wdio/globals')
 const CommonActions = require('./common-actions');
 
 const CHOOSE_SARAHS_FARM = "//input[@id='selectedSBI']"
+const CHOOSE_JIMS_FARM = "//input[@id='selectedSBI-2']"
 const ORGANISATION_CONTINUE_BUTTON = "//button[@id='btn-Continue-SF']"
 const MAP_DETAILS = "//input[@id='mapsCorrect']"
 const MANAGEMENT_CONTROL_OF_LAND = "//input[@id='managementControl']"
@@ -15,6 +16,11 @@ class FutureRpsEligibilityEvaluationPage extends CommonActions {
 
     async chooseSarahsFarm () {
         await this.clickOn(CHOOSE_SARAHS_FARM);
+        await this.clickOn(ORGANISATION_CONTINUE_BUTTON);
+    }
+
+    async chooseJimsFarm () {
+        await this.clickOn(CHOOSE_JIMS_FARM);
         await this.clickOn(ORGANISATION_CONTINUE_BUTTON);
     }
 
