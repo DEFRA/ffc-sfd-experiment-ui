@@ -8,13 +8,17 @@ const pages = {
     login: LoginPage
 }
 
-Given(/^Sarah is on the Rural Payments Service (\w+) page$/, async function (page) {
+Given(/^(.*) is on the Rural Payments Service (\w+) page$/, async function (farmer, page) {
     await pages[page].open()
     await LoginPage.login()
 });
 
-When(/^Sarah is eligible to apply for funding$/, async function () {
-    await EligibilityPage.chooseSarahsFarm()
+When(/^(.*) is eligible to apply for funding$/, async function (farmer) {
+    if (farmer === 'Sarah') {
+        await EligibilityPage.chooseSarahsFarm()
+    } else if (farmer === 'Jim') {
+        await EligibilityPage.chooseJimsFarm()
+    }
     await EligibilityPage.selectYesOnMapDetails()
     await EligibilityPage.selectYesOnManagementControlOfLand()
     await EligibilityPage.selectYesOnHEFERConfirmation()
@@ -24,7 +28,7 @@ When(/^Sarah is eligible to apply for funding$/, async function () {
     await EligibilityPage.clickContinueButton()
 });
 
-When(/^Sarah selects the land parcel type of Arable land$/, async function () {
+When(/^(.*) selects the land parcel type of Arable land$/, async function (farmer) {
     await LandActionsPage.selectArableLandParcel()
 });
 Then(/^she can choose to apply for SAM1 and or SAM, but not LIG1$/, async function () {
@@ -45,4 +49,12 @@ Then(/^she can choose to apply for SAM1 and or LIG1, but not SAM2$/, async funct
 Then(/^Sarah is shown amount she will receive for Permanent Grassland$/, async function () {
     await PaymentsPage.validateLandArea(4.2)
     await PaymentsPage.validatePaymentAmount(24.36)
+});
+Then(/^he can choose to apply for SAM1, but not SAM2, SAM3 or LIG1$/, async function () {
+    await LandActionsPage.selectSam1Action()
+    await LandActionsPage.enterQuantityForSAM1('20')
+});
+Then(/^Jim is shown amount she will receive for Arable land$/, async function () {
+    await PaymentsPage.validateLandArea(20)
+    await PaymentsPage.validatePaymentAmount(116.00)
 });
