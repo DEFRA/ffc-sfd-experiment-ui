@@ -33,6 +33,7 @@ const getLandUseCodesOfSeletedLandParcel = (parcelId, landParcelsList) => {
 const createFundingApplication = (request) => {
   const applicantName = getYarValue(request, SESSION_KEYS.APPLICANT_NAME)
   const sbi = getYarValue(request, SESSION_KEYS.SELECTED_ORG)
+  const scheme = "SFI 2023"
   const selectedLandParcel = getYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL)
   const landParcelRef = `${selectedLandParcel.osSheetId} ${selectedLandParcel.parcelId}`
   const landActions = getYarValue(request, SESSION_KEYS.SELECTED_ACTIONS)
@@ -42,7 +43,8 @@ const createFundingApplication = (request) => {
     sbi,
     landParcelRef,
     landActions,
-    paymentAmount: paymentAmounts.map(pa => pa.payment).reduce((accumulator, payment) => accumulator + payment)
+    paymentAmount: paymentAmounts.map(pa => pa.payment).reduce((accumulator, payment) => accumulator + payment),
+    scheme
   }
 }
 
