@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@log4js-node/log4js-api": "^1.0.2",
+    "axios": "^1.7.7",
     "browserstack-local": "^1.5.5"
   }
 }
