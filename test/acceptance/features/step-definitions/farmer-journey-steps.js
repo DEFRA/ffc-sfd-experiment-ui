@@ -3,7 +3,7 @@ const LoginPage = require('../pageobjects/future-rps-login-page');
 const EligibilityPage = require('../pageobjects/future-rps-eligibility-evaluation-page');
 const LandActionsPage = require('../pageobjects/future-rps-land-actions-page');
 const PaymentsPage = require('../pageobjects/future-rps-payment-calculation-page');
-const commonAPICalls = require('../pageobjects/common-api-calls');
+const commonAPICalls = require('../utils/common-api-calls');
 const { waitFor } = require('@babel/core/lib/gensync-utils/async')
 
 const pages = {

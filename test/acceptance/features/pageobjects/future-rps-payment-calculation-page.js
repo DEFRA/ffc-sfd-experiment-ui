@@ -1,5 +1,5 @@
 const { $ } = require('@wdio/globals')
-const CommonActions = require('./common-actions');
+const CommonActions = require('../utils/common-actions');
 
 const ACTION_NAME = "tbody tr:nth-child(3) td:nth-child(1)"
 const LAND_AREA = "tbody tr:nth-child(3) td:nth-child(2)"

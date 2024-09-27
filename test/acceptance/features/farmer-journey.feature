@@ -36,6 +36,7 @@ Feature: Farmer Journey
       | action | minimum | maximum | available area | payment amount |
       | GRH1   | 2       | 25      | 4.2            | 508.20         |
 
+  @negative
   Scenario Outline: Sarah applies for GRH1 with hectares below the minimum requirement of available area
     Given Sarah is on the Rural Payments Service login page
     When Sarah is eligible to apply for funding
