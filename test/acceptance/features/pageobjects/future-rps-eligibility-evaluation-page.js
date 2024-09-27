@@ -1,5 +1,5 @@
 const { $ } = require('@wdio/globals')
-const CommonActions = require('./common-actions');
+const CommonActions = require('../utils/common-actions');
 
 const CHOOSE_SARAHS_FARM = "//input[@id='selectedSBI']"
 const CHOOSE_JIMS_FARM = "//input[@id='selectedSBI-2']"

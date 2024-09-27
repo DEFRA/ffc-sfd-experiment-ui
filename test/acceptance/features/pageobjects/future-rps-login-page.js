@@ -1,5 +1,5 @@
 const { $ } = require('@wdio/globals')
-const CommonActions = require('./common-actions');
+const CommonActions = require('../utils/common-actions');
 
 const USERNAME = '#username';
 const PASSWORD = '#password';

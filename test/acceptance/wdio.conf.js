@@ -71,7 +71,8 @@ export const config = {
     ],
 
     cucumberOpts: {
-        require: ['./features/step-definitions/farmer-journey-steps.js'],
+        require: ['./features/step-definitions/farmer-journey-steps.js',
+                  './features/utils/hooks.js'],
         backtrace: false,
         requireModule: [],
         dryRun: false,
