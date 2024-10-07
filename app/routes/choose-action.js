@@ -24,6 +24,7 @@ const getEnrichedActions = async (rawActions, landUseCodes, selectedParcel) => {
     const availableArea = await calculateAvailableArea(action.code, selectedParcel, landUseCodes)
     enrichedActions.push({ ...action, availableArea: availableArea.toFixed(4) })
   }
+  console.log('enrichedActions::', JSON.stringify(enrichedActions))
   return enrichedActions
 }
 
