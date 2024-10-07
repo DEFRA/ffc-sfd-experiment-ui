@@ -14,13 +14,14 @@ const CONTINUE_BUTTON = "//button[@id='Continue']"
 
 class FutureRpsEligibilityEvaluationPage extends CommonActions {
 
-    async chooseSarahsFarm () {
-        await this.clickOn(CHOOSE_SARAHS_FARM);
-        await this.clickOn(ORGANISATION_CONTINUE_BUTTON);
-    }
-
-    async chooseJimsFarm () {
-        await this.clickOn(CHOOSE_JIMS_FARM);
+    async chooseFarm(farmer) {
+        if (farmer === 'Sarah') {
+            await this.clickOn(CHOOSE_SARAHS_FARM);
+        } else if (farmer === 'Jim') {
+            await this.clickOn(CHOOSE_JIMS_FARM);
+        } else {
+            throw new Error(`Unknown farmer: ${farmer}`);
+        }
         await this.clickOn(ORGANISATION_CONTINUE_BUTTON);
     }
 
@@ -56,6 +57,16 @@ class FutureRpsEligibilityEvaluationPage extends CommonActions {
 
     async clickContinueButton () {
         await this.clickOn(CONTINUE_BUTTON);
+    }
+
+    async answerQuestionsForEligibility () {
+        await this.selectYesOnMapDetails()
+        await this.selectYesOnManagementControlOfLand()
+        await this.selectYesOnHEFERConfirmation()
+        await this.selectYesOnSSIConsent()
+        await this.selectYesOnInheritanceTaxExemption()
+        await this.selectYesOnPublicBodies()
+        await this.clickContinueButton()
     }
 }
 
