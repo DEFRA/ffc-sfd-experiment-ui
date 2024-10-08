@@ -9,6 +9,7 @@ npm install
 Then run the tests with:
 
 ```bash
+export API_PORT=3000
 npm run test 
 ```
 
