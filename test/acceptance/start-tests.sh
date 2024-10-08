@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Wait for API to be healthy
-until curl -s http://localhost:3000/healthy > /dev/null; do
+until curl -s http://localhost:4000/healthy > /dev/null; do
   echo "Waiting for API to be healthy..."
   sleep 5
 done

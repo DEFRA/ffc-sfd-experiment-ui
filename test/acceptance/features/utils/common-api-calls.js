@@ -2,7 +2,7 @@ const axios = require('axios');
 
 class commonAPICalls {
 
-    env = "localhost:3000"
+    env = "localhost:4000"
 
     async updateMinParcelArea(actionName, minAreaValue) {
         const url = `http://${(this.env)}/action/${actionName}/rule/has-min-parcel-area`;

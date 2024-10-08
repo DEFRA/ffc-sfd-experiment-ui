@@ -18,18 +18,8 @@ Given(/^(.*) is on the Rural Payments Service (\w+) page$/, async function (farm
 });
 
 When(/^(.*) is eligible to apply for funding$/, async function (farmer) {
-    if (farmer === 'Sarah') {
-        await EligibilityPage.chooseSarahsFarm()
-    } else if (farmer === 'Jim') {
-        await EligibilityPage.chooseJimsFarm()
-    }
-    await EligibilityPage.selectYesOnMapDetails()
-    await EligibilityPage.selectYesOnManagementControlOfLand()
-    await EligibilityPage.selectYesOnHEFERConfirmation()
-    await EligibilityPage.selectYesOnSSIConsent()
-    await EligibilityPage.selectYesOnInheritanceTaxExemption()
-    await EligibilityPage.selectYesOnPublicBodies()
-    await EligibilityPage.clickContinueButton()
+    await EligibilityPage.chooseFarm(farmer)
+    await EligibilityPage.answerQuestionsForEligibility()
 });
 
 When(/^(.*) selects the land parcel type of (.*)$/, async function (farmer, landType) {
