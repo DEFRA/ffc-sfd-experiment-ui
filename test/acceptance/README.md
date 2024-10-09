@@ -5,8 +5,9 @@ To run the tests on your local machine, from this folder, ensure chromedriver is
 ```bash
 npm install
 ```
+Bring the UI and API services up
 
-Then run the tests with:
+Then run the tests using following command, this will launch the tests on the Chrome browser:
 
 ```bash
 export API_PORT=3000
