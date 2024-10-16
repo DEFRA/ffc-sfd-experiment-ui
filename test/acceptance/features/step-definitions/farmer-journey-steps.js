@@ -4,7 +4,8 @@ const EligibilityPage = require('../pageobjects/future-rps-eligibility-evaluatio
 const LandActionsPage = require('../pageobjects/future-rps-land-actions-page');
 const PaymentsPage = require('../pageobjects/future-rps-payment-calculation-page');
 const commonAPICalls = require('../utils/common-api-calls');
-const { waitFor } = require('@babel/core/lib/gensync-utils/async')
+const assert = require('chai').assert
+
 
 const pages = {
     login: LoginPage
@@ -48,4 +49,8 @@ Then(/^Sarah is shown the error message that the area is below the minimum requi
 });
 Then(/^Sarah is shown the error message that the area applied for does not match the land parcel area$/, async function () {
     await LandActionsPage.validateErrorMessage('CSAM1: Area applied for (4.2ha) does not match parcel area (8.4ha)')
+});
+Then(/^Sarah is not shown (\w+) as an action to apply for$/, async function (action) {
+    assert(await LandActionsPage.isActionPresent(action) === false,
+      `Action ${action} is present when it should not be`)
 });
