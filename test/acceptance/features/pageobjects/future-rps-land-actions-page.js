@@ -1,4 +1,3 @@
-const { $ } = require('@wdio/globals')
 const CommonActions = require('../utils/common-actions');
 
 const SELECT_ARABLE_LAND = "//input[@id='selectedLandParcel']"
@@ -8,7 +7,7 @@ const SELECT_SAM2_ACTION = "//input[@value='SAM2']"
 const SELECT_AB3_ACTION = "//input[@value='AB3']"
 const SELECT_GRH1_ACTION = "//input[@value='GRH1']"
 const SELECT_CSAM1_ACTION = "//input[@value='CSAM1']"
-
+const SELECT_CSAM2_ACTION = "//input[@value='CSAM2']"
 
 const SELECT_CONTINUE = "//button[normalize-space()='Continue']"
 const ENTER_QUANTITY_FOR_SAM1 = "//input[@name='quantitySAM1']"
@@ -16,6 +15,7 @@ const ENTER_QUANTITY_FOR_SAM2 = "//input[@name='quantitySAM2']"
 const ENTER_QUANTITY_FOR_AB3 = "//input[@name='quantityAB3']"
 const ENTER_QUANTITY_FOR_GRH1 = "//input[@name='quantityGRH1']"
 const ENTER_QUANTITY_FOR_CSAM1 = "//input[@name='quantityCSAM1']"
+const ENTER_QUANTITY_FOR_CSAM2 = "//input[@name='quantityCSAM2']"
 const LAND_AREA = "tbody tr:nth-child(3) td:nth-child(2)"
 const PAYMENT_AMOUNT = "tbody tr:nth-child(3) td:nth-child(3)"
 const SELECT_CHECKBOX = "//input[@name='selectedActionCodes']"
@@ -48,6 +48,9 @@ class FutureRpsLandActionsPage extends CommonActions {
             case 'CSAM1':
                 SELECT_ACTION = SELECT_CSAM1_ACTION;
                 break;
+            case 'CSAM2':
+                SELECT_ACTION = SELECT_CSAM2_ACTION;
+                break;
             default:
                 throw new Error(`Unknown action type: ${actionType}`);
         }
@@ -72,6 +75,9 @@ class FutureRpsLandActionsPage extends CommonActions {
             case 'CSAM1':
                 ENTER_QUANTITY = ENTER_QUANTITY_FOR_CSAM1;
                 break;
+            case 'CSAM2':
+                ENTER_QUANTITY = ENTER_QUANTITY_FOR_CSAM2;
+                break;
             default:
                 throw new Error(`Unknown action type: ${actionType}`);
         }
@@ -81,6 +87,11 @@ class FutureRpsLandActionsPage extends CommonActions {
 
     async validateErrorMessage (message) {
         await this.elementToContainText(ERROR_MESSAGE, message)
+    }
+
+    async isActionPresent(action) {
+        const SELECTED_ACTION = `//input[@value='${action}']`
+        return await this.doesElementExist(SELECTED_ACTION)
     }
 }
 
