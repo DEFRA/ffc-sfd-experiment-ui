@@ -28,6 +28,8 @@
     {% set tableRows = (tableRows.push([{ html: checkboxHtml }, { html: actionDescHtml }, { html: availableAreaHtml }, {html: inputHtml }, { text: "ha" }]), tableRows) %}
 {% endfor %}
 
+{% if tableRows.length %}
+
 {{ govukTable({
   caption: "Your available actions for the selected land parcel",
   captionClasses: "govuk-table__caption--m",
@@ -52,6 +54,12 @@
   ],
   rows: tableRows
 }) }}
+
+{% else %}
+
+<h1 class="govuk-heading-l">No actions are available for this parcel of land</h1>
+
+{% endif %}
 
 {{ govukButton({
   text: "Continue"
