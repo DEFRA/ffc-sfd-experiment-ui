@@ -36,7 +36,7 @@ const getActions = async (
 ) => {
   const landUseCodesString = landUseCodes.join(",");
   return invokeGetEndpoint(
-    `action?parcel-id=${selectedLandParcelId}&land-use-codes=${encodeURIComponent(
+    `actions?parcel-id=${selectedLandParcelId}&land-use-codes=${encodeURIComponent(
       landUseCodesString
     )}&preexisting-actions=${preexistingActions}`,
     []
