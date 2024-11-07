@@ -165,13 +165,14 @@ module.exports = [
           landUseCodes,
           selectedLandParcel
         );
+
         return h
           .view(
             viewTemplate,
             createModel(
               enrichedActions,
               userSelectedActions,
-              validationResult.error
+              validationResult.message
             )
           )
           .takeover();
