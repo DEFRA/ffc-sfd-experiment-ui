@@ -13,13 +13,13 @@ const viewTemplate = "payment";
 const currentPath = `${urlPrefix}/${viewTemplate}`;
 const nextPath = `${urlPrefix}/application-confirmation`;
 
-const createModel = (selectedActions, actionPayments, sbi) => {
+const createModel = (selectedActions, actionPaymentsResponse, sbi) => {
   let model;
 
-  if (typeof actionPayments === Array) {
+  if (!actionPaymentsResponse.error) {
     model = {
       payments: selectedActions.map((selectedAction, index) => {
-        const actionPayment = actionPayments.find(
+        const actionPayment = actionPaymentsResponse.find(
           (p) => p["action-code"] === selectedAction.actionCode
         );
 
@@ -33,7 +33,7 @@ const createModel = (selectedActions, actionPayments, sbi) => {
     };
   } else {
     model = {
-      error: actionPayments,
+      error: actionPaymentsResponse,
     };
   }
   return model;
@@ -92,16 +92,16 @@ module.exports = [
         selectedLandParcel.parcelId,
         allLandParcels
       );
-      const actionPayments = await calculatePaymentAmount(
+      const actionPaymentsResponse = await calculatePaymentAmount(
         selectedActions,
         landUseCodes
       );
-      console.log(actionPayments);
-      setYarValue(request, SESSION_KEYS.PAYMENT_AMOUNT, actionPayments);
+
+      setYarValue(request, SESSION_KEYS.PAYMENT_AMOUNT, actionPaymentsResponse);
 
       return h.view(
         viewTemplate,
-        createModel(selectedActions, actionPayments, sbi)
+        createModel(selectedActions, actionPaymentsResponse, sbi)
       );
     },
   },
