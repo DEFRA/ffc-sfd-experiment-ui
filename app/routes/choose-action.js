@@ -24,10 +24,12 @@ const getActionDescription = (requestPayload, selectedActionCode) => {
 
 const getLandUseCodes = (selectedParcel, rawLandParcels) => {
   if (rawLandParcels && rawLandParcels.length > 0) {
-    const parcel = rawLandParcels.find(
-      (lp) => lp.parcelId === selectedParcel.parcelId
-    );
-    return parcel ? parcel.landUseList.map((use) => use.code) : [];
+    const parcelFeature = rawLandParcels.find(
+      (lp) => lp.id === selectedParcel.id
+    ).features[0]; // TODO - Add a page to select a cover rather than the first index by default
+    return parcelFeature
+      ? parcelFeature.landUseList.map((use) => use.code)
+      : [];
   }
 
   return [];
@@ -88,7 +90,7 @@ module.exports = [
 
       const landUseCodes = getLandUseCodes(selectedParcel, landParcels);
       const rawActions = await getActions(
-        selectedParcel.parcelId,
+        selectedParcel.id,
         landUseCodes,
         preexistingActions
       );
