@@ -22,6 +22,7 @@ const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
       return {
         text: `${lp.sheetId} ${lp.id} (${parseFloat(lp.area).toFixed(4)} ha)`,
         hint: listFeatures(lp.features),
+        id: `${lp.sheetId}${lp.id}`,
         value: JSON.stringify({
           id: lp.id,
           area: lp.area,
