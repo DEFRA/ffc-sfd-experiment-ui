@@ -23,13 +23,30 @@ const getActionDescription = (requestPayload, selectedActionCode) => {
 };
 
 const getLandUseCodes = (selectedParcel, rawLandParcels) => {
+  console.log('Selected Parcel:', JSON.stringify(selectedParcel));
+  console.log('Raw Land Parcels:', JSON.stringify(rawLandParcels))
+  console.log('Raw Land Parcels:', JSON.stringify(rawLandParcels.map(lp => lp?.parcelId)));
+
   if (rawLandParcels && rawLandParcels.length > 0) {
     const parcel = rawLandParcels.find(
-      (lp) => lp.parcelId === selectedParcel.parcelId
+      (lp) => lp?.id === selectedParcel.parcelId
     );
-    return parcel ? parcel.landUseList.map((use) => use.code) : [];
+
+    if (!parcel) {
+      console.warn('Parcel not found for ID:', selectedParcel.parcelId);
+      return [];
+    }
+
+    console.log('Found Parcel:', JSON.stringify(parcel));
+    console.log(
+      'Payload LandUses:',
+      JSON.stringify(parcel.features[0].landUseList ? parcel.features[0].landUseList.map((use) => use.code) : [])
+    );
+
+    return parcel.features[0].landUseList ? parcel.features[0].landUseList.map((use) => use.code) : [];
   }
 
+  console.warn('Invalid rawLandParcels:', rawLandParcels);
   return [];
 };
 
@@ -146,13 +163,16 @@ module.exports = [
         ...selectedLandParcel,
         landUseCodes,
       };
+console.log('LANDUSE CODES::', JSON.stringify(landUseCodes));
+      console.log('LANDPARCEL W LANDUSE CODES::', JSON.stringify(landParcelWithLandUseCodes));
       const validationResult = await validateActions(
         userSelectedActions,
         landParcelWithLandUseCodes
       );
-
+console.log('VALIDATION RSULT::', JSON.stringify(validationResult));
       if (!validationResult.isValidCombination) {
-        const preexistingActions = selectedLandParcel.agreements.map(
+        console.log('INVALID COMBINATION!!')
+        const preexistingActions = selectedLandParcel?.agreements.map(
           (agreement) => agreement.actionCode
         );
         const rawActions = await getActions(
@@ -171,7 +191,7 @@ module.exports = [
             createModel(
               enrichedActions,
               userSelectedActions,
-              validationResult.error
+              validationResult.message
             )
           )
           .takeover();

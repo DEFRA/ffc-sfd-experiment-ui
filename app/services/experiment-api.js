@@ -22,6 +22,7 @@ const invokePostEndpoint = async (endpoint, requestPayload) => {
 };
 
 const validateActions = async (actions, landParcel) => {
+  console.log('IN UI VALIDATING ACTIONS!!')
   return invokePostEndpoint("action-validation", { actions, landParcel });
 };
 
