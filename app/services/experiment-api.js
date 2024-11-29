@@ -17,11 +17,21 @@ const invokePostEndpoint = async (endpoint, requestPayload) => {
     },
     body: JSON.stringify(requestPayload),
   });
+
   const deserializedResponse = await response.json();
+
+  if (response.status != 200) {
+    return {
+      error: true,
+      response: deserializedResponse,
+    };
+  }
+
   return deserializedResponse ?? null;
 };
 
 const validateActions = async (actions, landParcel) => {
+  console.log({ actions, landParcel });
   return invokePostEndpoint("action-validation", { actions, landParcel });
 };
 

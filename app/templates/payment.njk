@@ -1,11 +1,25 @@
 {% extends '.layout.njk' %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "components/macro.njk" import crumbToken %}
 
 {% block content %}
 <h1 class="govuk-heading-xl">Payment calculation</h1>
 <table class="govuk-table">
     <tbody class="govuk-table__body">
+    {% if error %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: [
+        {
+          text: error.response.message
+        },
+        {
+          text: error.response.actionCodes
+        }
+      ]
+    }) }}
+    {% endif %}
     <tr class="govuk-table__row">
         <td class="govuk-table__header" style="font-weight: normal !important; width: 40%;">
             Single Business Identifier (SBI)
@@ -40,10 +54,13 @@
     {% endfor %}
     </tbody>
 </table>
-<form method="post" novalidate>
-{{crumbToken(crumb)}}
-{{ govukButton({
-  text: "Submit my application"
-}) }}
-</form>
+
+{% if not error %}
+    <form method="post" novalidate>
+        {{crumbToken(crumb)}}
+        {{ govukButton({
+        text: "Submit my application"
+        }) }}
+    </form>
+{% endif %}
 {% endblock %}

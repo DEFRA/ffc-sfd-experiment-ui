@@ -131,25 +131,25 @@ module.exports = [
         request.payload?.selectedActionCodes &&
         Array.isArray(request.payload.selectedActionCodes)
           ? request.payload.selectedActionCodes.map((actionCode) => {
-            return {
-              actionCode,
-              quantity: getActionQuantity(request.payload, actionCode),
-              description: getActionDescription(request.payload, actionCode),
-            }
-          })
+              return {
+                actionCode,
+                quantity: getActionQuantity(request.payload, actionCode),
+                description: getActionDescription(request.payload, actionCode),
+              }
+            })
           : [
-            {
-              actionCode: request.payload.selectedActionCodes,
-              quantity: getActionQuantity(
-                request.payload,
-                request.payload.selectedActionCodes
-              ),
-              description: getActionDescription(
-                request.payload,
-                request.payload.selectedActionCodes
-              ),
-            },
-          ]
+              {
+                actionCode: request.payload.selectedActionCodes,
+                quantity: getActionQuantity(
+                  request.payload,
+                  request.payload.selectedActionCodes
+                ),
+                description: getActionDescription(
+                  request.payload,
+                  request.payload.selectedActionCodes
+                ),
+              },
+            ]
 
       const selectedLandParcel = getYarValue(
         request,
