@@ -23,29 +23,16 @@ const getActionDescription = (requestPayload, selectedActionCode) => {
 }
 
 const getLandUseCodes = (selectedParcel, rawLandParcels) => {
-  console.log('Selected Parcel:', JSON.stringify(selectedParcel))
-  console.log('Raw Land Parcels:', JSON.stringify(rawLandParcels))
-  console.log('Raw Land Parcels:', JSON.stringify(rawLandParcels.map(lp => lp?.parcelId)))
-
   if (rawLandParcels && rawLandParcels.length > 0) {
     const parcel = rawLandParcels.find(
       (lp) => lp?.id === selectedParcel.parcelId
     )
-
     if (!parcel) {
       console.warn('Parcel not found for ID:', selectedParcel.parcelId)
       return []
     }
-
-    console.log('Found Parcel:', JSON.stringify(parcel))
-    console.log(
-      'Payload LandUses:',
-      JSON.stringify(parcel.features[0].landUseList ? parcel.features[0].landUseList.map((use) => use.code) : [])
-    )
-
     return parcel.features[0].landUseList ? parcel.features[0].landUseList.map((use) => use.code) : []
   }
-
   console.warn('Invalid rawLandParcels:', rawLandParcels)
   return []
 }
@@ -65,7 +52,6 @@ const getEnrichedActions = async (rawActions, landUseCodes, selectedParcel) => {
       })
     }
   }
-
   console.log("enrichedActions::", JSON.stringify(enrichedActions))
   return enrichedActions
 }
