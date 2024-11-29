@@ -6,9 +6,8 @@ const currentPath = `${urlPrefix}/${viewTemplate}`
 const nextPath = `${urlPrefix}/choose-action`
 const { setYarValue, getYarValue, SESSION_KEYS } = require('../helpers/session')
 
-
-function transformFeature(feature, parcelId, index, sbi, sheetId, attributes) {
-  return {
+const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
+  const parseFeature = (feature, parcelId, index, sbi, sheetId, attributes) => ({
     index: index,
     parcelId: parcelId,
     areaHa: parseFloat(feature.area).toFixed(4),
@@ -20,7 +19,7 @@ function transformFeature(feature, parcelId, index, sbi, sheetId, attributes) {
         coverArea: parseFloat(feature.area).toFixed(4),
       },
     ],
-    agreements: [], // Add agreements here if applicable
+    agreements: [],
     landUses: feature.landUseList?.map((landUse) => ({
       name: landUse.name?.toUpperCase() || "UNKNOWN",
       code: landUse.code || "",
@@ -30,62 +29,34 @@ function transformFeature(feature, parcelId, index, sbi, sheetId, attributes) {
     attributes: {
       moorlandLineStatus: attributes?.moorlandLineStatus || "",
     },
-  };
-}
+  })
 
-function transformLandParcels(data) {
-  if (!data || !Array.isArray(data)) {
-    console.error('Invalid input data:', data);
-    return [];
-  }
-
-  const transformed = [];
-  let index = 2067679; // Starting index, can be adjusted as needed
-
-  for (const parcel of data) {
-    if (!parcel) {
-      console.warn('Skipping null parcel');
-      continue;
-    }
-
-    const { id: parcelId, sbi, sheetId, attributes, features } = parcel;
-
+  const parseParcel = (parcel, index) => {
+    const { id: parcelId, sbi, sheetId, attributes, features } = parcel
     if (!features || features.length === 0) {
-      console.warn('Parcel has no features:', parcelId);
-      continue;
+      console.warn('Parcel has no features:', parcelId)
+      return []
     }
-
-    for (const feature of features) {
-      transformed.push(
-        transformFeature(
-          feature,
-          parcelId,
-          index++,
-          sbi,
-          sheetId,
-          attributes
-        )
-      );
-    }
+    return features.map(feature => parseFeature(feature, parcelId, index++, sbi, sheetId, attributes))
   }
 
-  return transformed;
-}
-
-const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
-  console.log('rawLandParcels::', JSON.stringify(rawLandParcels));
-  console.log('selectedLandParcel::', JSON.stringify(selectedLandParcel));
-  rawLandParcels = transformLandParcels(rawLandParcels);
+  const parcelData = rawLandParcels.reduce((acc, parcel) => {
+    if (!parcel) {
+      console.warn('Skipping null parcel')
+      return acc
+    }
+    return acc.concat(parseParcel(parcel, acc.length + 2067679))
+  }, [])
 
   return {
-    totalLandParcels: rawLandParcels.length,
-    totalArea: rawLandParcels
+    totalLandParcels: parcelData.length,
+    totalArea: parcelData
       .map(lp => parseFloat(lp.areaHa))
       .reduce((accumulator, currentValue) => accumulator + currentValue, 0.0)
       .toFixed(4),
-    landParcels: rawLandParcels.map((lp) => {
-      const landUseDescriptions = lp.landUses.map(use => use.name).join(', ');
-      const landUseArea = lp.landUses.map(use => use.area).join(', ');
+    landParcels: parcelData.map((lp) => {
+      const landUseDescriptions = lp.landUses.map(use => use.name).join(', ')
+      const landUseArea = lp.landUses.map(use => use.area).join(', ')
       return {
         text: `${lp.sheetId} ${lp.parcelId} (${parseFloat(lp.areaHa).toFixed(4)} ha)`,
         hint: { text: `Land use: ${landUseDescriptions}: ${landUseArea} ha` },
@@ -98,11 +69,11 @@ const createModel = (rawLandParcels, selectedLandParcel, errMessage) => {
           agreements: lp.agreements
         }),
         checked: lp.parcelId === (selectedLandParcel?.parcelId ?? 0)
-      };
+      }
     }),
     errMessage
-  };
-};
+  }
+}
 
 const getErrorMessage = () => {
   return 'Please select a land parcel'
@@ -145,7 +116,6 @@ module.exports = [
       }
     },
     handler: async (request, h) => {
-      console.log('HERE::',JSON.stringify(request.payload.selectedLandParcel))
       setYarValue(request, SESSION_KEYS.SELECTED_LAND_PARCEL, JSON.parse(request.payload.selectedLandParcel))
       return h.redirect(nextPath)
     }
