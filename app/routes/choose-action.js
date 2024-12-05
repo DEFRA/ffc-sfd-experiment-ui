@@ -3,7 +3,7 @@ const {
   getActions,
   calculateAvailableArea,
   getLandParcels,
-  validateActions,
+  validateActions
 } = require("../services/experiment-api")
 const viewTemplate = "choose-action"
 const currentPath = `${urlPrefix}/${viewTemplate}`
@@ -11,7 +11,7 @@ const nextPath = `${urlPrefix}/payment`
 const {
   getYarValue,
   setYarValue,
-  SESSION_KEYS,
+  SESSION_KEYS
 } = require("../helpers/session")
 
 const getActionQuantity = (requestPayload, selectedActionCode) => {
@@ -48,7 +48,7 @@ const getEnrichedActions = async (rawActions, landUseCodes, selectedParcel) => {
       )
       enrichedActions.push({
         ...action,
-        availableArea: availableArea.toFixed(4),
+        availableArea: availableArea.toFixed(4)
       })
     }
   }
@@ -65,7 +65,7 @@ const createModel = (actions, selectedActions, errorMessage = "") => {
     actions,
     selectedActionQuantities,
     selectedActionCodes: selectedActions.map((a) => a.actionCode),
-    errorMessage,
+    errorMessage
   }
 }
 
@@ -74,9 +74,11 @@ module.exports = [
     method: "GET",
     path: currentPath,
     options: {
-      auth: false,
+      auth: false
     },
     handler: async (request, h) => {
+      setYarValue(request, SESSION_KEYS.SELECTED_ACTIONS, [])
+
       const sbi = getYarValue(request, SESSION_KEYS.SELECTED_ORG)
       const selectedParcel = getYarValue(
         request,
@@ -85,8 +87,7 @@ module.exports = [
       const preexistingActions = selectedParcel.agreements.map(
         (agreement) => agreement.actionCode
       )
-      const selectedActions =
-        getYarValue(request, SESSION_KEYS.SELECTED_ACTIONS) ?? []
+      const selectedActions = []
       const landParcels = await getLandParcels(sbi)
 
       const landUseCodes = getLandUseCodes(selectedParcel, landParcels)
@@ -100,42 +101,49 @@ module.exports = [
         landUseCodes,
         selectedParcel
       )
-      return h.view(
+
+      const response = h.view(
         viewTemplate,
         createModel(enrichedActions, selectedActions)
       )
-    },
+
+      response.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+      response.header('Pragma', 'no-cache')
+      response.header('Expires', '0')
+
+      return response
+    }
   },
   {
     method: "POST",
     path: currentPath,
     options: {
-      auth: false,
+      auth: false
     },
     handler: async (request, h) => {
       const userSelectedActions =
         request.payload?.selectedActionCodes &&
         Array.isArray(request.payload.selectedActionCodes)
           ? request.payload.selectedActionCodes.map((actionCode) => {
-              return {
-                actionCode,
-                quantity: getActionQuantity(request.payload, actionCode),
-                description: getActionDescription(request.payload, actionCode),
-              }
-            })
+            return {
+              actionCode,
+              quantity: getActionQuantity(request.payload, actionCode),
+              description: getActionDescription(request.payload, actionCode)
+            }
+          })
           : [
-              {
-                actionCode: request.payload.selectedActionCodes,
-                quantity: getActionQuantity(
-                  request.payload,
-                  request.payload.selectedActionCodes
-                ),
-                description: getActionDescription(
-                  request.payload,
-                  request.payload.selectedActionCodes
-                ),
-              },
-            ]
+            {
+              actionCode: request.payload.selectedActionCodes,
+              quantity: getActionQuantity(
+                request.payload,
+                request.payload.selectedActionCodes
+              ),
+              description: getActionDescription(
+                request.payload,
+                request.payload.selectedActionCodes
+              )
+            }
+          ]
 
       const selectedLandParcel = getYarValue(
         request,
@@ -147,7 +155,7 @@ module.exports = [
       )
       const landParcelWithLandUseCodes = {
         ...selectedLandParcel,
-        landUseCodes,
+        landUseCodes
       }
       const validationResult = await validateActions(
         userSelectedActions,
@@ -180,6 +188,6 @@ module.exports = [
       }
       setYarValue(request, SESSION_KEYS.SELECTED_ACTIONS, userSelectedActions)
       return h.redirect(nextPath)
-    },
-  },
+    }
+  }
 ]
