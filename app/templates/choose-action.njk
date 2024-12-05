@@ -65,5 +65,25 @@
   text: "Continue"
 }) }}
 </form>
+<script>
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted || performance.navigation.type === 2) {
+      const form = document.querySelector('form')
+      if (form) {
+        // Reset all form inputs
+        form.reset()
+        // Uncheck all checkboxes
+        form.querySelectorAll("input[type='checkbox']").forEach(checkbox => {
+          checkbox.checked = false
+        })
+        // Clear all text inputs
+        form.querySelectorAll("input[type='text']").forEach(input => {
+          input.value = ''
+        })
+      }
+    }
+  })
+</script>
+
 
 {% endblock %}
