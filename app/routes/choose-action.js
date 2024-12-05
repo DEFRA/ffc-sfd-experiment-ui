@@ -77,7 +77,6 @@ module.exports = [
       auth: false
     },
     handler: async (request, h) => {
-      // Clear previously selected actions to reset the state
       setYarValue(request, SESSION_KEYS.SELECTED_ACTIONS, [])
 
       const sbi = getYarValue(request, SESSION_KEYS.SELECTED_ORG)
@@ -88,7 +87,7 @@ module.exports = [
       const preexistingActions = selectedParcel.agreements.map(
         (agreement) => agreement.actionCode
       )
-      const selectedActions = [] // Force reset selected actions
+      const selectedActions = []
       const landParcels = await getLandParcels(sbi)
 
       const landUseCodes = getLandUseCodes(selectedParcel, landParcels)
@@ -108,7 +107,6 @@ module.exports = [
         createModel(enrichedActions, selectedActions)
       )
 
-      // Add cache control headers to prevent browser caching
       response.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
       response.header('Pragma', 'no-cache')
       response.header('Expires', '0')
