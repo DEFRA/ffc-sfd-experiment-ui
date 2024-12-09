@@ -153,7 +153,7 @@ const questionBank = {
           classes: 'govuk-radios--stacked govuk-fieldset__legend--m',
           url: 'historic-features',
           backUrl: 'management-control',
-          nextUrl: 'sssi-consent',
+          nextUrl: 'inheritance-tax',
           type: 'boolean',
           label: {
             text: 'How many {{_livestockType_}} do you have?',
@@ -218,7 +218,7 @@ const questionBank = {
           title: 'Are the actions you want to apply for available on land that\'s conditionally exempt from inheritance tax, or the object of a maintenance fund?' ,
           classes: 'govuk-radios--stacked govuk-fieldset__legend--m',
           url: 'inheritance-tax',
-          backUrl: 'sssi-consent',
+          backUrl: 'historic-features',
           nextUrl: 'public-bodies',
           type: 'boolean',
           label: {
