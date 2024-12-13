@@ -45,12 +45,18 @@ Then(/^(.*) is shown (.*) she will receive for this (.*)$/, async function (farm
 });
 
 Then(/^Sarah is shown the error message that the area is below the minimum requirement$/, async function () {
-    await LandActionsPage.validateErrorMessage('GRH1: The parcel must have a total area of at least 15ha')
+    await LandActionsPage.validateErrorMessage('GRH1: The parcel must have a total area of at least 2ha')
 });
+
 Then(/^Sarah is shown the error message that the area applied for does not match the land parcel area$/, async function () {
-    await LandActionsPage.validateErrorMessage('CSAM1: Area applied for (4.2ha) does not match parcel area (8.4ha)')
+    await LandActionsPage.validateErrorMessage('CSAM1: Area applied for (4.2ha) does not match parcel area (11.0308ha)')
 });
+
 Then(/^Sarah is not shown (\w+) as an action to apply for$/, async function (action) {
     assert(await LandActionsPage.isActionPresent(action) === false,
       `Action ${action} is present when it should not be`)
+});
+
+Then(/^Sarah is shown the error message that land parcel is above the moorland line$/, async function () {
+    await LandActionsPage.validateErrorMessage('Land parcel is above the moorland line')
 });
