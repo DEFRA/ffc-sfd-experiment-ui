@@ -47,7 +47,7 @@
     "ffc-messaging": "^2.3.3",
     "ffc-protective-monitoring": "^1.0.4",
     "govuk-frontend": "^3.13.0",
-    "joi": "^17.4.2",
+    "joi": "^17.13.3",
     "nunjucks": "^3.2.3",
     "uuid": "^8.3.2"
   },
