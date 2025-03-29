@@ -43,7 +43,7 @@
     "applicationinsights": "^2.5.0",
     "bcrypt": "^5.1.1",
     "dialog-polyfill": "^0.5.6",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.4.7",
     "ffc-messaging": "^2.3.3",
     "ffc-protective-monitoring": "^1.0.4",
     "govuk-frontend": "^3.13.0",
